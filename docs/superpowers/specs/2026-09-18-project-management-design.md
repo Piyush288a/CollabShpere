@@ -275,3 +275,36 @@ Target: existing 26 tests remain green + new Phase 4 tests. Exact counts determi
 * [x] Naming/architecture follows Phases 1–3 conventions.
 * [x] Ambiguities enumerated (A1–A15) rather than silently invented; each has a stated default assumption.
 * [x] File touch-list separates new vs modified; shared middleware left untouched by default.
+---
+
+## 11. Finalized Decisions (resolves §9 for implementation)
+
+Resolved under the Phase 4 guiding constraints: **keep it minimal, align with existing architecture, avoid new dependencies/abstractions, and preserve existing response + security conventions.** These decisions supersede the "default assumptions" in §9 where they differ.
+
+| ID | Decision | Rationale |
+| :-- | :--- | :--- |
+| **A1** | `category` is a **flexible required trimmed String** (no enum). | Per constraint; `architecture.md` describes it as a free-form "Domain category (e.g. ...)". |
+| **A2** | `deadline` is a **required `Date` with no past/future restriction** (Phase 4). | Minimal; `architecture.md` calls it "Target completion date" with no temporal rule. Avoids a custom validator. Revisit if product wants future-only later. |
+| **A3** | `repositoryUrl` / `projectImage`: validate as a **generic URL when non-empty** (simple regex, e.g. `^https?://`), no host restriction, empty allowed. | Minimal validation, no dependency (no `validator` package). Consistent with the existing email-regex approach in `User.js`. |
+| **A4** | **Search uses case-insensitive `$regex`** on `title` and `description` (partial substring, OR). No `$text` index. | Simpler, supports partial "search box" matching, no index/migration overhead. Aligns with "avoid unnecessary abstractions." |
+| **A5** | On update, enforce **`teamSize >= memberIds.length`**; otherwise `400`. | Prevents an invalid team capacity. Cheap controller check; preserves data integrity. |
+| **A6** | Project responses return **raw ObjectIds** for `ownerId`/`memberIds`/`bookmarkedBy` (no populate) in Phase 4. | Minimal, stable contract; population deferred until collaboration/UI phases need it. |
+| **A7** | **Controller-level `mongoose.isValidObjectId` guard** → `404 Project not found` on invalid/unknown id. **`errorHandler` is NOT modified.** | Preserves existing shared middleware untouched; keeps the change local to Phase 4 code. |
+| **A8** | `DELETE` returns **`200`** with `{ "success": true, "data": { "message": "Project deleted", "id": "<id>" } }`. | Preserves the non-empty success-envelope convention used everywhere else (no `204`). |
+| **A9** | `PATCH /status` allows **only forward transitions** `OPEN→IN_PROGRESS→COMPLETED`. Same-status no-op and any backward/skip transition → **`400 Invalid status transition`**. | Clear, predictable state machine; matches documented lifecycle. |
+| **A10** | Bookmark add/remove are **idempotent** (`$addToSet` / `$pull`), always **`200`** with the updated project, even when nothing changed. | Simple, safe for repeated client calls; no error noise. |
+| **A11** | Pagination: `page` default `1`, `limit` default `10`, **`limit` hard-capped at `100`**; invalid/negative values clamped to valid bounds. | Matches `architecture.md` defaults; prevents unbounded queries. |
+| **A12** | Invalid `difficulty`/`status` **filter** value on `GET /api/projects` → **`400`** with a descriptive message. | Explicit feedback over silently ignoring; consistent with validation-first convention. |
+| **A13** | `skills` filter matches projects whose `requiredSkills` contain **ANY** provided skill (`$in`, case-insensitive). | Broader discovery for a search feature; `$all` would be too narrow for Phase 4. |
+| **A14** | The **owner may bookmark their own project** (no restriction). | Minimal; no special-case logic. |
+| **A15** | **No dedicated member-management endpoints in Phase 4.** `memberIds` is initialized to `[ownerId]` and otherwise unchanged until Phase 5 (collaboration requests) manages membership. | Per constraint; keeps Phase 4 scoped to projects + discovery. |
+
+### Canonical field name
+* **`requiredSkills`** is the canonical project skill field (array of strings). Confirmed against `docs/architecture.md` §7.1 (`Projects.requiredSkills`). This is distinct from `User.skills` (a user's own skills) and from `Showcases.technologies` (a different collection) — no terminology conflict.
+
+### Terminology conflicts with existing system-design docs
+* **None.** All Phase 4 field names (`ownerId`, `memberIds`, `title`, `description`, `category`, `requiredSkills`, `teamSize`, `deadline`, `status`, `bookmarkedBy`) match `docs/architecture.md` §7.1 and §8.
+* **New fields not yet in system-design docs** (additive, non-conflicting): `difficulty` (enum `Beginner/Intermediate/Advanced`), `repositoryUrl`, `projectImage`. These are approved Phase 4 scope additions. **Action for implementation phase**: add these three fields to the `Projects` collection description in `docs/architecture.md` so the design docs stay in sync (documentation-only update, tracked in the file touch-list §7).
+
+### Confirmed non-goals for Phase 4 (unchanged)
+* No populate of references, no `$text` search, no `validator`/other new dependency, no member add/remove endpoints, no changes to `User` schema, auth, or shared `errorHandler`.
