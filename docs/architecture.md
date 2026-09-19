@@ -179,7 +179,8 @@ Default pagination values: `page=1`, `limit=10`. See `docs/api-contract.md` Sect
 
 ### 4. `Tasks` Collection
 * **Purpose**: Workspace tasks for project team members.
-* **Fields**: `_id`, `projectId` (ref: `Projects`), `title`, `description`, `assignedTo` (ref: `Users`), `status` (`"TODO"`, `"IN_PROGRESS"`, `"COMPLETED"`), `dueDate`, `createdAt`.
+* **Fields**: `_id`, `projectId` (ref: `Projects`), `title`, `description`, `assignedTo` (ref: `Users`, nullable), `status` (`"TODO"`, `"IN_PROGRESS"`, `"COMPLETED"`), `dueDate` (nullable), `createdAt`, `updatedAt`.
+* **Rules (Phase 6)**: only project team members (owner or `memberIds`) may create/list/update/delete tasks; an assignee must be a current team member; status transitions are forward-only (`TODO → IN_PROGRESS → COMPLETED`).
 
 ### 5. `Messages` Collection
 * **Purpose**: Workspace chat messages.

@@ -5,6 +5,7 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const requestRoutes = require('./routes/requestRoutes');
+const taskRoutes = require('./routes/taskRoutes');
 
 const app = express();
 
@@ -37,6 +38,9 @@ app.use('/api/projects', projectRoutes);
 
 // Collaboration request decisions: PATCH /api/requests/:id
 app.use('/api/requests', requestRoutes);
+
+// Task decisions: PATCH/DELETE /api/tasks/:id
+app.use('/api/tasks', taskRoutes);
 
 // --- 404 Handler ---
 // Catches any request that did not match a registered route

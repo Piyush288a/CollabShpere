@@ -365,17 +365,33 @@ Authorization: Bearer <jwt_token>
 
 ## 5. Tasks Endpoints (Team Workspace)
 
-### `POST /api/projects/:id/tasks` `[PLANNED]`
+> Task objects have the shape: `_id`, `projectId`, `title`, `description`, `assignedTo` (nullable), `status` (`TODO`/`IN_PROGRESS`/`COMPLETED`), `dueDate` (nullable), `createdAt`, `updatedAt`. References are raw ObjectId strings. "Team member" = the project owner or a user in `memberIds`.
+
+### `POST /api/projects/:id/tasks` `[IMPLEMENTED]`
 * **What it does**: Creates a task inside a project workspace.
 * **Access**: Private (Project Team Members)
+* **Request body**: `{ "title": "Set up repo", "description": "...", "assignedTo": "<userId|null>", "dueDate": "2026-11-01" }` (only `title` required).
+* **Success response** `201 Created`: `{ "success": true, "data": { "task": { ...status: "TODO"... } } }`.
+* **Notes**: `assignedTo` is optional (defaults `null`); when provided it must be a current team member → else `400`. Non-member → `403`; missing title → `400`; unknown project → `404`; no token → `401`.
 
-### `GET /api/projects/:id/tasks` `[PLANNED]`
-* **What it does**: Lists all tasks for a project workspace.
+### `GET /api/projects/:id/tasks` `[IMPLEMENTED]`
+* **What it does**: Lists tasks for a project workspace (paginated, newest-first). Optional `status` filter.
 * **Access**: Private (Project Team Members)
+* **Query params**: `status` (`TODO`/`IN_PROGRESS`/`COMPLETED`), `page` (default 1), `limit` (default 10, max 100).
+* **Success response** `200 OK`: `{ "success": true, "data": { "results": [ ... ], "pagination": { ... } } }`.
+* **Notes**: Non-member → `403`; invalid `status` filter → `400`; unknown project → `404`.
 
-### `PATCH /api/tasks/:id` `[PLANNED]`
-* **What it does**: Updates task details or status (`"TODO"`, `"IN_PROGRESS"`, `"COMPLETED"`).
+### `PATCH /api/tasks/:id` `[IMPLEMENTED]`
+* **What it does**: Updates task details, assignee, or status. Status is forward-only: `TODO → IN_PROGRESS → COMPLETED`.
 * **Access**: Private (Project Team Members)
+* **Request body** (any subset): `title`, `description`, `assignedTo`, `dueDate`, `status`.
+* **Notes**: Backward/skip/unknown `status` → `400`. Assigning a non-member → `400`. Non-member editor → `403`; unknown task → `404`; no token → `401`.
+
+### `DELETE /api/tasks/:id` `[IMPLEMENTED]`
+* **What it does**: Deletes a task.
+* **Access**: Private (Project Team Members)
+* **Success response** `200 OK`: `{ "success": true, "data": { "message": "Task deleted", "id": "<id>" } }`.
+* **Notes**: Non-member → `403`; unknown task → `404`; no token → `401`.
 
 ---
 

@@ -65,4 +65,5 @@ CollabSphere/
 * **🟢 Phase 3: User Profiles** — **COMPLETED** (Profile view & update endpoints, allowlisted field updates, protected email/password/role, `userController` separation, 26/26 tests passing).
 * **🟢 Phase 4: Project Management** — **COMPLETED** (Project model, full CRUD with owner-only mutations, search/filter/pagination, forward-only status transitions, idempotent bookmarking, user search by skills, 92/92 tests passing).
 * **🟢 Phase 5: Collaboration Requests** — **COMPLETED** (Request model, send/list/accept/reject with `OPEN`-only + no-duplicate + `teamSize` rules, member sync into `Projects.memberIds`, team endpoint, 111/111 tests passing).
-* **⏳ Phase 6: Team Workspace & Tasks** — **UPCOMING** (Task model, create/assign/update/delete tasks for team members).
+* **🟢 Phase 6: Team Workspace & Tasks** — **COMPLETED** (Task model, create/list/update/delete with team-member authorization, forward-only status, assignee validation, pagination + status filter, 127/127 tests passing).
+* **⏳ Phase 7: Chat & Real-Time Communication** — **UPCOMING** (Persistent message model, Socket.IO project rooms).

@@ -395,3 +395,52 @@ The following decisions were finalized and documented in `docs/api-contract.md` 
 | ADR-033: Capacity measured as `memberIds.length` vs `teamSize` (owner counts as a member) | `controllers/requestController.js` decideRequest |
 | ADR-034: Accepting syncs membership via `$addToSet` (idempotent); rejecting does not | `controllers/requestController.js` decideRequest |
 | ADR-035: `GET /api/projects/:id/team` returns members as password-free user profiles | `controllers/requestController.js` getProjectTeam |
+
+---
+
+## 🟢 Phase 6: Team Workspace & Tasks
+
+* **Completion Date**: September 18, 2026
+* **Status**: **COMPLETED**
+
+### Summary of What Was Built
+
+1. **`backend/models/Task.js`** (new):
+   * Schema: `projectId` (ref `Project`), `title` (3–120), `description` (optional, max 5000), `assignedTo` (ref `User`, nullable, default `null`), `status` (enum `TODO`/`IN_PROGRESS`/`COMPLETED`, default `TODO`), `dueDate` (nullable), timestamps. Index on `projectId`.
+
+2. **`backend/utils/formatTask.js`** (new):
+   * Response shaper for a task (raw ObjectIds).
+
+3. **`backend/controllers/taskController.js`** (new):
+   * Shared `isTeamMember(project, userId)` helper (owner or in `memberIds`).
+   * `createTask` — team-only; validates assignee is a team member; defaults `assignedTo`/`dueDate` to `null`; status `TODO`.
+   * `listTasks` — team-only, paginated, optional `status` filter, newest-first.
+   * `updateTask` — team-only; forward-only status transitions; assignee must be a team member; allowlisted editable fields (`title`, `description`, `assignedTo`, `dueDate`).
+   * `deleteTask` — team-only; `200` confirmation envelope.
+
+4. **Routing** (`backend/routes/projectRoutes.js` modified, `backend/routes/taskRoutes.js` new, `backend/app.js` modified):
+   * `POST /api/projects/:id/tasks`, `GET /api/projects/:id/tasks` (team-only).
+   * `PATCH /api/tasks/:id`, `DELETE /api/tasks/:id` (team-only) mounted at `/api/tasks`.
+
+5. **Tests** (`backend/tests/task.test.js` new):
+   * Create (member 201, non-member 403, non-member assignee 400, member assignee 201, missing title 400, 401, 404).
+   * List (paginated, status filter, non-member 403).
+   * Update (forward status, invalid/backward/unknown 400, assignee validation, non-member 403, 404, 401).
+   * Delete (member 200 + list emptied, non-member 403, 404).
+
+### Phase 6 Verification Results
+
+* **Test suite**: 127/127 passing across 6 suites (auth 17, user 15, paginate 13, project 47, request 19, task 16).
+* **Authorization**: all task operations restricted to team members (owner or `memberIds`); non-members receive `403`.
+* **Assignee validation**: assigning a non-member returns `400` on both create and update.
+* **Status**: forward-only `TODO → IN_PROGRESS → COMPLETED`; backward/skip/unknown → `400`.
+* **Scope boundary**: no chat/messages, no showcases. No new dependencies. Auth and shared `errorHandler` untouched.
+
+### Key Architectural Decisions Applied
+
+| Decision | Applied In |
+| :--- | :--- |
+| ADR-036: Any project team member (owner or `memberIds`) may create/edit/delete tasks | `controllers/taskController.js` |
+| ADR-037: `DELETE /api/tasks/:id` included (roadmap deliverable) and documented in api-contract | `routes/taskRoutes.js`, `docs/api-contract.md` |
+| ADR-038: `assignedTo` optional (default `null`); if set, must be a current team member | `models/Task.js`, `controllers/taskController.js` |
+| ADR-039: Task status is forward-only `TODO → IN_PROGRESS → COMPLETED` (mirrors project-status convention) | `controllers/taskController.js` |

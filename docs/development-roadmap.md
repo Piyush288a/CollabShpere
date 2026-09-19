@@ -66,11 +66,12 @@ This roadmap lists the 12 step-by-step phases to build **CollabSphere** from sta
 
 ---
 
-## Phase 6 — Team Workspace & Tasks `[PLANNED]`
+## Phase 6 — Team Workspace & Tasks `[COMPLETED]`
 - **Objective**: Provide task management for team members working inside a project workspace.
 - **Major Deliverables**:
-  - Task database model.
-  - Create, assign, update (`TODO`, `IN_PROGRESS`, `COMPLETED`), and delete task APIs.
+  - `Task` model (`projectId`, `title`, `description`, `assignedTo`, `status`, `dueDate`, timestamps).
+  - Create (`POST /api/projects/:id/tasks`), list (`GET /api/projects/:id/tasks`, paginated + status filter), update (`PATCH /api/tasks/:id`, forward-only status), and delete (`DELETE /api/tasks/:id`) task APIs.
+  - Team-member authorization (owner or `memberIds`); assignee must be a current team member.
 
 ---
 

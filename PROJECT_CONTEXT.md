@@ -127,5 +127,9 @@ Projects follow 3 simple steps:
 * **What was done**: Added the `CollaborationRequest` model (`projectId`, `senderId`, `message`, `status` PENDING/ACCEPTED/REJECTED, timestamps). Built `POST /api/projects/:id/requests` (enforces `OPEN`-only, no self-request, no duplicate pending, not-already-a-member), `GET /api/projects/:id/requests` (owner-only, paginated), `PATCH /api/requests/:id` (owner-only accept/reject; accepting syncs the sender into `Projects.memberIds` when `teamSize` allows; rejects when full), and `GET /api/projects/:id/team` (owner + members as profiles). 111/111 tests passing.
 * **Status**: Completed successfully.
 
-### ⏳ Phase 6: Team Workspace & Tasks (UPCOMING)
-* **What will be done**: Task model and workspace task management (create, assign, update `TODO`/`IN_PROGRESS`/`COMPLETED`, delete) for project team members.
+### 🟢 Phase 6: Team Workspace & Tasks (COMPLETED)
+* **What was done**: Added the `Task` model (`projectId`, `title`, `description`, `assignedTo`, `status` TODO/IN_PROGRESS/COMPLETED, `dueDate`, timestamps). Built `POST /api/projects/:id/tasks`, `GET /api/projects/:id/tasks` (paginated + status filter), `PATCH /api/tasks/:id` (forward-only status), and `DELETE /api/tasks/:id`. All task operations are restricted to project team members (owner or `memberIds`); an assignee must be a current team member. 127/127 tests passing.
+* **Status**: Completed successfully.
+
+### ⏳ Phase 7: Chat & Real-Time Communication (UPCOMING)
+* **What will be done**: Persistent chat message model and real-time messaging via Socket.IO in project workspace rooms.
