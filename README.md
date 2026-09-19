@@ -64,4 +64,5 @@ CollabSphere/
 * **🟢 Phase 2: Authentication & Authorization** — **COMPLETED** (User model, registration, login, bcryptjs hashing, JWT middleware, `authMiddleware`, `adminMiddleware`, email validation, 17/17 tests passing).
 * **🟢 Phase 3: User Profiles** — **COMPLETED** (Profile view & update endpoints, allowlisted field updates, protected email/password/role, `userController` separation, 26/26 tests passing).
 * **🟢 Phase 4: Project Management** — **COMPLETED** (Project model, full CRUD with owner-only mutations, search/filter/pagination, forward-only status transitions, idempotent bookmarking, user search by skills, 92/92 tests passing).
-* **⏳ Phase 5: Collaboration Requests** — **UPCOMING** (Join-request model, send/accept/reject, member sync into `Projects.memberIds`).
+* **🟢 Phase 5: Collaboration Requests** — **COMPLETED** (Request model, send/list/accept/reject with `OPEN`-only + no-duplicate + `teamSize` rules, member sync into `Projects.memberIds`, team endpoint, 111/111 tests passing).
+* **⏳ Phase 6: Team Workspace & Tasks** — **UPCOMING** (Task model, create/assign/update/delete tasks for team members).

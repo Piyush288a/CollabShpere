@@ -55,12 +55,14 @@ This roadmap lists the 12 step-by-step phases to build **CollabSphere** from sta
 
 ---
 
-## Phase 5 — Collaboration Requests `[PLANNED]`
+## Phase 5 — Collaboration Requests `[COMPLETED]`
 - **Objective**: Allow students to send requests to join open projects, and owners to accept or reject them.
 - **Major Deliverables**:
-  - Request database model.
-  - Submit request API (prevents duplicates, checks `OPEN` status and team size).
-  - Accept/Reject API (automatically adds accepted students to `Projects.memberIds`).
+  - `CollaborationRequest` model (`projectId`, `senderId`, `message`, `status`, timestamps).
+  - Submit request API (`POST /api/projects/:id/requests`) — prevents self-requests and duplicate pending requests, checks `OPEN` status and existing membership.
+  - Owner list API (`GET /api/projects/:id/requests`) with pagination and optional status filter.
+  - Accept/Reject API (`PATCH /api/requests/:id`) — owner-only; accepting adds the sender to `Projects.memberIds` when `teamSize` allows.
+  - Team API (`GET /api/projects/:id/team`) — returns owner + members as user profiles.
 
 ---
 

@@ -347,3 +347,51 @@ The following decisions were finalized and documented in `docs/api-contract.md` 
 | ADR-028: Idempotent bookmarking via `$addToSet` / `$pull` | `controllers/projectController.js` |
 | ADR-029: Invalid ObjectId handled by controller-level guard → `404` (shared `errorHandler` untouched) | `controllers/projectController.js` |
 | ADR-030: `GET /api/users/search` excludes self to seed Phase 5 collaboration requests | `controllers/userController.js` |
+
+---
+
+## 🟢 Phase 5: Collaboration Requests
+
+* **Completion Date**: September 18, 2026
+* **Status**: **COMPLETED**
+
+### Summary of What Was Built
+
+1. **`backend/models/CollaborationRequest.js`** (new):
+   * Schema: `projectId` (ref `Project`), `senderId` (ref `User`), `message` (optional, max 1000), `status` (enum `PENDING`/`ACCEPTED`/`REJECTED`, default `PENDING`), timestamps. Index on `{ projectId, senderId }`.
+
+2. **`backend/utils/formatRequest.js`** (new):
+   * Response shaper for a request (raw ObjectIds, consistent with Phase 4 conventions).
+
+3. **`backend/controllers/requestController.js`** (new):
+   * `createRequest` — enforces `OPEN`-only, no self-request, not-already-a-member, and no duplicate `PENDING` request (`409`).
+   * `listProjectRequests` — owner-only, paginated, optional `status` filter.
+   * `decideRequest` — owner-only accept/reject; only `PENDING` decidable; on `ACCEPTED` checks `teamSize` capacity and `$addToSet`s the sender into `Projects.memberIds`; on `REJECTED` no membership change.
+   * `getProjectTeam` — returns owner + members (via `formatUser`, no password).
+
+4. **Routing** (`backend/routes/projectRoutes.js` modified, `backend/routes/requestRoutes.js` new, `backend/app.js` modified):
+   * `POST /api/projects/:id/requests`, `GET /api/projects/:id/requests`, `GET /api/projects/:id/team` (all authenticated).
+   * `PATCH /api/requests/:id` (authenticated, owner-only) mounted at `/api/requests`.
+
+5. **Tests** (`backend/tests/request.test.js` new):
+   * Create (success, self-request, not-OPEN, duplicate `409`, already-member, 401, 404).
+   * Decide (accept + member sync, reject, non-owner `403`, already-decided `400`, invalid value `400`, capacity `400`, 401, 404).
+   * List (owner paginated, non-owner `403`). Team (owner-as-sole-member, 401).
+
+### Phase 5 Verification Results
+
+* **Test suite**: 111/111 passing across 5 suites (auth 17, user 15, paginate 13, project 47, request 19).
+* **Membership sync**: accepting a request adds the sender to `Projects.memberIds` (verified via the team endpoint); rejecting leaves membership unchanged.
+* **Capacity**: acceptance is blocked with `400` when `memberIds.length >= teamSize`.
+* **Rules**: `OPEN`-only, no self-request, no duplicate pending, owner-only decisions all enforced.
+* **Scope boundary**: no tasks, chat, or member-removal endpoints (later phases). No new dependencies. Auth and shared `errorHandler` untouched.
+
+### Key Architectural Decisions Applied
+
+| Decision | Applied In |
+| :--- | :--- |
+| ADR-031: Single `PATCH /api/requests/:id` with `{ status }` body (not split accept/reject) | `routes/requestRoutes.js`, `controllers/requestController.js` |
+| ADR-032: Duplicate active request returns `409`; other rule violations return `400` | `controllers/requestController.js` createRequest |
+| ADR-033: Capacity measured as `memberIds.length` vs `teamSize` (owner counts as a member) | `controllers/requestController.js` decideRequest |
+| ADR-034: Accepting syncs membership via `$addToSet` (idempotent); rejecting does not | `controllers/requestController.js` decideRequest |
+| ADR-035: `GET /api/projects/:id/team` returns members as password-free user profiles | `controllers/requestController.js` getProjectTeam |

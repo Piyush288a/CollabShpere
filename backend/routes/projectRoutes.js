@@ -10,6 +10,11 @@ const {
   addBookmark,
   removeBookmark,
 } = require('../controllers/projectController');
+const {
+  createRequest,
+  listProjectRequests,
+  getProjectTeam,
+} = require('../controllers/requestController');
 const { authMiddleware } = require('../middleware/authMiddleware');
 
 // Public reads
@@ -25,5 +30,10 @@ router.delete('/:id', authMiddleware, deleteProject);
 // Bookmarks (any authenticated user)
 router.post('/:id/bookmark', authMiddleware, addBookmark);
 router.delete('/:id/bookmark', authMiddleware, removeBookmark);
+
+// Collaboration requests (Phase 5)
+router.post('/:id/requests', authMiddleware, createRequest);      // send a join request
+router.get('/:id/requests', authMiddleware, listProjectRequests); // owner lists incoming requests
+router.get('/:id/team', authMiddleware, getProjectTeam);          // team members (owner + memberIds)
 
 module.exports = router;

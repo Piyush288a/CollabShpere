@@ -324,17 +324,41 @@ Authorization: Bearer <jwt_token>
 
 ## 4. Collaboration Endpoints
 
-### `POST /api/projects/:id/requests` `[PLANNED]`
-* **What it does**: Sends a request to join an open project (prevents self-requests and duplicate active requests).
-* **Access**: Private (Students)
+> Collaboration-request objects have the shape: `_id`, `projectId`, `senderId`, `message`, `status` (`PENDING`/`ACCEPTED`/`REJECTED`), `createdAt`, `updatedAt`. References are raw ObjectId strings.
 
-### `PATCH /api/requests/:id` `[PLANNED]`
-* **What it does**: Accepts or rejects a request. Accepting adds applicant to `Projects.memberIds` if team capacity (`teamSize`) allows.
+### `POST /api/projects/:id/requests` `[IMPLEMENTED]`
+* **What it does**: Sends a request to join an `OPEN` project.
+* **Access**: Private (requires valid JWT)
+* **Request body** (optional): `{ "message": "I'd love to contribute." }`
+* **Success response** `201 Created`: `{ "success": true, "data": { "request": { ...status: "PENDING"... } } }`.
+* **Rules / errors**:
+  * Project must be `OPEN` — otherwise `400`.
+  * Cannot request to join your own project → `400`.
+  * Cannot request if already a member → `400`.
+  * A pending request for the same project already exists → `409`.
+  * Unknown/malformed project id → `404`; no token → `401`.
+
+### `GET /api/projects/:id/requests` `[IMPLEMENTED]`
+* **What it does**: Lists collaboration requests for a project (paginated). Optional `status` filter (`PENDING`/`ACCEPTED`/`REJECTED`).
 * **Access**: Private (Project Owner only)
+* **Success response** `200 OK`: `{ "success": true, "data": { "results": [ ... ], "pagination": { ... } } }`.
+* **Notes**: Non-owner → `403`; unknown project → `404`; invalid `status` filter → `400`.
 
-### `GET /api/projects/:id/team` `[PLANNED]`
-* **What it does**: Gets current project team members (owner + `memberIds`).
+### `PATCH /api/requests/:id` `[IMPLEMENTED]`
+* **What it does**: Accepts or rejects a request. Accepting adds the sender to `Projects.memberIds` if team capacity (`teamSize`) allows.
+* **Access**: Private (Project Owner only)
+* **Request body**: `{ "status": "ACCEPTED" | "REJECTED" }`
+* **Success response** `200 OK`: returns the updated request.
+* **Rules / errors**:
+  * Only the project owner may decide → `403` otherwise.
+  * Only `PENDING` requests can be decided; already-decided → `400`.
+  * `ACCEPTED` when `memberIds.length >= teamSize` → `400` (team full).
+  * Invalid `status` value → `400`; unknown request id → `404`; no token → `401`.
+
+### `GET /api/projects/:id/team` `[IMPLEMENTED]`
+* **What it does**: Gets current project team members (owner + `memberIds`), each shaped like a user profile (no password).
 * **Access**: Private (Logged-in users — requires valid JWT)
+* **Success response** `200 OK`: `{ "success": true, "data": { "projectId": "...", "ownerId": "...", "members": [ ...users... ] } }`.
 * **Note**: Requires authentication to protect user profile data from anonymous scraping.
 
 ---

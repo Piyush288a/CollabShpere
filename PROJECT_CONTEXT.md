@@ -123,5 +123,9 @@ Projects follow 3 simple steps:
 * **What was done**: Added the `Project` model (`ownerId`, `memberIds`, `title`, `description`, `category`, `requiredSkills`, `teamSize`, `deadline`, `difficulty`, optional `repositoryUrl`/`projectImage`, `status`, `bookmarkedBy`, timestamps). Built full project CRUD (`POST/GET/GET :id/PUT/DELETE /api/projects`) with owner-only mutations, search + filter (title/description, category, difficulty, status, skills) with pagination (`data.results` + `data.pagination`), a forward-only status transition endpoint (`OPEN → IN_PROGRESS → COMPLETED`), idempotent bookmarking, and user search by skills (`GET /api/users/search`, excludes self) as the hook for Phase 5. 92/92 tests passing.
 * **Status**: Completed successfully.
 
-### ⏳ Phase 5: Collaboration Requests (UPCOMING)
-* **What will be done**: Collaboration request model, send join requests (no self-request, no duplicates, `OPEN`-only, `teamSize` limit), and owner accept/reject that syncs accepted members into `Projects.memberIds`.
+### 🟢 Phase 5: Collaboration Requests (COMPLETED)
+* **What was done**: Added the `CollaborationRequest` model (`projectId`, `senderId`, `message`, `status` PENDING/ACCEPTED/REJECTED, timestamps). Built `POST /api/projects/:id/requests` (enforces `OPEN`-only, no self-request, no duplicate pending, not-already-a-member), `GET /api/projects/:id/requests` (owner-only, paginated), `PATCH /api/requests/:id` (owner-only accept/reject; accepting syncs the sender into `Projects.memberIds` when `teamSize` allows; rejects when full), and `GET /api/projects/:id/team` (owner + members as profiles). 111/111 tests passing.
+* **Status**: Completed successfully.
+
+### ⏳ Phase 6: Team Workspace & Tasks (UPCOMING)
+* **What will be done**: Task model and workspace task management (create, assign, update `TODO`/`IN_PROGRESS`/`COMPLETED`, delete) for project team members.

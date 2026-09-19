@@ -174,7 +174,8 @@ Default pagination values: `page=1`, `limit=10`. See `docs/api-contract.md` Sect
 
 ### 3. `CollaborationRequests` Collection
 * **Purpose**: Tracks requests to join open projects.
-* **Fields**: `_id`, `projectId` (ref: `Projects`), `senderId` (ref: `Users`), `message`, `status` (`"PENDING"`, `"ACCEPTED"`, `"REJECTED"`), `createdAt`.
+* **Fields**: `_id`, `projectId` (ref: `Projects`), `senderId` (ref: `Users`), `message`, `status` (`"PENDING"`, `"ACCEPTED"`, `"REJECTED"`), `createdAt`, `updatedAt`.
+* **Rules (Phase 5)**: requests are only allowed on `OPEN` projects; no self-requests; no duplicate `PENDING` request per project+sender; only the project owner accepts/rejects; accepting adds the sender to `Projects.memberIds` when `teamSize` capacity allows.
 
 ### 4. `Tasks` Collection
 * **Purpose**: Workspace tasks for project team members.
