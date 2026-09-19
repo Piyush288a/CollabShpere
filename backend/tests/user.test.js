@@ -169,3 +169,78 @@ describe('GET /api/users/profile (regression)', () => {
     expect(res.body.data.user.password).toBeUndefined();
   });
 });
+
+// ---------------------------------------------------------------------------
+// GET /api/users/search (skill search)
+// ---------------------------------------------------------------------------
+describe('GET /api/users/search', () => {
+  let token;
+
+  const registerWith = async (name, email, skills) => {
+    const reg = await request(app).post('/api/auth/register').send({
+      name,
+      email,
+      password: 'securepassword123',
+    });
+    // set skills via profile update
+    await request(app)
+      .put('/api/users/profile')
+      .set('Authorization', `Bearer ${reg.body.data.token}`)
+      .send({ skills });
+    return reg.body.data;
+  };
+
+  beforeEach(async () => {
+    const me = await registerWith('Searcher', 'searcher@university.edu', ['Python']);
+    token = me.token;
+    await registerWith('Alice React', 'alice@university.edu', ['React', 'Node.js']);
+    await registerWith('Bob Vue', 'bob@university.edu', ['Vue']);
+  });
+
+  it('should find users by skill (case-insensitive) and paginate', async () => {
+    const res = await request(app)
+      .get('/api/users/search?skills=react')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.data.results).toHaveLength(1);
+    expect(res.body.data.results[0].name).toBe('Alice React');
+    expect(res.body.data.pagination.totalCount).toBe(1);
+  });
+
+  it('should match by name via the search param', async () => {
+    const res = await request(app)
+      .get('/api/users/search?search=bob')
+      .set('Authorization', `Bearer ${token}`);
+    expect(res.body.data.results).toHaveLength(1);
+    expect(res.body.data.results[0].name).toBe('Bob Vue');
+  });
+
+  it('should exclude the requesting user from results', async () => {
+    const res = await request(app)
+      .get('/api/users/search')
+      .set('Authorization', `Bearer ${token}`);
+    const emails = res.body.data.results.map((u) => u.email);
+    expect(emails).not.toContain('searcher@university.edu');
+  });
+
+  it('should never include the password field', async () => {
+    const res = await request(app)
+      .get('/api/users/search?skills=React')
+      .set('Authorization', `Bearer ${token}`);
+    expect(res.body.data.results[0].password).toBeUndefined();
+  });
+
+  it('should return 401 without a token', async () => {
+    const res = await request(app).get('/api/users/search');
+    expect(res.statusCode).toBe(401);
+  });
+
+  it('should return 200 with empty results when nothing matches', async () => {
+    const res = await request(app)
+      .get('/api/users/search?skills=COBOL')
+      .set('Authorization', `Bearer ${token}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.data.results).toEqual([]);
+  });
+});

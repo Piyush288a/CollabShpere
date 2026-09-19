@@ -161,13 +161,16 @@ Default pagination values: `page=1`, `limit=10`. See `docs/api-contract.md` Sect
   * `memberIds`: Array of user IDs of accepted team members (ref: `Users`).
   * `title`: Name of the project.
   * `description`: Detailed project explanation.
-  * `category`: Domain category (e.g. Web Development, Mobile, AI).
+  * `category`: Domain category (e.g. Web Development, Mobile, AI). Free-form string.
   * `requiredSkills`: Array of skill tags needed for the project.
   * `teamSize`: Maximum team capacity allowed.
   * `deadline`: Target completion date.
-  * `status`: Project lifecycle stage (`"OPEN"`, `"IN_PROGRESS"`, `"COMPLETED"`). Starts directly as `"OPEN"`.
+  * `difficulty`: Project difficulty level (`"Beginner"`, `"Intermediate"`, `"Advanced"`).
+  * `repositoryUrl`: Optional source repository URL (validated as `http(s)` when non-empty; defaults to `""`).
+  * `projectImage`: Optional cover image URL (defaults to `null`; Cloudinary integration deferred to Phase 8/10).
+  * `status`: Project lifecycle stage (`"OPEN"`, `"IN_PROGRESS"`, `"COMPLETED"`). Starts directly as `"OPEN"`. Transitions are forward-only.
   * `bookmarkedBy`: Array of user IDs who bookmarked this project (ref: `Users`).
-  * `createdAt`: Creation timestamp.
+  * `createdAt` / `updatedAt`: Timestamps.
 
 ### 3. `CollaborationRequests` Collection
 * **Purpose**: Tracks requests to join open projects.

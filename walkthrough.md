@@ -288,3 +288,62 @@ The following decisions were finalized and documented in `docs/api-contract.md` 
 | ADR-021: `formatUser` extracted to a shared `utils/` module | `utils/formatUser.js` |
 | ADR-022: Profile updates use an explicit field allowlist; `email`/`password`/`role` protected | `userController.js` updateProfile |
 | ADR-023: User search deferred to Phase 4 (alongside project search) | roadmap Phase 3/4 |
+
+---
+
+## 🟢 Phase 4: Project Management
+
+* **Completion Date**: September 18, 2026
+* **Status**: **COMPLETED**
+
+### Summary of What Was Built
+
+1. **`backend/models/Project.js`** (new):
+   * Mongoose schema for the `Projects` collection: `ownerId` (ref `User`), `memberIds` (ref `User`, default `[]`), `title` (3–120), `description` (10–5000), `category` (free-form required string), `requiredSkills` (`[String]`), `teamSize` (integer 1–50), `deadline` (Date), `difficulty` (enum `Beginner`/`Intermediate`/`Advanced`), optional `repositoryUrl` (validated `http(s)` when non-empty, default `''`), optional `projectImage` (default `null`), `status` (enum `OPEN`/`IN_PROGRESS`/`COMPLETED`, default `OPEN`), `bookmarkedBy` (ref `User`, default `[]`), plus `timestamps`.
+
+2. **`backend/utils/formatProject.js`** (new):
+   * Shared response shaper mirroring `formatUser`. Returns references as raw ObjectIds (no population in Phase 4).
+
+3. **`backend/utils/paginate.js`** (new):
+   * `parsePagination(query)` → `{ page, limit, skip }` with defaults (1/10), `limit` hard-capped at 100, and clamping of invalid values.
+   * `buildPagination({ totalCount, page, limit })` → `{ currentPage, totalPages, totalCount }` (empty set → `totalPages: 0`).
+
+4. **`backend/controllers/projectController.js`** (new):
+   * `createProject` (owner = caller, `memberIds = [ownerId]`, `status = OPEN`, allowlisted body).
+   * `listProjects` (search title/description, filter category/difficulty/status/skills, pagination, newest-first).
+   * `getProjectById` (`isValidObjectId` guard → `404`).
+   * `updateProject` (owner-only, allowlisted editable fields, `teamSize >= members` guard, `runValidators`).
+   * `updateStatus` (owner-only, forward-only transition map).
+   * `deleteProject` (owner-only, `200` confirmation envelope).
+   * `addBookmark` / `removeBookmark` (idempotent via `$addToSet` / `$pull`).
+
+5. **`backend/routes/projectRoutes.js`** (new) + **`backend/app.js`** (modified):
+   * Public reads (`GET /`, `GET /:id`); authenticated writes (`POST /`, `PUT /:id`, `PATCH /:id/status`, `DELETE /:id`); bookmarks (`POST/DELETE /:id/bookmark`). Mounted at `/api/projects`.
+
+6. **`backend/controllers/userController.js`** + **`backend/routes/userRoutes.js`** (modified):
+   * `searchUsers` → `GET /api/users/search` (private): skill/name search, paginated, excludes the requesting user, shaped by `formatUser` (no password). Registered before any `/:id` route.
+
+7. **Tests** (`backend/tests/project.test.js` new, `backend/tests/paginate.test.js` new, `backend/tests/user.test.js` extended):
+   * Model validation/defaults/enums/URL/timestamps; pagination helper units; project CRUD; authorization (owner-only, 401/403); search/filter/pagination; status transitions; idempotent bookmarking; user skill search.
+
+### Phase 4 Verification Results
+
+* **Test suite**: 92/92 passing across 4 suites (auth 17, user 15, paginate 13, project 47).
+* **CRUD**: create `201`, owner is sole initial member, status `OPEN`; owner-only update/delete/status enforced (`403` for non-owners).
+* **Search/filter/pagination**: title/description search, category/difficulty/status/skills filters, `page`/`limit` with `{ results, pagination }`; invalid enum filter → `400`; empty set → `totalPages: 0`.
+* **Status transitions**: forward-only enforced; backward/skip/no-op/unknown → `400`.
+* **Bookmarking**: idempotent add/remove, always `200`.
+* **User search**: matches by skill/name, excludes self, never leaks password.
+* **Scope boundary**: no collaboration requests, tasks, chat, or member-management endpoints (deferred to Phase 5+). No new dependencies. Auth and shared `errorHandler` untouched.
+
+### Key Architectural Decisions Applied
+
+| Decision | Applied In |
+| :--- | :--- |
+| ADR-024: `Project` schema with `difficulty` enum + optional `repositoryUrl`/`projectImage` | `models/Project.js`, `docs/architecture.md` §7 |
+| ADR-025: References returned as raw ObjectIds (no population) in Phase 4 | `utils/formatProject.js` |
+| ADR-026: Shared `paginate` util; list responses use `{ results, pagination }` | `utils/paginate.js`, project list, user search |
+| ADR-027: Owner-only mutations; forward-only status state machine | `controllers/projectController.js` |
+| ADR-028: Idempotent bookmarking via `$addToSet` / `$pull` | `controllers/projectController.js` |
+| ADR-029: Invalid ObjectId handled by controller-level guard → `404` (shared `errorHandler` untouched) | `controllers/projectController.js` |
+| ADR-030: `GET /api/users/search` excludes self to seed Phase 5 collaboration requests | `controllers/userController.js` |

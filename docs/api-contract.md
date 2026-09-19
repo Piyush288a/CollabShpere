@@ -223,34 +223,102 @@ Authorization: Bearer <jwt_token>
   * Returns `401 Unauthorized` if no token is provided or the token is invalid/expired.
   * `password` is never included in the response.
 
+### `GET /api/users/search` `[IMPLEMENTED]`
+* **What it does**: Searches users by skills and/or name to find potential collaborators. Excludes the requesting user. Designed to support Phase 5 collaboration requests.
+* **Access**: Private (requires valid JWT)
+* **Query params** (all optional): `skills` (comma-separated, matches ANY via the user's `skills`, case-insensitive), `search` (matches `name`, case-insensitive), `page` (default 1), `limit` (default 10, max 100).
+* **Success response** `200 OK`:
+```json
+{
+  "success": true,
+  "data": {
+    "results": [ { "...user (no password)..." } ],
+    "pagination": { "currentPage": 1, "totalPages": 1, "totalCount": 1 }
+  }
+}
+```
+* **Notes**: The requesting user is never in the results. `password` is never included. No token → `401`. No match → `200` with `results: []`.
+
 ---
 
 ## 3. Projects Endpoints
 
-### `POST /api/projects` `[PLANNED]`
-* **What it does**: Creates a new project (status starts directly as `"OPEN"`).
-* **Access**: Private (Logged-in students)
+> Project objects returned by these endpoints have the shape: `_id`, `ownerId`, `memberIds`, `title`, `description`, `category`, `requiredSkills`, `teamSize`, `deadline`, `difficulty` (`Beginner`/`Intermediate`/`Advanced`), `repositoryUrl`, `projectImage`, `status`, `bookmarkedBy`, `createdAt`, `updatedAt`. References (`ownerId`, `memberIds`, `bookmarkedBy`) are returned as raw ObjectId strings (no population in Phase 4).
 
-### `GET /api/projects` `[PLANNED]`
-* **What it does**: Lists and searches projects by skill or category.
+### `POST /api/projects` `[IMPLEMENTED]`
+* **What it does**: Creates a new project. `ownerId` is the authenticated user, `memberIds` is initialized to `[ownerId]`, and `status` starts as `"OPEN"`.
+* **Access**: Private (requires valid JWT)
+* **Request body**:
+```json
+{
+  "title": "Campus Study Buddy",
+  "description": "A platform to find study partners on campus.",
+  "category": "Web Development",
+  "requiredSkills": ["React", "Node.js"],
+  "teamSize": 4,
+  "deadline": "2026-12-01",
+  "difficulty": "Intermediate",
+  "repositoryUrl": "https://github.com/x/y",
+  "projectImage": "https://example.com/cover.png"
+}
+```
+* **Success response** `201 Created`: `{ "success": true, "data": { "project": { ... } } }`.
+* **Notes**:
+  * `requiredSkills`, `repositoryUrl`, `projectImage` are optional. `repositoryUrl` must be a valid `http(s)` URL when non-empty.
+  * Server-controlled fields (`ownerId`, `memberIds`, `status`, `bookmarkedBy`) in the body are ignored.
+  * Missing/invalid fields return `400 Bad Request`; no token returns `401`.
+
+### `GET /api/projects` `[IMPLEMENTED]`
+* **What it does**: Lists, searches, and filters projects with pagination. Sorted newest-first.
 * **Access**: Public
-* **Pagination**: Yes — supports `?page=1&limit=10`
+* **Query params** (all optional): `search` (matches `title` OR `description`, case-insensitive partial), `category` (exact, case-insensitive), `difficulty` (enum), `status` (enum), `skills` (comma-separated, matches ANY via `requiredSkills`), `page` (default 1), `limit` (default 10, max 100).
+* **Success response** `200 OK`:
+```json
+{
+  "success": true,
+  "data": {
+    "results": [ { "...project..." } ],
+    "pagination": { "currentPage": 1, "totalPages": 5, "totalCount": 48 }
+  }
+}
+```
+* **Notes**: An unknown `difficulty` or `status` filter value returns `400`. Empty result set returns `200` with `results: []` and `totalPages: 0`.
 
-### `GET /api/projects/:id` `[PLANNED]`
-* **What it does**: Views detailed project information (includes owner, member list `memberIds`, status).
+### `GET /api/projects/:id` `[IMPLEMENTED]`
+* **What it does**: Views a single project (includes `ownerId`, `memberIds`, `status`).
 * **Access**: Public
+* **Notes**: Unknown or malformed id returns `404 Project not found`.
 
-### `PUT /api/projects/:id` `[PLANNED]`
-* **What it does**: Updates project details.
+### `PUT /api/projects/:id` `[IMPLEMENTED]`
+* **What it does**: Updates editable project fields (partial updates supported).
 * **Access**: Private (Project Owner only)
+* **Editable fields**: `title`, `description`, `category`, `requiredSkills`, `teamSize`, `deadline`, `difficulty`, `repositoryUrl`, `projectImage`.
+* **Notes**:
+  * `ownerId`, `memberIds`, `status`, `bookmarkedBy` are not editable here (`status` uses the endpoint below).
+  * `teamSize` cannot be set below the current `memberIds` count → `400`.
+  * Non-owner → `403`; unknown id → `404`; invalid input → `400`; no token → `401`.
 
-### `DELETE /api/projects/:id` `[PLANNED]`
+### `DELETE /api/projects/:id` `[IMPLEMENTED]`
 * **What it does**: Deletes a project.
 * **Access**: Private (Project Owner only)
+* **Success response** `200 OK`: `{ "success": true, "data": { "message": "Project deleted", "id": "<id>" } }`.
+* **Notes**: Non-owner → `403`; unknown id → `404`; no token → `401`.
 
-### `PATCH /api/projects/:id/status` `[PLANNED]`
-* **What it does**: Changes project stage (`"OPEN"` → `"IN_PROGRESS"` → `"COMPLETED"`).
+### `PATCH /api/projects/:id/status` `[IMPLEMENTED]`
+* **What it does**: Changes project stage. Forward-only: `"OPEN" → "IN_PROGRESS" → "COMPLETED"`.
 * **Access**: Private (Project Owner only)
+* **Request body**: `{ "status": "IN_PROGRESS" }`
+* **Notes**: Any backward move, skip, same-status no-op, or unknown value → `400`. Non-owner → `403`; unknown id → `404`; no token → `401`.
+
+### `POST /api/projects/:id/bookmark` `[IMPLEMENTED]`
+* **What it does**: Adds the authenticated user to the project's `bookmarkedBy` list (idempotent).
+* **Access**: Private (any authenticated user, including the owner)
+* **Success response** `200 OK`: returns the updated project.
+
+### `DELETE /api/projects/:id/bookmark` `[IMPLEMENTED]`
+* **What it does**: Removes the authenticated user from `bookmarkedBy` (idempotent).
+* **Access**: Private (any authenticated user)
+* **Success response** `200 OK`: returns the updated project.
 
 ---
 

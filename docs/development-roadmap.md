@@ -43,12 +43,15 @@ This roadmap lists the 12 step-by-step phases to build **CollabSphere** from sta
 
 ---
 
-## Phase 4 — Project Management `[PLANNED]`
+## Phase 4 — Project Management `[COMPLETED]`
 - **Objective**: Allow students to post new projects, search/filter projects, change status, and bookmark projects.
 - **Major Deliverables**:
-  - Project database model (`memberIds`, `bookmarkedBy`, status `OPEN → IN_PROGRESS → COMPLETED`).
-  - Project search and filter APIs.
-  - Bookmarking endpoints.
+  - Project database model (`memberIds`, `bookmarkedBy`, `difficulty`, optional `repositoryUrl`/`projectImage`, status `OPEN → IN_PROGRESS → COMPLETED`).
+  - Project CRUD APIs with owner-only mutations.
+  - Project search and filter APIs (search by title/description; filter by category, difficulty, status, skills) with pagination.
+  - Forward-only status transition endpoint.
+  - Bookmarking endpoints (idempotent add/remove).
+  - User search by skills (`GET /api/users/search`) to support Phase 5 collaboration requests.
 
 ---
 

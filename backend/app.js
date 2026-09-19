@@ -3,6 +3,7 @@ const cors = require('cors');
 const errorHandler = require('./middleware/errorHandler');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
+const projectRoutes = require('./routes/projectRoutes');
 
 const app = express();
 
@@ -27,8 +28,11 @@ app.get('/api/health', (req, res) => {
 // Auth routes: POST /api/auth/register, POST /api/auth/login
 app.use('/api/auth', authRoutes);
 
-// User routes: GET /api/users/profile
+// User routes: GET /api/users/profile, GET /api/users/search
 app.use('/api/users', userRoutes);
+
+// Project routes: CRUD, search/filter, status, bookmarks
+app.use('/api/projects', projectRoutes);
 
 // --- 404 Handler ---
 // Catches any request that did not match a registered route

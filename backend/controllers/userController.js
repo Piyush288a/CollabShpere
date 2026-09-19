@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const formatUser = require('../utils/formatUser');
+const { parsePagination, buildPagination } = require('../utils/paginate');
 
 // GET /api/users/profile
 // Protected by authMiddleware — req.user is already populated
@@ -63,4 +64,44 @@ const updateProfile = async (req, res, next) => {
   }
 };
 
-module.exports = { getProfile, updateProfile };
+// GET /api/users/search
+// Protected — finds potential collaborators by skill and/or name.
+// Excludes the requesting user. Designed to feed Phase 5 collaboration requests.
+const searchUsers = async (req, res, next) => {
+  try {
+    const { skills, search } = req.query;
+    const filter = { _id: { $ne: req.user.userId } };
+
+    if (skills) {
+      const list = skills
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .map((s) => new RegExp(`^${s}$`, 'i'));
+      if (list.length) filter.skills = { $in: list };
+    }
+
+    if (search) {
+      filter.name = new RegExp(search, 'i');
+    }
+
+    const { page, limit, skip } = parsePagination(req.query);
+
+    const [totalCount, users] = await Promise.all([
+      User.countDocuments(filter),
+      User.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit),
+    ]);
+
+    res.status(200).json({
+      success: true,
+      data: {
+        results: users.map(formatUser),
+        pagination: buildPagination({ totalCount, page, limit }),
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getProfile, updateProfile, searchUsers };
