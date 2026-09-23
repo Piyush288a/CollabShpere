@@ -28,6 +28,13 @@ const userSchema = new mongoose.Schema(
       enum: ['student', 'admin'],
       default: 'student',
     },
+    // Account status for admin moderation. Suspended users cannot log in,
+    // and their previously issued JWTs are rejected by authMiddleware.
+    status: {
+      type: String,
+      enum: ['active', 'suspended'],
+      default: 'active',
+    },
     avatar: {
       type: String,
       default: null,

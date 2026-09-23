@@ -151,7 +151,8 @@ Default pagination values: `page=1`, `limit=10`. See `docs/api-contract.md` Sect
 
 ### 1. `Users` Collection
 * **Purpose**: Stores student and administrator accounts.
-* **Fields**: `_id`, `name`, `email`, `password` (hashed), `role` (`"student"` or `"admin"`), `avatar`, `skills`, `bio`, `githubUrl`, `linkedinUrl`, `createdAt`, `updatedAt`.
+* **Fields**: `_id`, `name`, `email`, `password` (hashed), `role` (`"student"` or `"admin"`), `status` (`"active"` or `"suspended"`, default `"active"`), `avatar`, `skills`, `bio`, `githubUrl`, `linkedinUrl`, `createdAt`, `updatedAt`.
+* **Account status (Phase 9)**: suspended users cannot log in (`403`), and `authMiddleware` re-checks status on every request so previously issued JWTs from a suspended user are rejected (`401`). Suspended users are also blocked from protected Socket.IO actions (e.g. joining a project room). Forced disconnection of already-connected sockets is deferred.
 * **Email validation**: The `email` field enforces format validation via a regex match (`/^\S+@\S+\.\S+$/`). Invalid formats are rejected with a Mongoose `ValidationError` which the centralized error handler maps to `400 Bad Request`.
 
 ### 2. `Projects` Collection
@@ -203,7 +204,9 @@ Default pagination values: `page=1`, `limit=10`. See `docs/api-contract.md` Sect
 
 ### 7. `Reports` Collection
 * **Purpose**: User moderation reports.
-* **Fields**: `_id`, `reporterId` (ref: `Users`), `targetType` (`"USER"`, `"PROJECT"`, `"SHOWCASE"`, `"COMMENT"`), `targetId`, `reason`, `status` (`"PENDING"`, `"RESOLVED"`, `"DISMISSED"`), `createdAt`.
+* **Fields**: `_id`, `reporterId` (ref: `Users`), `targetType` (`"USER"`, `"PROJECT"`, `"SHOWCASE"`, `"COMMENT"`), `targetId`, `reason` (3–1000 chars), `status` (`"PENDING"`, `"RESOLVED"`, `"DISMISSED"`), `createdAt`, `updatedAt`.
+* **Index**: `{ status: 1, createdAt: -1 }` for admin moderation lists.
+* **Rules (Phase 9)**: any authenticated user may file a report (`reporterId` from JWT); `targetId` must be a valid ObjectId but its target is not verified to exist. Only admins list reports and set `status` to `RESOLVED`/`DISMISSED`.
 
 ---
 

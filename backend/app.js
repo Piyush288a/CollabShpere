@@ -7,6 +7,8 @@ const projectRoutes = require('./routes/projectRoutes');
 const requestRoutes = require('./routes/requestRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 const showcaseRoutes = require('./routes/showcaseRoutes');
+const reportRoutes = require('./routes/reportRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 
@@ -45,6 +47,12 @@ app.use('/api/tasks', taskRoutes);
 
 // Showcase routes: publish, feed, detail, like/unlike, comments
 app.use('/api/showcases', showcaseRoutes);
+
+// Report routes: POST /api/reports (authenticated users)
+app.use('/api/reports', reportRoutes);
+
+// Admin routes: user/project/report moderation + statistics (admin only)
+app.use('/api/admin', adminRoutes);
 
 // --- 404 Handler ---
 // Catches any request that did not match a registered route

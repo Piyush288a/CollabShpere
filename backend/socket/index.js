@@ -2,6 +2,7 @@ const { Server } = require('socket.io');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const Project = require('../models/Project');
+const User = require('../models/User');
 const { isTeamMember } = require('../utils/teamAccess');
 
 let io = null;
@@ -38,6 +39,15 @@ const initSocket = (httpServer) => {
         if (!mongoose.isValidObjectId(projectId)) {
           return typeof ack === 'function' && ack({ ok: false, message: 'Project not found' });
         }
+
+        // Re-check account status so suspended users cannot perform
+        // protected socket actions, even on an already-open connection.
+        const account = await User.findById(socket.user.userId).select('status');
+        if (!account || account.status === 'suspended') {
+          socket.emit('error_event', { message: 'Not authorized — account suspended' });
+          return typeof ack === 'function' && ack({ ok: false, message: 'Account suspended' });
+        }
+
         const project = await Project.findById(projectId);
         if (!project) {
           return typeof ack === 'function' && ack({ ok: false, message: 'Project not found' });

@@ -76,6 +76,13 @@ const login = async (req, res, next) => {
       return next(err);
     }
 
+    // Suspended accounts cannot log in.
+    if (user.status === 'suspended') {
+      const err = new Error('Account is suspended');
+      err.statusCode = 403;
+      return next(err);
+    }
+
     const token = signToken(user._id, user.role);
 
     res.status(200).json({

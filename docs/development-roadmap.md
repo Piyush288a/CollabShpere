@@ -95,11 +95,12 @@ This roadmap lists the 12 step-by-step phases to build **CollabSphere** from sta
 
 ---
 
-## Phase 9 — Administration `[PLANNED]`
+## Phase 9 — Administration `[COMPLETED]`
 - **Objective**: Provide admin tools to manage users, moderate projects, and review reports.
 - **Major Deliverables**:
-  - Content report model.
-  - Admin dashboard stats, user management, and report moderation APIs.
+  - `Report` model + `POST /api/reports` (any authenticated user).
+  - `User.status` (`active`/`suspended`) with suspended-login block and JWT rejection via `authMiddleware`; suspended users blocked from protected socket actions.
+  - Admin-only APIs (`adminMiddleware`): user list + suspend/restore (with self-suspension guard), project list + delete (application-level cascade), report list + resolve/dismiss, and platform statistics.
 
 ---
 

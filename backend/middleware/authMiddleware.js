@@ -1,9 +1,11 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
 // authMiddleware — protects private routes
-// Reads the JWT from the Authorization header, verifies it,
-// and attaches { userId, role } to req.user for downstream handlers.
-const authMiddleware = (req, res, next) => {
+// Reads the JWT from the Authorization header, verifies it, confirms the
+// account still exists and is not suspended, and attaches { userId, role }
+// to req.user for downstream handlers.
+const authMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -16,7 +18,17 @@ const authMiddleware = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    // Attach decoded payload so route handlers can read req.user.userId and req.user.role
+
+    // Re-check the account on every request so suspensions take effect
+    // immediately, even for previously issued tokens.
+    const user = await User.findById(decoded.userId).select('status');
+    if (!user || user.status === 'suspended') {
+      const err = new Error('Not authorized — account suspended');
+      err.statusCode = 401;
+      return next(err);
+    }
+
+    // Preserve the existing req.user shape for all downstream handlers.
     req.user = { userId: decoded.userId, role: decoded.role };
     next();
   } catch (error) {

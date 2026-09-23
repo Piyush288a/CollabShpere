@@ -485,41 +485,54 @@ Real-time chat runs on the same HTTP server as the REST API (Socket.IO). The RES
 
 ## 9. Reports Endpoints
 
-### `POST /api/reports` `[PLANNED]`
+### `POST /api/reports` `[IMPLEMENTED]`
 * **What it does**: Files a report against a user, project, showcase, or comment.
-* **Access**: Private
+* **Access**: Private (any authenticated user)
+* **Request body**: `{ "targetType": "PROJECT", "targetId": "<objectId>", "reason": "..." }` — `targetType` ∈ `USER|PROJECT|SHOWCASE|COMMENT`; `reason` 3–1000 chars.
+* **Success response** `201 Created`: `{ "success": true, "data": { "report": { ...status: "PENDING"... } } }`.
+* **Notes**: `reporterId` is taken from the JWT. `targetId` must be a valid ObjectId but its target is not verified to exist. Invalid enum/missing reason → `400`; no token → `401`.
+
+> **Suspended accounts**: `POST /api/auth/login` returns `403` for a suspended user, and `authMiddleware` rejects any previously issued JWT belonging to a now-suspended user with `401`.
 
 ---
 
 ## 10. Administration Endpoints
 
-### `GET /api/admin/users` `[PLANNED]`
-* **What it does**: Lists all system users for admin moderation.
+> All admin endpoints require `authMiddleware` + `adminMiddleware`. Non-admin → `403`; unauthenticated → `401`.
+
+### `GET /api/admin/users` `[IMPLEMENTED]`
+* **What it does**: Lists all system users for admin moderation (paginated). Users are returned via the standard user shape (no passwords).
 * **Access**: Private (Admin only)
 * **Pagination**: Yes — supports `?page=1&limit=10`
 
-### `PATCH /api/admin/users/:id/status` `[PLANNED]`
+### `PATCH /api/admin/users/:id/status` `[IMPLEMENTED]`
 * **What it does**: Suspends or restores a user account.
 * **Access**: Private (Admin only)
+* **Request body**: `{ "status": "active" | "suspended" }`.
+* **Notes**: An admin **cannot** suspend their own account → `400`. Invalid status → `400`; unknown id → `404`.
 
-### `GET /api/admin/projects` `[PLANNED]`
-* **What it does**: Lists all projects for admin review.
+### `GET /api/admin/projects` `[IMPLEMENTED]`
+* **What it does**: Lists all projects for admin review (paginated).
 * **Access**: Private (Admin only)
 * **Pagination**: Yes — supports `?page=1&limit=10`
 
-### `DELETE /api/admin/projects/:id` `[PLANNED]`
-* **What it does**: Removes an inappropriate project.
+### `DELETE /api/admin/projects/:id` `[IMPLEMENTED]`
+* **What it does**: Removes a project and cascades deletion of its dependent data.
 * **Access**: Private (Admin only)
+* **Cascade order**: deletes the project's `Tasks`, `Messages`, `CollaborationRequests`, and `Showcase` first, then the `Project` document. (Application-level cascade; no MongoDB transaction.)
+* **Success response** `200 OK`: `{ "success": true, "data": { "message": "Project and related data deleted", "id": "<id>" } }`. Unknown id → `404`.
 
-### `GET /api/admin/reports` `[PLANNED]`
-* **What it does**: Lists submitted user reports.
+### `GET /api/admin/reports` `[IMPLEMENTED]`
+* **What it does**: Lists submitted reports (paginated, newest-first).
 * **Access**: Private (Admin only)
 * **Pagination**: Yes — supports `?page=1&limit=10`
 
-### `PATCH /api/admin/reports/:id` `[PLANNED]`
+### `PATCH /api/admin/reports/:id` `[IMPLEMENTED]`
 * **What it does**: Resolves or dismisses a report.
 * **Access**: Private (Admin only)
+* **Request body**: `{ "status": "RESOLVED" | "DISMISSED" }`. Any other value → `400`; unknown id → `404`.
 
-### `GET /api/admin/statistics` `[PLANNED]`
-* **What it does**: Retrieves system platform statistics (user totals, active projects, reports).
+### `GET /api/admin/statistics` `[IMPLEMENTED]`
+* **What it does**: Retrieves platform statistics.
 * **Access**: Private (Admin only)
+* **Success response** `200 OK`: `{ "success": true, "data": { "statistics": { "users": { "total", "byRole": { "student", "admin" }, "byStatus": { "active", "suspended" } }, "projects": { "total", "byStatus": { "OPEN", "IN_PROGRESS", "COMPLETED" } }, "showcases": { "total" }, "reports": { "total", "byStatus": { "PENDING", "RESOLVED", "DISMISSED" } } } } }`.

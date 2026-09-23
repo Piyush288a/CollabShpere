@@ -139,5 +139,9 @@ Projects follow 3 simple steps:
 * **What was done**: Added the `Showcase` model (unique `projectId`, `title`, `description`, `technologies`, `githubUrl`, `demoUrl`, `images`, `likesCount`, `likedBy`, embedded `comments`, timestamps). Built publish (`POST /api/showcases`, owner-only + `COMPLETED`-project gate, one per project via unique index → `409`), public paginated feed and detail, idempotent like/unlike (`likedBy` is source of truth; `likesCount` synced), and comments (public paginated read, authenticated create with `userId` from JWT). Server-controlled fields (`likesCount`/`likedBy`/`comments`) rejected on publish. 154/154 tests passing.
 * **Status**: Completed successfully.
 
-### ⏳ Phase 9: Administration (UPCOMING)
-* **What will be done**: Content report model and admin tools — dashboard stats, user management (suspend/restore), and report moderation.
+### 🟢 Phase 9: Administration (COMPLETED)
+* **What was done**: Added the `Report` model and `POST /api/reports` (any authenticated user; `reporterId` from JWT). Added `User.status` (`active`/`suspended`): suspended users get `403` on login, and `authMiddleware` re-checks status per request so previously issued JWTs are rejected (`401`); suspended users are also blocked from protected Socket.IO actions. Wired `adminMiddleware` (first use) for admin-only endpoints: user list, suspend/restore (admins cannot suspend themselves), project list, project delete with application-level cascade (Tasks → Messages → CollaborationRequests → Showcase → Project), report list, report resolve/dismiss, and platform statistics. Forced disconnect of already-connected sockets is deferred. 173/173 tests passing.
+* **Status**: Completed successfully.
+
+### ⏳ Phase 10: Frontend Integration (UPCOMING)
+* **What will be done**: React (Vite + Tailwind) client wiring the REST API and Socket.IO chat.

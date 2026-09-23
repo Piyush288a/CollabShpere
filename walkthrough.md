@@ -549,3 +549,61 @@ The following decisions were finalized and documented in `docs/api-contract.md` 
 | ADR-049: Comments embedded; reads paginated over the array, newest-first | `models/Showcase.js`, `controllers/showcaseController.js` |
 | ADR-050: Formatter exposes only IDs (no user/project profile data) | `utils/formatShowcase.js` |
 | ADR-051: Removed duplicate `[PLANNED]` Bookmarks doc entry (Phase 4 already implemented) | `docs/api-contract.md` |
+
+---
+
+## 🟢 Phase 9: Administration
+
+* **Completion Date**: September 18, 2026
+* **Status**: **COMPLETED**
+
+### Summary of What Was Built
+
+1. **`backend/models/Report.js`** (new): `reporterId` (ref `User`), `targetType` (enum USER/PROJECT/SHOWCASE/COMMENT), `targetId` (any valid ObjectId), `reason` (3–1000), `status` (enum PENDING/RESOLVED/DISMISSED, default PENDING), timestamps. Index `{ status: 1, createdAt: -1 }`. `utils/formatReport.js` added.
+
+2. **`backend/models/User.js`** (modified): added `status` (`active`/`suspended`, default `active`); `utils/formatUser.js` now returns `status`.
+
+3. **Authentication-path changes** (the highest-risk item):
+   * `authController.login` — suspended user → `403` (no token issued).
+   * `authMiddleware` — now async; after `jwt.verify` it loads the account (`.select('status')`) and rejects a missing or suspended user with `401`, so previously issued JWTs stop working immediately. `req.user` shape unchanged (`{ userId, role }`).
+   * `socket/index.js` — `join_project` re-checks account status and rejects suspended users. Forced disconnect of already-connected sockets is deferred (documented).
+
+4. **`backend/controllers/reportController.js` + `routes/reportRoutes.js`** (new): `POST /api/reports` (authenticated; `reporterId` from JWT).
+
+5. **`backend/controllers/adminController.js` + `routes/adminRoutes.js`** (new; first use of `adminMiddleware`):
+   * `GET /api/admin/users` (paginated), `PATCH /api/admin/users/:id/status` (suspend/restore; self-suspension → `400`).
+   * `GET /api/admin/projects` (paginated), `DELETE /api/admin/projects/:id` (application-level cascade: Tasks → Messages → CollaborationRequests → Showcase → Project).
+   * `GET /api/admin/reports` (paginated), `PATCH /api/admin/reports/:id` (RESOLVED/DISMISSED).
+   * `GET /api/admin/statistics` (users by role/status, projects by status, showcases, reports by status).
+
+6. **`backend/app.js`** (modified): mounted `/api/reports` and `/api/admin`.
+
+7. **Tests** (`backend/tests/report.test.js`, `backend/tests/admin.test.js` new; `backend/tests/socket.test.js` extended):
+   * Reports: create 201 + reporter from token, invalid targetType/missing reason → 400, 401.
+   * Admin authz: 401 without token and 403 for students on every admin route; 200 for a seeded admin (elevated in the DB then re-logged in).
+   * Suspended-user auth (critical regression): suspended login → 403; a token issued before suspension → 401 afterwards; restored user can log in again.
+   * User management: suspend/restore, self-suspension → 400, invalid status → 400, unknown id → 404.
+   * Project delete cascade: seed task+message+request+showcase → delete → all dependent collections emptied + project gone; unknown → 404.
+   * Report moderation: list paginated, resolve/dismiss, invalid value → 400, unknown → 404.
+   * Statistics: bucket counts verified.
+   * Suspended socket: a user suspended after connecting is rejected on `join_project`.
+
+### Phase 9 Verification Results
+
+* **Test suite**: 173/173 passing across 11 suites (auth 17, user 15, paginate 13, project 47, request 19, task 16, message 9, socket 5, showcase 14, report 4, admin 14).
+* **Auth-path regression**: all 154 prior tests remain green after `authMiddleware` became async with a per-request status lookup; `req.user` shape preserved.
+* **Cascade**: verified all dependent documents are removed for a deleted project.
+* **Self-protection**: admins cannot suspend their own account.
+
+### Key Architectural Decisions Applied
+
+| Decision | Applied In |
+| :--- | :--- |
+| ADR-052: `User.status` (`active`/`suspended`); suspended users blocked at login (`403`) | `models/User.js`, `authController.js` |
+| ADR-053: `authMiddleware` re-checks status per request → previously issued JWTs rejected (`401`) | `middleware/authMiddleware.js` |
+| ADR-054: Suspended users blocked from protected socket actions; forced disconnect deferred | `socket/index.js` |
+| ADR-055: First use of `adminMiddleware` — all `/api/admin/*` gated by role | `routes/adminRoutes.js` |
+| ADR-056: Admins cannot suspend their own account | `controllers/adminController.js` |
+| ADR-057: Admin project delete uses ordered application-level cascade (no transaction) | `controllers/adminController.js` |
+| ADR-058: Reports accept any valid ObjectId target; existence not verified | `models/Report.js`, `controllers/reportController.js` |
+| ADR-059: Statistics shape — users by role/status, projects by status, showcases, reports by status | `controllers/adminController.js` |

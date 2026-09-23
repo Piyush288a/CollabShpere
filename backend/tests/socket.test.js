@@ -139,3 +139,20 @@ describe('Socket.IO messaging', () => {
     socket.disconnect();
   });
 });
+
+describe('Socket.IO suspended-user authorization', () => {
+  it('should reject join_project for a user suspended after connecting', async () => {
+    const owner = await registerUser('owner@u.edu');
+    const project = await createProject(owner.token);
+    const socket = await connect(owner.token);
+
+    // Suspend the user directly (simulating an admin action) after the socket connected.
+    await User.findByIdAndUpdate(owner.userId, { status: 'suspended' });
+
+    const ack = await new Promise((resolve) =>
+      socket.emit('join_project', { projectId: project._id }, resolve)
+    );
+    expect(ack.ok).toBe(false);
+    socket.disconnect();
+  });
+});
