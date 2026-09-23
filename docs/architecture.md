@@ -47,14 +47,15 @@ CollabSphere has 3 main parts (3 tiers):
 * Encrypts passwords securely using `bcryptjs`.
 * Communicates with MongoDB using Mongoose.
 * The Express app (`app.js`) is kept separate from the server entry point (`server.js`) so that the app can be imported cleanly during automated testing without binding to a port.
-* Prepares Socket.IO real-time chat gateways *(Deferred to Phase 7)*.
+* Hosts Socket.IO real-time chat gateways on the same HTTP server *(Implemented in Phase 7)*.
 
 ### 3. Database (MongoDB + Mongoose)
 * Persists data in MongoDB collections.
 * Enforces data schema fields, indexes, and user references via Mongoose.
 
-### 4. Socket.IO *(Deferred to Phase 7)*
-* Will handle real-time instant messaging inside project workspace chat rooms. Implementation details remain deferred until Phase 7.
+### 4. Socket.IO *(Implemented in Phase 7)*
+* Handles real-time instant messaging inside project workspace chat rooms. Attached to the same HTTP server as the Express app in `server.js` via `socket/index.js`.
+* Connections authenticate with the user's JWT at the handshake; clients join a per-project room (`project:<projectId>`) only after a team-member check. Messages are persisted by the REST endpoint (single write path) and broadcast to the room via `message:new`. See `docs/api-contract.md` §6a for the event contract.
 
 ### 5. Cloudinary *(Deferred to Phase 8/10)*
 * Will store user avatars and showcase screenshots in the cloud. Implementation details remain deferred until relevant feature phases.
@@ -184,7 +185,9 @@ Default pagination values: `page=1`, `limit=10`. See `docs/api-contract.md` Sect
 
 ### 5. `Messages` Collection
 * **Purpose**: Workspace chat messages.
-* **Fields**: `_id`, `projectId` (ref: `Projects`), `senderId` (ref: `Users`), `message`, `createdAt`.
+* **Fields**: `_id`, `projectId` (ref: `Projects`), `senderId` (ref: `Users`), `message` (1–2000 chars), `createdAt`, `updatedAt`.
+* **Index**: `{ projectId: 1, createdAt: -1 }` for team-scoped, newest-first paginated history.
+* **Rules (Phase 7)**: only project team members (owner or `memberIds`) may send or read messages; `senderId` is always taken from the JWT. The REST send endpoint is the single write path; Socket.IO broadcasts persisted messages to the project room.
 
 ### 6. `Showcases` Collection
 * **Purpose**: Public showcases for finished projects.

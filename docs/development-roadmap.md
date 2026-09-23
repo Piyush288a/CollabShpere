@@ -75,11 +75,13 @@ This roadmap lists the 12 step-by-step phases to build **CollabSphere** from sta
 
 ---
 
-## Phase 7 — Chat & Real-Time Communication `[PLANNED]`
+## Phase 7 — Chat & Real-Time Communication `[COMPLETED]`
 - **Objective**: Add real-time chat for project team members using Socket.IO.
 - **Major Deliverables**:
-  - Chat message model for persistent chat history.
-  - Real-time chat messaging using Socket.IO project rooms.
+  - `Message` model for persistent chat history (`projectId`, `senderId`, `message`, timestamps; index `{ projectId, createdAt }`).
+  - REST endpoints: `POST /api/projects/:id/messages` (send) and `GET /api/projects/:id/messages` (paginated history), team-member only.
+  - Real-time messaging via Socket.IO project rooms (`project:<id>`) with JWT handshake auth and membership-checked room joins.
+  - Shared `isTeamMember` helper extracted to `utils/teamAccess.js` (reused by task, message, and socket layers).
 
 ---
 

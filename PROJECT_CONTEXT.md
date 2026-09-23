@@ -131,5 +131,9 @@ Projects follow 3 simple steps:
 * **What was done**: Added the `Task` model (`projectId`, `title`, `description`, `assignedTo`, `status` TODO/IN_PROGRESS/COMPLETED, `dueDate`, timestamps). Built `POST /api/projects/:id/tasks`, `GET /api/projects/:id/tasks` (paginated + status filter), `PATCH /api/tasks/:id` (forward-only status), and `DELETE /api/tasks/:id`. All task operations are restricted to project team members (owner or `memberIds`); an assignee must be a current team member. 127/127 tests passing.
 * **Status**: Completed successfully.
 
-### ⏳ Phase 7: Chat & Real-Time Communication (UPCOMING)
-* **What will be done**: Persistent chat message model and real-time messaging via Socket.IO in project workspace rooms.
+### 🟢 Phase 7: Chat & Real-Time Communication (COMPLETED)
+* **What was done**: Added the `Message` model (`projectId`, `senderId`, `message`, timestamps) with a `{ projectId, createdAt }` index. Built `POST /api/projects/:id/messages` (send; `senderId` from JWT) and `GET /api/projects/:id/messages` (paginated, newest-first) — both team-member only. Added Socket.IO on the same HTTP server: JWT handshake auth, per-project rooms (`project:<id>`), membership-checked joins, and `message:new` broadcasts. The REST send endpoint is the single write path (no duplicate persistence). Extracted the shared `isTeamMember` helper to `utils/teamAccess.js`. Added `socket.io` (+ `socket.io-client` dev). 140/140 tests passing.
+* **Status**: Completed successfully.
+
+### ⏳ Phase 8: Showcase & Social Features (UPCOMING)
+* **What will be done**: Showcase model for completed projects with likes and embedded comments.

@@ -3,6 +3,7 @@ const Task = require('../models/Task');
 const Project = require('../models/Project');
 const formatTask = require('../utils/formatTask');
 const { parsePagination, buildPagination } = require('../utils/paginate');
+const { isTeamMember } = require('../utils/teamAccess');
 
 const STATUSES = ['TODO', 'IN_PROGRESS', 'COMPLETED'];
 
@@ -18,10 +19,6 @@ const httpError = (message, statusCode) => {
   err.statusCode = statusCode;
   return err;
 };
-
-// True if userId is the owner or a listed member of the project.
-const isTeamMember = (project, userId) =>
-  String(project.ownerId) === userId || project.memberIds.some((m) => String(m) === userId);
 
 // Editable fields on a task update.
 const EDITABLE_FIELDS = ['title', 'description', 'assignedTo', 'dueDate'];

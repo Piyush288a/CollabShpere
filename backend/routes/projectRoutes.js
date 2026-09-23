@@ -16,6 +16,7 @@ const {
   getProjectTeam,
 } = require('../controllers/requestController');
 const { createTask, listTasks } = require('../controllers/taskController');
+const { sendMessage, listMessages } = require('../controllers/messageController');
 const { authMiddleware } = require('../middleware/authMiddleware');
 
 // Public reads
@@ -40,5 +41,9 @@ router.get('/:id/team', authMiddleware, getProjectTeam);          // team member
 // Tasks (Phase 6) — team members only
 router.post('/:id/tasks', authMiddleware, createTask);
 router.get('/:id/tasks', authMiddleware, listTasks);
+
+// Messages (Phase 7) — team members only
+router.post('/:id/messages', authMiddleware, sendMessage);
+router.get('/:id/messages', authMiddleware, listMessages);
 
 module.exports = router;

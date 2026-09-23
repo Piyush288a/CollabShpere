@@ -397,13 +397,41 @@ Authorization: Bearer <jwt_token>
 
 ## 6. Messages Endpoints (Workspace Chat)
 
-### `GET /api/projects/:id/messages` `[PLANNED]`
-* **What it does**: Retrieves persistent chat history for a project workspace.
-* **Access**: Private (Project Team Members)
+> Message objects have the shape: `_id`, `projectId`, `senderId`, `message`, `createdAt`, `updatedAt`. References are raw ObjectId strings. "Team member" = the project owner or a user in `memberIds`.
 
-### `POST /api/projects/:id/messages` `[PLANNED]`
-* **What it does**: Sends a chat message in a project workspace.
+### `GET /api/projects/:id/messages` `[IMPLEMENTED]`
+* **What it does**: Retrieves persistent chat history for a project workspace (paginated, newest-first).
 * **Access**: Private (Project Team Members)
+* **Query params**: `page` (default 1), `limit` (default 10, max 100).
+* **Success response** `200 OK`: `{ "success": true, "data": { "results": [ ... ], "pagination": { "currentPage": 1, "totalPages": 2, "totalCount": 15 } } }`.
+* **Notes**: Non-member → `403`; unknown project → `404`; no token → `401`. Empty history → `results: []`, `totalPages: 0`.
+
+### `POST /api/projects/:id/messages` `[IMPLEMENTED]`
+* **What it does**: Sends a chat message in a project workspace. Persists the message and broadcasts it in real time to the project's Socket.IO room.
+* **Access**: Private (Project Team Members)
+* **Request body**: `{ "message": "Hello team" }`
+* **Success response** `201 Created`: `{ "success": true, "data": { "message": { ... } } }`.
+* **Notes**: `senderId` is always taken from the JWT (never the body). Empty/whitespace or >2000 chars → `400`; non-member → `403`; unknown project → `404`; no token → `401`.
+
+---
+
+## 6a. Real-Time Messaging (Socket.IO)
+
+Real-time chat runs on the same HTTP server as the REST API (Socket.IO). The REST `POST /api/projects/:id/messages` is the single write path; the socket layer only broadcasts and never persists.
+
+* **Connection auth**: the client provides its JWT via `socket.handshake.auth.token` (or an `Authorization: Bearer <token>` header). Invalid/missing tokens are rejected at handshake (`connect_error`).
+* **Rooms**: one room per project, named `project:<projectId>`. A client must `join_project` (which re-checks team membership) before it receives messages. No auto-join.
+
+**Event contract**
+
+| Direction | Event | Payload |
+| :--- | :--- | :--- |
+| Client → Server | `join_project` | `{ projectId }` — ack `{ ok: true }` or `{ ok: false, message }` (team-member check) |
+| Client → Server | `leave_project` | `{ projectId }` |
+| Server → Client | `message:new` | the message object (same shape as the REST response) |
+| Server → Client | `error_event` | `{ message }` |
+
+* **Scalability note**: a single-process in-memory adapter is used. Horizontal scaling would require the Socket.IO Redis adapter (out of scope for this phase).
 
 ---
 

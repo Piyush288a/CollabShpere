@@ -444,3 +444,56 @@ The following decisions were finalized and documented in `docs/api-contract.md` 
 | ADR-037: `DELETE /api/tasks/:id` included (roadmap deliverable) and documented in api-contract | `routes/taskRoutes.js`, `docs/api-contract.md` |
 | ADR-038: `assignedTo` optional (default `null`); if set, must be a current team member | `models/Task.js`, `controllers/taskController.js` |
 | ADR-039: Task status is forward-only `TODO → IN_PROGRESS → COMPLETED` (mirrors project-status convention) | `controllers/taskController.js` |
+
+---
+
+## 🟢 Phase 7: Chat & Real-Time Communication
+
+* **Completion Date**: September 18, 2026
+* **Status**: **COMPLETED**
+
+### Summary of What Was Built
+
+1. **`backend/models/Message.js`** (new):
+   * Schema: `projectId` (ref `Project`), `senderId` (ref `User`), `message` (required, 1–2000), timestamps. Index `{ projectId: 1, createdAt: -1 }`.
+
+2. **`backend/utils/formatMessage.js`** (new): response/broadcast shaper (raw ObjectIds).
+
+3. **`backend/utils/teamAccess.js`** (new): shared `isTeamMember(project, userId)` helper — extracted verbatim from the Phase 6 task controller and reused by task, message, and socket layers. Phase 6 behavior unchanged (verified by the existing 16 task tests staying green).
+
+4. **`backend/controllers/messageController.js`** (new):
+   * `sendMessage` — team-only; `senderId` taken from JWT; persists then broadcasts `message:new` to `project:<id>` via `getIo()` (no-op when sockets aren't initialized, e.g. REST tests). Single write path.
+   * `listMessages` — team-only, paginated, newest-first.
+
+5. **`backend/socket/index.js`** (new):
+   * `initSocket(httpServer)` creates the Socket.IO server (CORS from `CLIENT_URL`); `io.use` verifies the JWT at the handshake and attaches `socket.user`.
+   * `join_project`/`leave_project` events; join re-checks team membership before `socket.join`. `getIo()` accessor for the controller. The socket layer never writes to the DB.
+
+6. **Routing & bootstrap** (`backend/routes/projectRoutes.js`, `backend/server.js` modified):
+   * `POST /api/projects/:id/messages`, `GET /api/projects/:id/messages` (team-only).
+   * `server.js` now wraps the Express app in `http.createServer` and calls `initSocket(server)`; `app.js` stays a pure Express app so REST tests need no socket server.
+
+7. **Dependencies**: added `socket.io@4.7.5` (dependency) and `socket.io-client@4.7.5` (devDependency, for socket integration tests), pinned exactly.
+
+8. **Tests** (`backend/tests/message.test.js`, `backend/tests/socket.test.js` new):
+   * REST: send `201` + persistence, senderId forced from token, empty/whitespace/too-long `400`, non-member `403`, unknown project `404`, no token `401`; paginated newest-first history, empty history, non-member `403`.
+   * Socket: bad token rejected at handshake; team member joins and receives `message:new`; non-member join rejected; room isolation (message to project A not delivered to a socket in project B).
+
+### Phase 7 Verification Results
+
+* **Test suite**: 140/140 passing across 8 suites (auth 17, user 15, paginate 13, project 47, request 19, task 16, message 9, socket 4).
+* **No duplicate persistence**: messages are written only by the REST endpoint; the socket layer only broadcasts. Verified by the `Message.countDocuments` assertion (exactly 1 after a send).
+* **Phase 6 unchanged**: task tests remain green after the `isTeamMember` extraction.
+* **Auth**: REST endpoints team-only; socket connections require a valid JWT and membership-checked room joins.
+* **Scope boundary**: no message edit/delete, no typing/read receipts, no direct messaging, no Redis adapter. Auth and shared `errorHandler` untouched.
+
+### Key Architectural Decisions Applied
+
+| Decision | Applied In |
+| :--- | :--- |
+| ADR-040: Socket.IO added (`socket.io` + `socket.io-client` dev), attached to the same HTTP server | `server.js`, `socket/index.js`, `package.json` |
+| ADR-041: REST send is the single write path; socket only broadcasts (no duplicate persistence) | `controllers/messageController.js` |
+| ADR-042: Socket connections authenticate via JWT handshake; room joins re-check team membership | `socket/index.js` |
+| ADR-043: `isTeamMember` extracted to `utils/teamAccess.js`, shared across task/message/socket | `utils/teamAccess.js`, `controllers/taskController.js` |
+| ADR-044: Message history is newest-first paginated (`{ results, pagination }` convention) | `controllers/messageController.js` |
+| ADR-045: Single-process in-memory Socket.IO; Redis adapter deferred (scaling) | `socket/index.js` |
