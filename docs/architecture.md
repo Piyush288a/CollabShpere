@@ -191,8 +191,10 @@ Default pagination values: `page=1`, `limit=10`. See `docs/api-contract.md` Sect
 
 ### 6. `Showcases` Collection
 * **Purpose**: Public showcases for finished projects.
-* **Fields**: `_id`, `projectId` (ref: `Projects`), `title`, `description`, `technologies`, `githubUrl`, `demoUrl`, `images`, `likesCount`, `likedBy`, `comments`, `createdAt`.
+* **Fields**: `_id`, `projectId` (ref: `Projects`, **unique** — one showcase per project), `title`, `description`, `technologies`, `githubUrl`, `demoUrl`, `images`, `likesCount`, `likedBy`, `comments`, `createdAt`, `updatedAt`.
 * **`images` field**: Array of URL strings. Defaults to an empty array `[]`. Populated with Cloudinary URLs when Phase 8/10 image upload is implemented. Accepts manually provided URL strings in the interim.
+* **Indexes**: unique index on `projectId`; `{ createdAt: -1 }` for feed ordering.
+* **Rules (Phase 8)**: only the project owner may publish, and only once the project is `COMPLETED`. `likedBy` is the source of truth; `likesCount` is kept in sync on each like/unlike. Like/unlike and commenting require authentication (actor id from JWT); feed, detail, and comment reads are public. Comment reads are paginated over the embedded array.
 * **`comments` field**: Array of embedded subdocuments stored directly inside the Showcase document. No separate `Comments` collection. Each embedded comment contains:
   * `_id`: Auto-generated comment ID.
   * `userId`: Reference to `Users._id` (who wrote the comment).

@@ -6,6 +6,7 @@ const userRoutes = require('./routes/userRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const requestRoutes = require('./routes/requestRoutes');
 const taskRoutes = require('./routes/taskRoutes');
+const showcaseRoutes = require('./routes/showcaseRoutes');
 
 const app = express();
 
@@ -41,6 +42,9 @@ app.use('/api/requests', requestRoutes);
 
 // Task decisions: PATCH/DELETE /api/tasks/:id
 app.use('/api/tasks', taskRoutes);
+
+// Showcase routes: publish, feed, detail, like/unlike, comments
+app.use('/api/showcases', showcaseRoutes);
 
 // --- 404 Handler ---
 // Catches any request that did not match a registered route

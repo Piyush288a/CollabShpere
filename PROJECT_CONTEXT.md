@@ -135,5 +135,9 @@ Projects follow 3 simple steps:
 * **What was done**: Added the `Message` model (`projectId`, `senderId`, `message`, timestamps) with a `{ projectId, createdAt }` index. Built `POST /api/projects/:id/messages` (send; `senderId` from JWT) and `GET /api/projects/:id/messages` (paginated, newest-first) — both team-member only. Added Socket.IO on the same HTTP server: JWT handshake auth, per-project rooms (`project:<id>`), membership-checked joins, and `message:new` broadcasts. The REST send endpoint is the single write path (no duplicate persistence). Extracted the shared `isTeamMember` helper to `utils/teamAccess.js`. Added `socket.io` (+ `socket.io-client` dev). 140/140 tests passing.
 * **Status**: Completed successfully.
 
-### ⏳ Phase 8: Showcase & Social Features (UPCOMING)
-* **What will be done**: Showcase model for completed projects with likes and embedded comments.
+### 🟢 Phase 8: Showcase & Social Features (COMPLETED)
+* **What was done**: Added the `Showcase` model (unique `projectId`, `title`, `description`, `technologies`, `githubUrl`, `demoUrl`, `images`, `likesCount`, `likedBy`, embedded `comments`, timestamps). Built publish (`POST /api/showcases`, owner-only + `COMPLETED`-project gate, one per project via unique index → `409`), public paginated feed and detail, idempotent like/unlike (`likedBy` is source of truth; `likesCount` synced), and comments (public paginated read, authenticated create with `userId` from JWT). Server-controlled fields (`likesCount`/`likedBy`/`comments`) rejected on publish. 154/154 tests passing.
+* **Status**: Completed successfully.
+
+### ⏳ Phase 9: Administration (UPCOMING)
+* **What will be done**: Content report model and admin tools — dashboard stats, user management (suspend/restore), and report moderation.

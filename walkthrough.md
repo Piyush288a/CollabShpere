@@ -497,3 +497,55 @@ The following decisions were finalized and documented in `docs/api-contract.md` 
 | ADR-043: `isTeamMember` extracted to `utils/teamAccess.js`, shared across task/message/socket | `utils/teamAccess.js`, `controllers/taskController.js` |
 | ADR-044: Message history is newest-first paginated (`{ results, pagination }` convention) | `controllers/messageController.js` |
 | ADR-045: Single-process in-memory Socket.IO; Redis adapter deferred (scaling) | `socket/index.js` |
+
+---
+
+## 🟢 Phase 8: Showcase & Social Features
+
+* **Completion Date**: September 18, 2026
+* **Status**: **COMPLETED**
+
+### Summary of What Was Built
+
+1. **`backend/models/Showcase.js`** (new):
+   * Schema: `projectId` (ref `Project`, **unique**), `title` (3–120), `description` (10–5000), `technologies` (`[String]`), `githubUrl`/`demoUrl` (optional `http(s)` URLs), `images` (`[String]`, default `[]`), `likesCount` (default 0, min 0), `likedBy` (ref `User`, default `[]`), `comments` (embedded subdocs), timestamps. Indexes: unique `projectId`, `{ createdAt: -1 }`.
+   * Embedded comment subschema (`_id`, `userId` ref `User`, `text` 1–1000, `createdAt`) — no separate collection.
+
+2. **`backend/utils/formatShowcase.js`** (new): `formatShowcase` + `formatComment` — raw ObjectIds only, so no user/project profile fields (emails, passwords) are ever exposed.
+
+3. **`backend/controllers/showcaseController.js`** (new):
+   * `publishShowcase` — owner-only + `COMPLETED`-project gate; allowlisted publish fields; duplicate `projectId` (`error.code === 11000`) → `409`.
+   * `listShowcases` / `getShowcaseById` — public, paginated feed + single detail.
+   * `likeShowcase` / `unlikeShowcase` — idempotent (`$addToSet` / `$pull`); `syncLikes` keeps `likesCount === likedBy.length`.
+   * `listComments` — public, paginated over the embedded array, newest-first.
+   * `addComment` — authenticated; `userId` from JWT (never body).
+
+4. **Routing** (`backend/routes/showcaseRoutes.js` new, `backend/app.js` modified): public reads (`/`, `/:id`, `/:id/comments`); authenticated writes (`POST /`, `POST/DELETE /:id/like`, `POST /:id/comments`) mounted at `/api/showcases`.
+
+5. **Tests** (`backend/tests/showcase.test.js` new):
+   * Publish (owner+COMPLETED 201, not-COMPLETED 400, non-owner 403, duplicate 409, server-controlled fields ignored, validation/unknown/auth).
+   * Public feed + detail (empty, paginated, unknown 404).
+   * Idempotent likes with accurate `likesCount`; 401 without token.
+   * Comments (authenticated create with userId from token, empty/too-long 400, auth; public paginated newest-first list).
+
+6. **Docs cleanup**: removed the pre-existing duplicate `[PLANNED]` Bookmarks block from `api-contract.md` §8 (bookmarks were implemented in Phase 4 and documented under §3 Projects). No bookmark functionality changed.
+
+### Phase 8 Verification Results
+
+* **Test suite**: 154/154 passing across 9 suites (auth 17, user 15, paginate 13, project 47, request 19, task 16, message 9, socket 4, showcase 14).
+* **One showcase per project**: enforced by a unique `projectId` index; duplicate publish → `409`.
+* **Completion gate**: publishing a non-`COMPLETED` project → `400`; succeeds after `COMPLETED`.
+* **Likes**: idempotent; `likesCount` always equals `likedBy.length`.
+* **Access**: feed/detail/comment reads public; like/unlike/comment authenticated with actor id from JWT.
+* **Scope boundary**: no comment/showcase edit or delete, no reporting (Phase 9), no Cloudinary upload (deferred). Auth and shared `errorHandler` untouched; no new dependencies.
+
+### Key Architectural Decisions Applied
+
+| Decision | Applied In |
+| :--- | :--- |
+| ADR-046: One showcase per project via unique `projectId` index; duplicate → `409` | `models/Showcase.js`, `controllers/showcaseController.js` |
+| ADR-047: Publish gated on project owner + `COMPLETED` status | `controllers/showcaseController.js` |
+| ADR-048: `likedBy` is source of truth; `likesCount` synced on each toggle | `controllers/showcaseController.js` |
+| ADR-049: Comments embedded; reads paginated over the array, newest-first | `models/Showcase.js`, `controllers/showcaseController.js` |
+| ADR-050: Formatter exposes only IDs (no user/project profile data) | `utils/formatShowcase.js` |
+| ADR-051: Removed duplicate `[PLANNED]` Bookmarks doc entry (Phase 4 already implemented) | `docs/api-contract.md` |

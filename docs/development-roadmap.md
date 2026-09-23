@@ -85,11 +85,13 @@ This roadmap lists the 12 step-by-step phases to build **CollabSphere** from sta
 
 ---
 
-## Phase 8 — Showcase & Social Features `[PLANNED]`
+## Phase 8 — Showcase & Social Features `[COMPLETED]`
 - **Objective**: Allow completed projects to publish public showcases with likes and comments.
 - **Major Deliverables**:
-  - Showcase database model linked to completed projects.
-  - Showcase feed API, like toggle, and comment endpoints.
+  - `Showcase` model with embedded comments, linked to a completed project (unique `projectId`).
+  - Publish (`POST /api/showcases`, owner + `COMPLETED` only) and public paginated feed/detail (`GET /api/showcases`, `GET /api/showcases/:id`).
+  - Idempotent like/unlike (`POST`/`DELETE /api/showcases/:id/like`) with `likesCount` synced from `likedBy`.
+  - Comment endpoints (`GET /api/showcases/:id/comments` public + paginated, `POST /api/showcases/:id/comments` authenticated).
 
 ---
 

@@ -437,42 +437,49 @@ Real-time chat runs on the same HTTP server as the REST API (Socket.IO). The RES
 
 ## 7. Showcases Endpoints
 
-### `POST /api/showcases` `[PLANNED]`
-* **What it does**: Publishes a showcase for a completed project.
+> Showcase objects have the shape: `_id`, `projectId`, `title`, `description`, `technologies`, `githubUrl`, `demoUrl`, `images`, `likesCount`, `likedBy`, `comments` (embedded), `createdAt`, `updatedAt`. Each embedded comment is `{ _id, userId, text, createdAt }`. References are raw ObjectId strings.
+
+### `POST /api/showcases` `[IMPLEMENTED]`
+* **What it does**: Publishes a showcase for a completed project. One showcase per project.
 * **Access**: Private (Project Owner only)
+* **Request body**: `{ "projectId": "...", "title": "...", "description": "...", "technologies": [], "githubUrl": "", "demoUrl": "", "images": [] }` (`title`/`description` required).
+* **Success response** `201 Created`: `{ "success": true, "data": { "showcase": { ... } } }`.
+* **Notes**: Project must be `COMPLETED` → else `400`. Non-owner → `403`. A project may only have one showcase — a second publish → `409`. `likesCount`/`likedBy`/`comments` are server-controlled (ignored if sent). Unknown/invalid project → `404`; validation → `400`; no token → `401`.
 
-### `GET /api/showcases` `[PLANNED]`
-* **What it does**: Lists public project showcases.
+### `GET /api/showcases` `[IMPLEMENTED]`
+* **What it does**: Lists public project showcases (paginated, newest-first).
 * **Access**: Public
-* **Pagination**: Yes — supports `?page=1&limit=10`
+* **Pagination**: Yes — `?page=1&limit=10` (max 100). Empty → `results: []`, `totalPages: 0`.
+* **Success response** `200 OK`: `{ "success": true, "data": { "results": [ ... ], "pagination": { ... } } }`.
 
-### `POST /api/showcases/:id/like` `[PLANNED]`
-* **What it does**: Likes a showcase.
-* **Access**: Private
-
-### `DELETE /api/showcases/:id/like` `[PLANNED]`
-* **What it does**: Removes a like from a showcase.
-* **Access**: Private
-
-### `GET /api/showcases/:id/comments` `[PLANNED]`
-* **What it does**: Fetches embedded comments on a showcase.
+### `GET /api/showcases/:id` `[IMPLEMENTED]`
+* **What it does**: Retrieves a single showcase (including embedded comments).
 * **Access**: Public
+* **Notes**: Unknown/invalid id → `404`.
 
-### `POST /api/showcases/:id/comments` `[PLANNED]`
-* **What it does**: Posts a comment on a showcase. Comment is embedded inside the Showcase document.
+### `POST /api/showcases/:id/like` `[IMPLEMENTED]`
+* **What it does**: Likes a showcase (idempotent). Adds the authenticated user to `likedBy` and keeps `likesCount` in sync.
 * **Access**: Private
+* **Success response** `200 OK`: returns the updated showcase. Repeated likes do not duplicate. No token → `401`; unknown id → `404`.
 
----
-
-## 8. Bookmarks Endpoints
-
-### `POST /api/projects/:id/bookmark` `[PLANNED]`
-* **What it does**: Bookmarks a project (adds user ID to `Projects.bookmarkedBy`).
+### `DELETE /api/showcases/:id/like` `[IMPLEMENTED]`
+* **What it does**: Removes the authenticated user's like (idempotent).
 * **Access**: Private
+* **Success response** `200 OK`: returns the updated showcase.
 
-### `DELETE /api/projects/:id/bookmark` `[PLANNED]`
-* **What it does**: Removes a project from bookmarks.
+### `GET /api/showcases/:id/comments` `[IMPLEMENTED]`
+* **What it does**: Fetches embedded comments on a showcase (paginated, newest-first).
+* **Access**: Public
+* **Pagination**: Yes — `?page=1&limit=10`. Unknown id → `404`.
+
+### `POST /api/showcases/:id/comments` `[IMPLEMENTED]`
+* **What it does**: Posts a comment on a showcase. The comment is embedded inside the Showcase document.
 * **Access**: Private
+* **Request body**: `{ "text": "..." }` (1–1000 chars). `userId` is taken from the JWT (never the body).
+* **Success response** `201 Created`: `{ "success": true, "data": { "comment": { "_id", "userId", "text", "createdAt" } } }`.
+* **Notes**: Empty/whitespace or >1000 chars → `400`; no token → `401`; unknown showcase → `404`.
+
+> **Bookmarks**: project bookmarking (`POST`/`DELETE /api/projects/:id/bookmark`) is implemented — see §3 Projects Endpoints.
 
 ---
 
