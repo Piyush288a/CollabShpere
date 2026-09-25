@@ -1,0 +1,566 @@
+{
+  "info": {
+    "name": "CollabSphere Backend",
+    "_postman_id": "collabsphere-backend-collection",
+    "description": "Complete REST API test collection for the CollabSphere backend, organized by feature as a logical end-to-end flow. Import together with CollabSphere-Backend.postman_environment.json and select that environment. Test scripts capture tokens/IDs into environment variables so the flow can run top-to-bottom in the Collection Runner. Admin requests require a user elevated to role:'admin' directly in MongoDB (see the Admin folder note and docs/BACKEND.md section 14).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "0. Health",
+      "item": [
+        {
+          "name": "GET /api/health",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/health" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('200 OK', () => pm.response.code === 200);",
+            "pm.test('success envelope', () => pm.response.json().success === true);"
+          ] } } ]
+        }
+      ]
+    },
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "POST register - User A (owner)",
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Alice Owner\",\n  \"email\": \"alice@university.edu\",\n  \"password\": \"securepassword123\"\n}" },
+            "url": "{{baseUrl}}/api/auth/register" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('201 Created', () => pm.response.code === 201);",
+            "const d = pm.response.json().data;",
+            "pm.test('token returned, no password', () => d.token && d.user.password === undefined);",
+            "pm.environment.set('userAToken', d.token);",
+            "pm.environment.set('token', d.token);",
+            "pm.environment.set('userAId', d.user._id);"
+          ] } } ]
+        },
+        {
+          "name": "POST register - User B (member)",
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Bob Member\",\n  \"email\": \"bob@university.edu\",\n  \"password\": \"securepassword123\"\n}" },
+            "url": "{{baseUrl}}/api/auth/register" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('201 Created', () => pm.response.code === 201);",
+            "const d = pm.response.json().data;",
+            "pm.environment.set('userBToken', d.token);",
+            "pm.environment.set('userBId', d.user._id);"
+          ] } } ]
+        },
+        {
+          "name": "POST register - Admin (then elevate in DB)",
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Carol Admin\",\n  \"email\": \"carol@university.edu\",\n  \"password\": \"securepassword123\"\n}" },
+            "url": "{{baseUrl}}/api/auth/register" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('201 Created', () => pm.response.code === 201);",
+            "// register cannot set role. Elevate this account to admin directly in MongoDB:",
+            "//   db.users.updateOne({ email: 'carol@university.edu' }, { $set: { role: 'admin' } })",
+            "// then run 'POST login - Admin' to capture adminToken."
+          ] } } ]
+        },
+        {
+          "name": "POST register - duplicate email (neg 409)",
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Alice Owner\",\n  \"email\": \"alice@university.edu\",\n  \"password\": \"securepassword123\"\n}" },
+            "url": "{{baseUrl}}/api/auth/register" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('409 Conflict', () => pm.response.code === 409);" ] } } ]
+        },
+        {
+          "name": "POST register - invalid email (neg 400)",
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"X\",\n  \"email\": \"notanemail\",\n  \"password\": \"securepassword123\"\n}" },
+            "url": "{{baseUrl}}/api/auth/register" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('400 Bad Request', () => pm.response.code === 400);" ] } } ]
+        },
+        {
+          "name": "POST login - User A",
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"alice@university.edu\",\n  \"password\": \"securepassword123\"\n}" },
+            "url": "{{baseUrl}}/api/auth/login" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('200 OK', () => pm.response.code === 200);",
+            "const d = pm.response.json().data;",
+            "pm.environment.set('userAToken', d.token);",
+            "pm.environment.set('token', d.token);"
+          ] } } ]
+        },
+        {
+          "name": "POST login - Admin",
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"carol@university.edu\",\n  \"password\": \"securepassword123\"\n}" },
+            "url": "{{baseUrl}}/api/auth/login" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('200 OK', () => pm.response.code === 200);",
+            "pm.environment.set('adminToken', pm.response.json().data.token);"
+          ] } } ]
+        },
+        {
+          "name": "POST login - wrong password (neg 401)",
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"alice@university.edu\",\n  \"password\": \"wrongpassword\"\n}" },
+            "url": "{{baseUrl}}/api/auth/login" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('401 Unauthorized', () => pm.response.code === 401);" ] } } ]
+        }
+      ]
+    },
+    {
+      "name": "2. Users",
+      "item": [
+        {
+          "name": "GET profile",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }], "url": "{{baseUrl}}/api/users/profile" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('200 OK', () => pm.response.code === 200);",
+            "pm.test('no password', () => pm.response.json().data.user.password === undefined);"
+          ] } } ]
+        },
+        {
+          "name": "GET profile - no token (neg 401)",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/users/profile" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('401 Unauthorized', () => pm.response.code === 401);" ] } } ]
+        },
+        {
+          "name": "PUT profile (email/role must be ignored)",
+          "request": { "method": "PUT",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"bio\": \"Full-stack developer\",\n  \"skills\": [\"React\", \"Node.js\"],\n  \"email\": \"hacker@evil.com\",\n  \"role\": \"admin\"\n}" },
+            "url": "{{baseUrl}}/api/users/profile" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('200 OK', () => pm.response.code === 200);",
+            "const u = pm.response.json().data.user;",
+            "pm.test('email/role unchanged', () => u.email === 'alice@university.edu' && u.role === 'student');"
+          ] } } ]
+        },
+        {
+          "name": "GET users/search?skills=React",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{userBToken}}" }], "url": "{{baseUrl}}/api/users/search?skills=React" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('200 OK', () => pm.response.code === 200);",
+            "pm.test('paginated', () => pm.response.json().data.pagination !== undefined);"
+          ] } } ]
+        }
+      ]
+    },
+    {
+      "name": "3. Projects",
+      "item": [
+        {
+          "name": "POST create project",
+          "request": { "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Campus Study Buddy\",\n  \"description\": \"A platform to find study partners on campus.\",\n  \"category\": \"Web Development\",\n  \"requiredSkills\": [\"React\", \"Node.js\"],\n  \"teamSize\": 4,\n  \"deadline\": \"2026-12-01\",\n  \"difficulty\": \"Intermediate\"\n}" },
+            "url": "{{baseUrl}}/api/projects" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('201 Created', () => pm.response.code === 201);",
+            "const p = pm.response.json().data.project;",
+            "pm.test('owner sole member + OPEN', () => p.memberIds.length === 1 && p.status === 'OPEN');",
+            "pm.environment.set('projectId', p._id);"
+          ] } } ]
+        },
+        {
+          "name": "GET projects (feed, public)",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/projects?page=1&limit=10" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('200 OK', () => pm.response.code === 200);",
+            "pm.test('results + pagination', () => { const d = pm.response.json().data; return Array.isArray(d.results) && d.pagination; });"
+          ] } } ]
+        },
+        {
+          "name": "GET projects (search + filters)",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/projects?search=study&category=Web Development&difficulty=Intermediate&status=OPEN&skills=React" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('200 OK', () => pm.response.code === 200);" ] } } ]
+        },
+        {
+          "name": "GET projects?difficulty=Expert (neg 400)",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/projects?difficulty=Expert" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('400 Bad Request', () => pm.response.code === 400);" ] } } ]
+        },
+        {
+          "name": "GET project by id",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/projects/{{projectId}}" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('200 OK', () => pm.response.code === 200);" ] } } ]
+        },
+        {
+          "name": "GET project - malformed id (neg 404)",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/projects/not-an-id" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('404 Not Found', () => pm.response.code === 404);" ] } } ]
+        },
+        {
+          "name": "PUT project (owner update)",
+          "request": { "method": "PUT",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Campus Study Buddy v2\",\n  \"teamSize\": 5\n}" },
+            "url": "{{baseUrl}}/api/projects/{{projectId}}" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('200 OK', () => pm.response.code === 200);" ] } } ]
+        },
+        {
+          "name": "PUT project - non-owner (neg 403)",
+          "request": { "method": "PUT",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userBToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Hijacked\"\n}" },
+            "url": "{{baseUrl}}/api/projects/{{projectId}}" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('403 Forbidden', () => pm.response.code === 403);" ] } } ]
+        },
+        {
+          "name": "POST bookmark (idempotent)",
+          "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{userBToken}}" }], "url": "{{baseUrl}}/api/projects/{{projectId}}/bookmark" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('200 OK', () => pm.response.code === 200);" ] } } ]
+        },
+        {
+          "name": "DELETE bookmark (idempotent)",
+          "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{userBToken}}" }], "url": "{{baseUrl}}/api/projects/{{projectId}}/bookmark" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('200 OK', () => pm.response.code === 200);" ] } } ]
+        }
+      ]
+    },
+    {
+      "name": "4. Collaboration Requests",
+      "item": [
+        {
+          "name": "POST request (User B -> project)",
+          "request": { "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userBToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"message\": \"I would love to join!\"\n}" },
+            "url": "{{baseUrl}}/api/projects/{{projectId}}/requests" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('201 Created', () => pm.response.code === 201);",
+            "const r = pm.response.json().data.request;",
+            "pm.test('PENDING', () => r.status === 'PENDING');",
+            "pm.environment.set('requestId', r._id);"
+          ] } } ]
+        },
+        {
+          "name": "POST request - self request (neg 400)",
+          "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" }, "url": "{{baseUrl}}/api/projects/{{projectId}}/requests" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('400 Bad Request', () => pm.response.code === 400);" ] } } ]
+        },
+        {
+          "name": "POST request - duplicate pending (neg 409)",
+          "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{userBToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" }, "url": "{{baseUrl}}/api/projects/{{projectId}}/requests" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('409 Conflict', () => pm.response.code === 409);" ] } } ]
+        },
+        {
+          "name": "GET project requests (owner)",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }], "url": "{{baseUrl}}/api/projects/{{projectId}}/requests" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('200 OK', () => pm.response.code === 200);" ] } } ]
+        },
+        {
+          "name": "GET project requests - non-owner (neg 403)",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{userBToken}}" }], "url": "{{baseUrl}}/api/projects/{{projectId}}/requests" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('403 Forbidden', () => pm.response.code === 403);" ] } } ]
+        },
+        {
+          "name": "PATCH request ACCEPT (owner)",
+          "request": { "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"ACCEPTED\"\n}" },
+            "url": "{{baseUrl}}/api/requests/{{requestId}}" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('200 OK', () => pm.response.code === 200);",
+            "pm.test('ACCEPTED', () => pm.response.json().data.request.status === 'ACCEPTED');"
+          ] } } ]
+        },
+        {
+          "name": "PATCH request - already decided (neg 400)",
+          "request": { "method": "PATCH", "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"REJECTED\"\n}" }, "url": "{{baseUrl}}/api/requests/{{requestId}}" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('400 Bad Request', () => pm.response.code === 400);" ] } } ]
+        }
+      ]
+    },
+    {
+      "name": "5. Team",
+      "item": [
+        {
+          "name": "GET team (owner + members, no passwords)",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }], "url": "{{baseUrl}}/api/projects/{{projectId}}/team" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('200 OK', () => pm.response.code === 200);",
+            "const m = pm.response.json().data.members;",
+            "pm.test('members present, no password', () => m.length >= 1 && m[0].password === undefined);"
+          ] } } ]
+        }
+      ]
+    },
+    {
+      "name": "6. Tasks",
+      "item": [
+        {
+          "name": "POST create task (team member)",
+          "request": { "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Set up repository\",\n  \"description\": \"Initialize the project repo\",\n  \"assignedTo\": \"{{userBId}}\"\n}" },
+            "url": "{{baseUrl}}/api/projects/{{projectId}}/tasks" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('201 Created', () => pm.response.code === 201);",
+            "const t = pm.response.json().data.task;",
+            "pm.test('TODO', () => t.status === 'TODO');",
+            "pm.environment.set('taskId', t._id);"
+          ] } } ]
+        },
+        {
+          "name": "GET tasks (team member)",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }], "url": "{{baseUrl}}/api/projects/{{projectId}}/tasks" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('200 OK', () => pm.response.code === 200);" ] } } ]
+        },
+        {
+          "name": "PATCH task -> IN_PROGRESS",
+          "request": { "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"IN_PROGRESS\"\n}" },
+            "url": "{{baseUrl}}/api/tasks/{{taskId}}" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('200 OK', () => pm.response.code === 200);",
+            "pm.test('IN_PROGRESS', () => pm.response.json().data.task.status === 'IN_PROGRESS');"
+          ] } } ]
+        },
+        {
+          "name": "PATCH task - backward status (neg 400)",
+          "request": { "method": "PATCH", "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"TODO\"\n}" }, "url": "{{baseUrl}}/api/tasks/{{taskId}}" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('400 Bad Request', () => pm.response.code === 400);" ] } } ]
+        },
+        {
+          "name": "PATCH task - non-member (neg 403)",
+          "request": { "method": "PATCH", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"nope\"\n}" }, "url": "{{baseUrl}}/api/tasks/{{taskId}}" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('403 Forbidden', () => pm.response.code === 403);" ] } } ]
+        },
+        {
+          "name": "DELETE task (team member)",
+          "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{userBToken}}" }], "url": "{{baseUrl}}/api/tasks/{{taskId}}" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('200 OK', () => pm.response.code === 200);" ] } } ]
+        }
+      ]
+    },
+    {
+      "name": "7. Messages",
+      "item": [
+        {
+          "name": "POST message (team member)",
+          "request": { "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"message\": \"Hello team, kickoff at 5pm\"\n}" },
+            "url": "{{baseUrl}}/api/projects/{{projectId}}/messages" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('201 Created', () => pm.response.code === 201);",
+            "pm.environment.set('messageId', pm.response.json().data.message._id);"
+          ] } } ]
+        },
+        {
+          "name": "POST message - empty (neg 400)",
+          "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"message\": \"\"\n}" }, "url": "{{baseUrl}}/api/projects/{{projectId}}/messages" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('400 Bad Request', () => pm.response.code === 400);" ] } } ]
+        },
+        {
+          "name": "GET messages (paginated, newest-first)",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }], "url": "{{baseUrl}}/api/projects/{{projectId}}/messages?page=1&limit=10" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('200 OK', () => pm.response.code === 200);" ] } } ]
+        },
+        {
+          "name": "GET messages - non-member (neg 403)",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }], "url": "{{baseUrl}}/api/projects/{{projectId}}/messages" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('403 Forbidden', () => pm.response.code === 403);" ] } } ]
+        }
+      ]
+    },
+    {
+      "name": "8. Showcases",
+      "item": [
+        {
+          "name": "PATCH project -> IN_PROGRESS (setup)",
+          "request": { "method": "PATCH", "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"IN_PROGRESS\"\n}" }, "url": "{{baseUrl}}/api/projects/{{projectId}}/status" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('200 OK', () => pm.response.code === 200);" ] } } ]
+        },
+        {
+          "name": "PATCH project -> COMPLETED (setup)",
+          "request": { "method": "PATCH", "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"COMPLETED\"\n}" }, "url": "{{baseUrl}}/api/projects/{{projectId}}/status" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('200 OK', () => pm.response.code === 200);" ] } } ]
+        },
+        {
+          "name": "POST showcase (owner + COMPLETED)",
+          "request": { "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"projectId\": \"{{projectId}}\",\n  \"title\": \"Campus Study Buddy — Final\",\n  \"description\": \"What we built and how it works.\",\n  \"technologies\": [\"React\", \"Node.js\"],\n  \"githubUrl\": \"https://github.com/example/repo\"\n}" },
+            "url": "{{baseUrl}}/api/showcases" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('201 Created', () => pm.response.code === 201);",
+            "pm.environment.set('showcaseId', pm.response.json().data.showcase._id);"
+          ] } } ]
+        },
+        {
+          "name": "POST showcase - duplicate (neg 409)",
+          "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"projectId\": \"{{projectId}}\",\n  \"title\": \"Dup\",\n  \"description\": \"Duplicate showcase attempt.\"\n}" }, "url": "{{baseUrl}}/api/showcases" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('409 Conflict', () => pm.response.code === 409);" ] } } ]
+        },
+        {
+          "name": "GET showcases (public feed)",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/showcases?page=1&limit=10" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('200 OK', () => pm.response.code === 200);" ] } } ]
+        },
+        {
+          "name": "GET showcase by id (public)",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/showcases/{{showcaseId}}" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('200 OK', () => pm.response.code === 200);" ] } } ]
+        },
+        {
+          "name": "POST like (idempotent)",
+          "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{userBToken}}" }], "url": "{{baseUrl}}/api/showcases/{{showcaseId}}/like" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('200 OK', () => pm.response.code === 200);",
+            "pm.test('likesCount == likedBy.length', () => { const s = pm.response.json().data.showcase; return s.likesCount === s.likedBy.length; });"
+          ] } } ]
+        },
+        {
+          "name": "DELETE like (idempotent)",
+          "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{userBToken}}" }], "url": "{{baseUrl}}/api/showcases/{{showcaseId}}/like" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('200 OK', () => pm.response.code === 200);" ] } } ]
+        },
+        {
+          "name": "POST comment (authenticated)",
+          "request": { "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userBToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"text\": \"Great project!\"\n}" },
+            "url": "{{baseUrl}}/api/showcases/{{showcaseId}}/comments" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('201 Created', () => pm.response.code === 201);",
+            "pm.environment.set('commentId', pm.response.json().data.comment._id);"
+          ] } } ]
+        },
+        {
+          "name": "GET comments (public, paginated)",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/showcases/{{showcaseId}}/comments?page=1&limit=10" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('200 OK', () => pm.response.code === 200);" ] } } ]
+        }
+      ]
+    },
+    {
+      "name": "9. Reports",
+      "item": [
+        {
+          "name": "POST report (authenticated)",
+          "request": { "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userBToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"targetType\": \"PROJECT\",\n  \"targetId\": \"{{projectId}}\",\n  \"reason\": \"Please review this project content.\"\n}" },
+            "url": "{{baseUrl}}/api/reports" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('201 Created', () => pm.response.code === 201);",
+            "const r = pm.response.json().data.report;",
+            "pm.test('PENDING + reporter from token', () => r.status === 'PENDING' && r.reporterId === pm.environment.get('userBId'));",
+            "pm.environment.set('reportId', r._id);"
+          ] } } ]
+        },
+        {
+          "name": "POST report - invalid targetType (neg 400)",
+          "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{userBToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"targetType\": \"ALIEN\",\n  \"targetId\": \"{{projectId}}\",\n  \"reason\": \"x y z\"\n}" }, "url": "{{baseUrl}}/api/reports" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('400 Bad Request', () => pm.response.code === 400);" ] } } ]
+        },
+        {
+          "name": "POST report - no token (neg 401)",
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"targetType\": \"USER\",\n  \"targetId\": \"{{userAId}}\",\n  \"reason\": \"spam\"\n}" }, "url": "{{baseUrl}}/api/reports" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('401 Unauthorized', () => pm.response.code === 401);" ] } } ]
+        }
+      ]
+    },
+    {
+      "name": "10. Administration",
+      "item": [
+        {
+          "name": "GET admin/users - non-admin (neg 403)",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }], "url": "{{baseUrl}}/api/admin/users" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('403 Forbidden', () => pm.response.code === 403);" ] } } ]
+        },
+        {
+          "name": "GET admin/users - no token (neg 401)",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/admin/users" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('401 Unauthorized', () => pm.response.code === 401);" ] } } ]
+        },
+        {
+          "name": "GET admin/users (admin)",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }], "url": "{{baseUrl}}/api/admin/users?page=1&limit=10" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('200 OK', () => pm.response.code === 200);" ] } } ]
+        },
+        {
+          "name": "GET admin/projects (admin)",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }], "url": "{{baseUrl}}/api/admin/projects?page=1&limit=10" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('200 OK', () => pm.response.code === 200);" ] } } ]
+        },
+        {
+          "name": "GET admin/reports (admin)",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }], "url": "{{baseUrl}}/api/admin/reports?page=1&limit=10" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('200 OK', () => pm.response.code === 200);" ] } } ]
+        },
+        {
+          "name": "PATCH admin/reports/:id RESOLVED",
+          "request": { "method": "PATCH", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"RESOLVED\"\n}" }, "url": "{{baseUrl}}/api/admin/reports/{{reportId}}" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('200 OK', () => pm.response.code === 200);" ] } } ]
+        },
+        {
+          "name": "PATCH admin/reports/:id invalid (neg 400)",
+          "request": { "method": "PATCH", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"PENDING\"\n}" }, "url": "{{baseUrl}}/api/admin/reports/{{reportId}}" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('400 Bad Request', () => pm.response.code === 400);" ] } } ]
+        },
+        {
+          "name": "GET admin/statistics (admin)",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }], "url": "{{baseUrl}}/api/admin/statistics" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('200 OK', () => pm.response.code === 200);",
+            "pm.test('statistics shape', () => { const s = pm.response.json().data.statistics; return s.users && s.projects && s.showcases && s.reports; });"
+          ] } } ]
+        },
+        {
+          "name": "PATCH admin self-suspend (neg 400)",
+          "request": { "method": "PATCH", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"suspended\"\n}" },
+            "url": "{{baseUrl}}/api/admin/users/{{userAId}}/status",
+            "description": "Replace {{userAId}} in the URL with the ADMIN's own id to verify self-suspension is blocked (400). As written it suspends User A (200)."
+          },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('200 suspend other OR 400 self', () => [200,400].includes(pm.response.code));"
+          ] } } ]
+        },
+        {
+          "name": "POST login - suspended User A (neg 403)",
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"alice@university.edu\",\n  \"password\": \"securepassword123\"\n}" }, "url": "{{baseUrl}}/api/auth/login" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('403 (suspended) — run after suspending User A', () => pm.response.code === 403);"
+          ] } } ]
+        },
+        {
+          "name": "GET profile - suspended token (neg 401)",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{userAToken}}" }], "url": "{{baseUrl}}/api/users/profile" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('401 — old token rejected after suspension', () => pm.response.code === 401);"
+          ] } } ]
+        },
+        {
+          "name": "PATCH admin restore User A (active)",
+          "request": { "method": "PATCH", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"active\"\n}" }, "url": "{{baseUrl}}/api/admin/users/{{userAId}}/status" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test('200 OK', () => pm.response.code === 200);" ] } } ]
+        },
+        {
+          "name": "DELETE admin/projects/:id (cascade)",
+          "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }], "url": "{{baseUrl}}/api/admin/projects/{{projectId}}" },
+          "event": [ { "listen": "test", "script": { "type": "text/javascript", "exec": [
+            "pm.test('200 OK', () => pm.response.code === 200);",
+            "pm.test('confirmation', () => pm.response.json().data.message.indexOf('deleted') !== -1);"
+          ] } } ]
+        }
+      ]
+    }
+  ]
+}
