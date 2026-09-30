@@ -125,15 +125,15 @@ export const DarkShowcase = () => {
     <section id="workspace" className="bg-dark-grid" style={{
       backgroundColor: 'var(--color-dark)',
       color: 'var(--color-text-dark-main)',
-      paddingTop: 'clamp(var(--space-3xl), 8vw, var(--space-5xl))',
-      paddingBottom: 'clamp(var(--space-3xl), 8vw, var(--space-5xl))',
+      paddingTop: 'clamp(var(--space-3xl), 7vw, var(--space-5xl))',
+      paddingBottom: 'clamp(var(--space-3xl), 7vw, var(--space-5xl))',
       position: 'relative',
     }}>
       <div className="container">
         {/* Section Header */}
         <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto var(--space-3xl)' }}>
           <span className="section-tag" style={{ color: 'var(--color-accent)' }}>
-            POWERFUL INFRASTRUCTURE
+            POWERFUL WORKSPACE
           </span>
           <h2 style={{ color: 'var(--color-text-dark-main)', marginBottom: 'var(--space-md)' }}>
             From Idea to Finished Project
@@ -146,7 +146,7 @@ export const DarkShowcase = () => {
         {/* 6 Feature Grid */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(310px, 1fr))',
           gap: 'var(--space-xl)',
           marginBottom: 'var(--space-3xl)',
         }}>
@@ -160,8 +160,8 @@ export const DarkShowcase = () => {
               }}>
                 <div>
                   <div style={{
-                    width: '40px',
-                    height: '40px',
+                    width: '38px',
+                    height: '38px',
                     borderRadius: 'var(--radius-md)',
                     backgroundColor: 'rgba(255, 90, 54, 0.15)',
                     color: 'var(--color-accent)',
@@ -170,7 +170,7 @@ export const DarkShowcase = () => {
                     justifyContent: 'center',
                     marginBottom: 'var(--space-md)',
                   }}>
-                    <Icon size={20} />
+                    <Icon size={19} />
                   </div>
 
                   <h3 style={{
@@ -199,7 +199,7 @@ export const DarkShowcase = () => {
 
         {/* Bottom CTA Button */}
         <div style={{ textAlign: 'center' }}>
-          <Link to={ROUTES.REGISTER} className="btn btn-primary" style={{ padding: '0.85rem 2rem', fontSize: 'var(--font-size-base)' }}>
+          <Link to={ROUTES.REGISTER} className="btn btn-primary" style={{ padding: '0.8rem 1.8rem', fontSize: 'var(--font-size-base)' }}>
             Start Building Projects
             <ArrowRight size={18} />
           </Link>

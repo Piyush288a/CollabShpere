@@ -1,5 +1,5 @@
 import React from 'react';
-import { Compass, UserCheck, Kanban, ArrowUpRight } from 'lucide-react';
+import { Compass, UserCheck, Kanban } from 'lucide-react';
 import '../../styles/global.css';
 
 export const FeaturesGrid = () => {
@@ -8,14 +8,14 @@ export const FeaturesGrid = () => {
       icon: Compass,
       tag: 'DISCOVERY',
       title: 'Discover Projects',
-      description: 'Search open project ideas by tech stack, difficulty, and domain category. Find projects actively looking for your skill set.',
+      description: 'Search open project ideas by tech stack, difficulty, and category. Find projects actively looking for your skill set.',
       points: ['Skill-based search & filtering', 'Difficulty levels (Beginner to Advanced)', 'Bookmark projects for later'],
     },
     {
       icon: UserCheck,
       tag: 'TEAM FORMATION',
       title: 'Build Your Team',
-      description: 'Send collaboration requests to project creators with personalized pitch messages. Manage applications with capacity limits.',
+      description: 'Send collaboration requests to project owners with pitch messages. Manage applications with team capacity limits.',
       points: ['Structured collaboration requests', 'Owner accept/reject decisions', 'Automatic team member synchronization'],
     },
     {
@@ -29,8 +29,8 @@ export const FeaturesGrid = () => {
 
   return (
     <section id="features" style={{
-      paddingTop: 'clamp(var(--space-3xl), 8vw, var(--space-5xl))',
-      paddingBottom: 'clamp(var(--space-3xl), 8vw, var(--space-5xl))',
+      paddingTop: 'clamp(var(--space-3xl), 7vw, var(--space-5xl))',
+      paddingBottom: 'clamp(var(--space-3xl), 7vw, var(--space-5xl))',
       backgroundColor: 'var(--color-bg-surface)',
       borderTop: '1px solid var(--color-border-subtle)',
     }}>
@@ -46,7 +46,7 @@ export const FeaturesGrid = () => {
           </p>
         </div>
 
-        {/* 3 Feature Cards Grid */}
+        {/* 3 Feature Cards */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
@@ -59,12 +59,11 @@ export const FeaturesGrid = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                position: 'relative',
               }}>
                 <div>
                   <div style={{
-                    width: '48px',
-                    height: '48px',
+                    width: '46px',
+                    height: '46px',
                     borderRadius: 'var(--radius-md)',
                     backgroundColor: 'var(--color-accent-soft)',
                     color: 'var(--color-accent)',
@@ -73,7 +72,7 @@ export const FeaturesGrid = () => {
                     justifyContent: 'center',
                     marginBottom: 'var(--space-lg)',
                   }}>
-                    <Icon size={24} />
+                    <Icon size={22} />
                   </div>
 
                   <span style={{
@@ -87,7 +86,7 @@ export const FeaturesGrid = () => {
 
                   <h3 style={{
                     fontSize: 'var(--font-size-xl)',
-                    marginBottom: 'var(--space-sm)',
+                    marginBottom: 'var(--space-xs)',
                     marginTop: '4px',
                   }}>
                     {item.title}
@@ -97,6 +96,7 @@ export const FeaturesGrid = () => {
                     fontSize: 'var(--font-size-sm)',
                     color: 'var(--color-text-muted)',
                     marginBottom: 'var(--space-lg)',
+                    lineHeight: 'var(--line-height-normal)',
                   }}>
                     {item.description}
                   </p>

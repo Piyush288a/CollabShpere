@@ -11,7 +11,7 @@ export const HowItWorks = () => {
     {
       number: '02',
       title: 'Connect & Form Team',
-      description: 'Send collaboration requests with personalized pitch messages and build a balanced team.',
+      description: 'Send collaboration requests with personalized pitch messages and build a balanced software team.',
     },
     {
       number: '03',
@@ -21,14 +21,14 @@ export const HowItWorks = () => {
     {
       number: '04',
       title: 'Showcase Finished Work',
-      description: 'Publish completed software to the university showcase feed, gather peer likes, and receive feedback.',
+      description: 'Publish completed software to the campus showcase feed, gather peer likes, and receive feedback.',
     },
   ];
 
   return (
     <section id="how-it-works" style={{
-      paddingTop: 'clamp(var(--space-3xl), 8vw, var(--space-5xl))',
-      paddingBottom: 'clamp(var(--space-3xl), 8vw, var(--space-5xl))',
+      paddingTop: 'clamp(var(--space-3xl), 7vw, var(--space-5xl))',
+      paddingBottom: 'clamp(var(--space-3xl), 7vw, var(--space-5xl))',
       backgroundColor: 'var(--color-bg-surface)',
       borderTop: '1px solid var(--color-border-subtle)',
     }}>
@@ -44,7 +44,7 @@ export const HowItWorks = () => {
           </p>
         </div>
 
-        {/* 4 Steps Flow Grid */}
+        {/* 4 Step Cards */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
@@ -56,7 +56,7 @@ export const HowItWorks = () => {
               border: '1px solid var(--color-border)',
               borderRadius: 'var(--radius-lg)',
               padding: 'var(--space-xl)',
-              position: 'relative',
+              boxShadow: 'var(--shadow-sm)',
             }}>
               <div style={{
                 fontSize: 'var(--font-size-3xl)',

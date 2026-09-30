@@ -1,117 +1,77 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Rocket } from 'lucide-react';
 import { ROUTES } from '../../constants/routes.constants';
+import { Rocket } from 'lucide-react';
 import '../../styles/global.css';
 
 export const Footer = () => {
   return (
     <footer style={{
-      backgroundColor: 'var(--color-dark)',
-      color: 'var(--color-text-dark-main)',
-      borderTop: '1px solid var(--color-dark-border)',
-      paddingTop: 'var(--space-4xl)',
-      paddingBottom: 'var(--space-2xl)',
+      backgroundColor: 'var(--color-bg-surface)',
+      borderTop: '1px solid var(--color-border)',
+      paddingTop: 'var(--space-3xl)',
+      paddingBottom: 'var(--space-xl)',
     }}>
-      <div className="container">
-        {/* Footer Main Grid */}
+      <div className="container" style={{ maxWidth: '960px' }}>
+        {/* Main Footer Row */}
         <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: 'var(--space-3xl)',
-          marginBottom: 'var(--space-4xl)',
-        }}>
-          {/* Brand Column */}
-          <div style={{ gridColumn: 'span 1' }}>
-            <Link to={ROUTES.HOME} style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--space-sm)',
-              fontSize: 'var(--font-size-xl)',
-              fontWeight: 'var(--font-weight-extrabold)',
-              color: '#FFFFFF',
-              marginBottom: 'var(--space-md)',
-            }}>
-              <span style={{
-                width: '30px',
-                height: '30px',
-                borderRadius: 'var(--radius-md)',
-                backgroundColor: 'var(--color-accent)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#FFFFFF',
-              }}>
-                <Rocket size={16} />
-              </span>
-              CollabSphere
-            </Link>
-            <p style={{
-              color: 'var(--color-text-dark-muted)',
-              fontSize: 'var(--font-size-sm)',
-              lineHeight: 'var(--line-height-normal)',
-            }}>
-              The university student project collaboration and showcase platform. Built with React, Node.js, and Socket.IO.
-            </p>
-          </div>
-
-          {/* Column 1: Product */}
-          <div>
-            <h4 style={{ color: '#FFFFFF', fontSize: 'var(--font-size-sm)', marginBottom: 'var(--space-md)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Product
-            </h4>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
-              <li><a href="#features" style={footerLinkStyle}>Project Discovery</a></li>
-              <li><a href="#workspace" style={footerLinkStyle}>Team Workspace</a></li>
-              <li><a href="#workspace" style={footerLinkStyle}>Task Boards</a></li>
-              <li><a href="#showcases" style={footerLinkStyle}>Campus Showcases</a></li>
-            </ul>
-          </div>
-
-          {/* Column 2: Resources */}
-          <div>
-            <h4 style={{ color: '#FFFFFF', fontSize: 'var(--font-size-sm)', marginBottom: 'var(--space-md)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Resources
-            </h4>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
-              <li><a href="#how-it-works" style={footerLinkStyle}>How It Works</a></li>
-              <li><a href="#features" style={footerLinkStyle}>Collaboration Rules</a></li>
-              <li><a href="#workspace" style={footerLinkStyle}>Real-time Socket Chat</a></li>
-              <li><a href="#how-it-works" style={footerLinkStyle}>API Documentation</a></li>
-            </ul>
-          </div>
-
-          {/* Column 3: Account */}
-          <div>
-            <h4 style={{ color: '#FFFFFF', fontSize: 'var(--font-size-sm)', marginBottom: 'var(--space-md)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Account
-            </h4>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
-              <li><Link to={ROUTES.LOGIN} style={footerLinkStyle}>Student Login</Link></li>
-              <li><Link to={ROUTES.REGISTER} style={footerLinkStyle}>Create Account</Link></li>
-              <li><Link to={ROUTES.REGISTER} style={footerLinkStyle}>Get Started</Link></li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Bottom Bar */}
-        <div style={{
-          borderTop: '1px solid var(--color-dark-border)',
-          paddingTop: 'var(--space-lg)',
           display: 'flex',
           flexWrap: 'wrap',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: 'var(--space-md)',
-          fontSize: 'var(--font-size-xs)',
-          color: 'var(--color-text-dark-subtle)',
+          gap: 'var(--space-xl)',
+          marginBottom: 'var(--space-2xl)',
         }}>
-          <div>
-            © {new Date().getFullYear()} CollabSphere Platform. All rights reserved.
+          {/* Brand */}
+          <Link to={ROUTES.HOME} style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-xs)',
+            fontSize: 'var(--font-size-lg)',
+            fontWeight: 'var(--font-weight-extrabold)',
+            color: 'var(--color-text-main)',
+          }}>
+            <span style={{
+              width: '26px',
+              height: '26px',
+              borderRadius: 'var(--radius-sm)',
+              backgroundColor: 'var(--color-accent)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#FFFFFF',
+            }}>
+              <Rocket size={14} />
+            </span>
+            CollabSphere
+          </Link>
+
+          {/* Navigation Links */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-xl)',
+            flexWrap: 'wrap',
+          }}>
+            <Link to={ROUTES.HOME} style={footerLinkStyle}>Projects</Link>
+            <Link to={ROUTES.HOME} style={footerLinkStyle}>Showcases</Link>
+            <a href="#what-is-collabsphere" style={footerLinkStyle}>About</a>
+            <Link to={ROUTES.LOGIN} style={footerLinkStyle}>Login</Link>
+            <Link to={ROUTES.REGISTER} style={{ ...footerLinkStyle, color: 'var(--color-accent)', fontWeight: 'var(--font-weight-bold)' }}>
+              Get Started
+            </Link>
           </div>
-          <div>
-            Designed for Student Project Teams & Hackathons.
-          </div>
+        </div>
+
+        {/* Bottom Copyright */}
+        <div style={{
+          borderTop: '1px solid var(--color-border-subtle)',
+          paddingTop: 'var(--space-lg)',
+          textAlign: 'center',
+          fontSize: 'var(--font-size-xs)',
+          color: 'var(--color-text-subtle)',
+        }}>
+          © {new Date().getFullYear()} CollabSphere. Student Project Collaboration Platform.
         </div>
       </div>
     </footer>
@@ -119,7 +79,8 @@ export const Footer = () => {
 };
 
 const footerLinkStyle = {
-  color: 'var(--color-text-dark-muted)',
   fontSize: 'var(--font-size-sm)',
+  fontWeight: 'var(--font-weight-medium)',
+  color: 'var(--color-text-muted)',
   transition: 'color var(--transition-fast)',
 };

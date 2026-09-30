@@ -7,8 +7,8 @@ import '../../styles/global.css';
 export const FinalCTA = () => {
   return (
     <section style={{
-      paddingTop: 'clamp(var(--space-3xl), 8vw, var(--space-5xl))',
-      paddingBottom: 'clamp(var(--space-3xl), 8vw, var(--space-5xl))',
+      paddingTop: 'clamp(var(--space-3xl), 7vw, var(--space-5xl))',
+      paddingBottom: 'clamp(var(--space-3xl), 7vw, var(--space-5xl))',
       backgroundColor: 'var(--color-bg-primary)',
     }}>
       <div className="container">
@@ -31,16 +31,6 @@ export const FinalCTA = () => {
             height: '240px',
             borderRadius: '50%',
             backgroundColor: 'rgba(255, 255, 255, 0.1)',
-            pointerEvents: 'none',
-          }} />
-          <div style={{
-            position: 'absolute',
-            bottom: '-60px',
-            left: '-40px',
-            width: '300px',
-            height: '300px',
-            borderRadius: '50%',
-            backgroundColor: 'rgba(0, 0, 0, 0.08)',
             pointerEvents: 'none',
           }} />
 

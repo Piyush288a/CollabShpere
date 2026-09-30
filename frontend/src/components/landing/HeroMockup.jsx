@@ -1,12 +1,12 @@
 import React from 'react';
-import { Users, Code2, ArrowUpRight, CheckCircle2, MessageSquare, Plus } from 'lucide-react';
+import { Users, ArrowUpRight, CheckCircle2, Plus } from 'lucide-react';
 import '../../styles/global.css';
 
 export const HeroMockup = () => {
   return (
     <div style={{
       width: '100%',
-      maxWidth: '560px',
+      maxWidth: '540px',
       margin: '0 auto',
       position: 'relative',
     }}>
@@ -20,7 +20,7 @@ export const HeroMockup = () => {
         position: 'relative',
         overflow: 'hidden',
       }}>
-        {/* Decorative Top Accent Bar */}
+        {/* Decorative Accent Line */}
         <div style={{
           height: '4px',
           backgroundColor: 'var(--color-accent)',
@@ -30,7 +30,7 @@ export const HeroMockup = () => {
           right: 0,
         }} />
 
-        {/* Card Header: Project Meta */}
+        {/* Card Header */}
         <div style={{
           display: 'flex',
           alignItems: 'flex-start',
@@ -71,7 +71,7 @@ export const HeroMockup = () => {
           marginBottom: 'var(--space-lg)',
           lineHeight: 'var(--line-height-normal)',
         }}>
-          Building an IoT dashboard for university dormitories to measure real-time power consumption and visualize energy savings.
+          Building an IoT dashboard for university dormitories measuring real-time power consumption and energy savings.
         </p>
 
         {/* Required Skills Tags */}
@@ -133,12 +133,12 @@ export const HeroMockup = () => {
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {['#FF5A36', '#3B82F6', '#10B981'].map((color, idx) => (
               <div key={idx} style={{
-                width: '32px',
-                height: '32px',
+                width: '30px',
+                height: '30px',
                 borderRadius: '50%',
                 backgroundColor: color,
                 color: '#FFFFFF',
-                fontSize: '12px',
+                fontSize: '11px',
                 fontWeight: 'bold',
                 display: 'flex',
                 alignItems: 'center',
@@ -150,8 +150,8 @@ export const HeroMockup = () => {
               </div>
             ))}
             <div style={{
-              width: '32px',
-              height: '32px',
+              width: '30px',
+              height: '30px',
               borderRadius: '50%',
               backgroundColor: 'var(--color-bg-elevated)',
               color: 'var(--color-text-subtle)',
@@ -161,22 +161,21 @@ export const HeroMockup = () => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-              <Plus size={14} />
+              <Plus size={13} />
             </div>
           </div>
         </div>
 
-        {/* Mock Action Bar */}
+        {/* Action Bar */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: 'var(--space-md)',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
             <div style={{
-              width: '10px',
-              height: '10px',
+              width: '8px',
+              height: '8px',
               borderRadius: '50%',
               backgroundColor: 'var(--color-success)',
             }} />
@@ -185,7 +184,7 @@ export const HeroMockup = () => {
             </span>
           </div>
 
-          <button className="btn btn-primary" style={{ padding: '0.5rem 1.1rem', fontSize: 'var(--font-size-xs)' }}>
+          <button className="btn btn-primary" style={{ padding: '0.45rem 1rem', fontSize: 'var(--font-size-xs)' }}>
             Request to Join
             <ArrowUpRight size={14} />
           </button>
@@ -195,21 +194,21 @@ export const HeroMockup = () => {
       {/* Floating Mini Notification Badge */}
       <div style={{
         position: 'absolute',
-        bottom: '-16px',
-        right: '-16px',
+        bottom: '-14px',
+        right: '-14px',
         backgroundColor: 'var(--color-dark)',
         color: 'var(--color-text-dark-main)',
-        padding: 'var(--space-sm) var(--space-md)',
+        padding: 'var(--space-xs) var(--space-md)',
         borderRadius: 'var(--radius-md)',
         boxShadow: 'var(--shadow-dark)',
         display: 'flex',
         alignItems: 'center',
-        gap: 'var(--space-sm)',
+        gap: 'var(--space-xs)',
         fontSize: 'var(--font-size-xs)',
         fontWeight: 'var(--font-weight-semibold)',
         border: '1px solid var(--color-dark-border)',
       }}>
-        <CheckCircle2 size={16} color="var(--color-success)" />
+        <CheckCircle2 size={15} color="var(--color-success)" />
         Request Accepted! Joined workspace
       </div>
     </div>

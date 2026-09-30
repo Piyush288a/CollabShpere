@@ -1,12 +1,12 @@
 import React from 'react';
-import { Heart, MessageCircle, ExternalLink, Github, Sparkles } from 'lucide-react';
+import { Heart, MessageCircle, ExternalLink } from 'lucide-react';
 import '../../styles/global.css';
 
 export const ShowcaseSection = () => {
   const showcases = [
     {
       title: 'EcoTrack — Campus Energy Monitor',
-      description: 'An IoT dashboard for university dormitories measuring real-time power consumption and visualizing campus energy savings.',
+      description: 'An IoT dashboard for university dormitories measuring real-time power consumption and visualizing energy savings.',
       tech: ['React', 'Node.js', 'Socket.IO', 'IoT'],
       author: 'Jane Smith & Team',
       likes: 42,
@@ -35,9 +35,10 @@ export const ShowcaseSection = () => {
 
   return (
     <section id="showcases" style={{
-      paddingTop: 'clamp(var(--space-3xl), 8vw, var(--space-5xl))',
-      paddingBottom: 'clamp(var(--space-3xl), 8vw, var(--space-5xl))',
+      paddingTop: 'clamp(var(--space-3xl), 7vw, var(--space-5xl))',
+      paddingBottom: 'clamp(var(--space-3xl), 7vw, var(--space-5xl))',
       backgroundColor: 'var(--color-bg-primary)',
+      borderTop: '1px solid var(--color-border-subtle)',
     }}>
       <div className="container">
         {/* Section Header */}
@@ -67,7 +68,7 @@ export const ShowcaseSection = () => {
             }}>
               {/* Visual Cover Header */}
               <div style={{
-                height: '160px',
+                height: '150px',
                 background: item.gradient,
                 padding: 'var(--space-lg)',
                 display: 'flex',
