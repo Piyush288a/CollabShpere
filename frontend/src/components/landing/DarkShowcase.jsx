@@ -122,7 +122,7 @@ export const DarkShowcase = () => {
   ];
 
   return (
-    <section id="workspace" className="bg-dark-grid" style={{
+    <section id="features" className="bg-dark-grid" style={{
       backgroundColor: 'var(--color-dark)',
       color: 'var(--color-text-dark-main)',
       paddingTop: 'clamp(var(--space-3xl), 7vw, var(--space-5xl))',
@@ -133,7 +133,7 @@ export const DarkShowcase = () => {
         {/* Section Header */}
         <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto var(--space-3xl)' }}>
           <span className="section-tag" style={{ color: 'var(--color-accent)' }}>
-            POWERFUL WORKSPACE
+            CORE PLATFORM FEATURES
           </span>
           <h2 style={{ color: 'var(--color-text-dark-main)', marginBottom: 'var(--space-md)' }}>
             From Idea to Finished Project

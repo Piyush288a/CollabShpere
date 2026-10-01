@@ -62,10 +62,9 @@ export const Navbar = () => {
           alignItems: 'center',
           gap: 'var(--space-xl)',
         }} className="desktop-nav">
-          <a href="#what-is-collabsphere" style={navLinkStyle}>About</a>
+          <a href="#features" style={navLinkStyle}>Features</a>
           <a href="#how-it-works" style={navLinkStyle}>How it works</a>
-          <Link to={ROUTES.HOME} style={navLinkStyle}>Projects</Link>
-          <Link to={ROUTES.HOME} style={navLinkStyle}>Showcases</Link>
+          <a href="#showcases" style={navLinkStyle}>Showcases</a>
         </nav>
 
         {/* Right: Actions */}
