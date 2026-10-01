@@ -1,8 +1,7 @@
 import React from 'react';
 import { Navbar } from '../components/landing/Navbar';
 import { Hero } from '../components/landing/Hero';
-import { DarkShowcase } from '../components/landing/DarkShowcase';
-import { ShowcaseSection } from '../components/landing/ShowcaseSection';
+import { WhatIsCollabSphere } from '../components/landing/WhatIsCollabSphere';
 import { HowItWorks } from '../components/landing/HowItWorks';
 import { FinalCTA } from '../components/landing/FinalCTA';
 import { Footer } from '../components/landing/Footer';
@@ -13,8 +12,7 @@ export const LandingPage = () => {
       <Navbar />
       <main>
         <Hero />
-        <DarkShowcase />
-        <ShowcaseSection />
+        <WhatIsCollabSphere />
         <HowItWorks />
         <FinalCTA />
       </main>

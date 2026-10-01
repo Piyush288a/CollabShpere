@@ -20,7 +20,7 @@ export const Navbar = () => {
       position: 'sticky',
       top: 0,
       zIndex: 100,
-      backgroundColor: 'rgba(250, 248, 245, 0.9)',
+      backgroundColor: 'rgba(250, 248, 245, 0.92)',
       backdropFilter: 'blur(10px)',
       WebkitBackdropFilter: 'blur(10px)',
       borderBottom: '1px solid var(--color-border-subtle)',
@@ -62,9 +62,9 @@ export const Navbar = () => {
           alignItems: 'center',
           gap: 'var(--space-xl)',
         }} className="desktop-nav">
-          <a href="#features" style={navLinkStyle}>Features</a>
-          <a href="#how-it-works" style={navLinkStyle}>How it works</a>
-          <a href="#showcases" style={navLinkStyle}>Showcases</a>
+          <Link to={ROUTES.HOME} style={navLinkStyle}>Projects</Link>
+          <Link to={ROUTES.HOME} style={navLinkStyle}>Showcases</Link>
+          <a href="#what-is-collabsphere" style={navLinkStyle}>About</a>
         </nav>
 
         {/* Right: Actions */}
@@ -77,7 +77,7 @@ export const Navbar = () => {
             <>
               <Link to={ROUTES.DASHBOARD} className="btn btn-secondary" style={{ padding: '0.5rem 1rem', fontSize: 'var(--font-size-xs)' }}>
                 <LayoutDashboard size={14} color="var(--color-accent)" />
-                Workspace ({user?.name.split(' ')[0]})
+                Workspace ({user?.name?.split(' ')[0] || 'User'})
               </Link>
               <button onClick={handleLogout} className="btn btn-outline" style={{ padding: '0.5rem 0.85rem', fontSize: 'var(--font-size-xs)', border: 'none' }}>
                 <LogOut size={14} />
@@ -126,10 +126,9 @@ export const Navbar = () => {
           flexDirection: 'column',
           gap: 'var(--space-md)',
         }}>
-          <a href="#what-is-collabsphere" onClick={() => setMobileMenuOpen(false)} style={mobileNavLinkStyle}>About</a>
-          <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} style={mobileNavLinkStyle}>How it works</a>
           <Link to={ROUTES.HOME} onClick={() => setMobileMenuOpen(false)} style={mobileNavLinkStyle}>Projects</Link>
           <Link to={ROUTES.HOME} onClick={() => setMobileMenuOpen(false)} style={mobileNavLinkStyle}>Showcases</Link>
+          <a href="#what-is-collabsphere" onClick={() => setMobileMenuOpen(false)} style={mobileNavLinkStyle}>About</a>
           <hr style={{ border: 'none', borderTop: '1px solid var(--color-border-subtle)', margin: 'var(--space-xs) 0' }} />
 
           {isAuthenticated ? (
@@ -154,7 +153,7 @@ export const Navbar = () => {
         </div>
       )}
 
-      {/* Inline styles for responsive queries */}
+      {/* Responsive stylesheet */}
       <style>{`
         @media (min-width: 768px) {
           .desktop-nav { display: flex !important; }

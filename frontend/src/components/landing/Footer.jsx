@@ -9,7 +9,7 @@ export const Footer = () => {
     <footer style={{
       backgroundColor: 'var(--color-bg-surface)',
       borderTop: '1px solid var(--color-border)',
-      paddingTop: 'var(--space-3xl)',
+      paddingTop: 'var(--space-2xl)',
       paddingBottom: 'var(--space-xl)',
     }}>
       <div className="container" style={{ maxWidth: '960px' }}>
@@ -20,7 +20,7 @@ export const Footer = () => {
           alignItems: 'center',
           justifyContent: 'space-between',
           gap: 'var(--space-xl)',
-          marginBottom: 'var(--space-2xl)',
+          marginBottom: 'var(--space-xl)',
         }}>
           {/* Brand */}
           <Link to={ROUTES.HOME} style={{
@@ -71,7 +71,7 @@ export const Footer = () => {
           fontSize: 'var(--font-size-xs)',
           color: 'var(--color-text-subtle)',
         }}>
-          © {new Date().getFullYear()} CollabSphere. Student Project Collaboration Platform.
+          © {new Date().getFullYear()} CollabSphere. All rights reserved.
         </div>
       </div>
     </footer>

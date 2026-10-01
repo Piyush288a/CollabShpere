@@ -1,68 +1,51 @@
 import React from 'react';
-import { Users, ArrowUpRight, CheckCircle2, Plus } from 'lucide-react';
+import { Users, ArrowUpRight } from 'lucide-react';
 import '../../styles/global.css';
 
 export const HeroMockup = () => {
   return (
     <div style={{
       width: '100%',
-      maxWidth: '540px',
+      maxWidth: '520px',
       margin: '0 auto',
-      position: 'relative',
     }}>
-      {/* Outer Card Wrapper with Glow */}
+      {/* Clean White Card */}
       <div style={{
         backgroundColor: 'var(--color-bg-surface)',
         border: '1px solid var(--color-border)',
-        borderRadius: 'var(--radius-xl)',
+        borderRadius: 'var(--radius-lg)',
         padding: 'var(--space-xl)',
-        boxShadow: 'var(--shadow-lg)',
-        position: 'relative',
-        overflow: 'hidden',
+        boxShadow: 'var(--shadow-md)',
       }}>
-        {/* Decorative Accent Line */}
-        <div style={{
-          height: '4px',
-          backgroundColor: 'var(--color-accent)',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-        }} />
-
-        {/* Card Header */}
+        {/* Header */}
         <div style={{
           display: 'flex',
-          alignItems: 'flex-start',
+          alignItems: 'center',
           justifyContent: 'space-between',
           marginBottom: 'var(--space-md)',
         }}>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', marginBottom: '4px' }}>
-              <span className="badge">OPEN FOR COLLABORATION</span>
-              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-subtle)' }}>• Web Dev</span>
-            </div>
-            <h4 style={{
-              fontSize: 'var(--font-size-lg)',
-              fontWeight: 'var(--font-weight-bold)',
-              color: 'var(--color-text-main)',
-            }}>
-              EcoTrack — Campus Energy Monitor
-            </h4>
-          </div>
-
+          <span className="badge">OPEN PROJECT</span>
           <span style={{
             fontSize: 'var(--font-size-xs)',
-            fontWeight: 'var(--font-weight-semibold)',
-            backgroundColor: 'var(--color-bg-elevated)',
             color: 'var(--color-text-muted)',
-            padding: '4px 10px',
-            borderRadius: 'var(--radius-full)',
+            backgroundColor: 'var(--color-bg-primary)',
+            padding: '2px 8px',
+            borderRadius: 'var(--radius-sm)',
             border: '1px solid var(--color-border-subtle)',
           }}>
-            Intermediate
+            Web Development
           </span>
         </div>
+
+        {/* Title */}
+        <h3 style={{
+          fontSize: 'var(--font-size-lg)',
+          fontWeight: 'var(--font-weight-bold)',
+          color: 'var(--color-text-main)',
+          marginBottom: 'var(--space-xs)',
+        }}>
+          EcoTrack — Campus Energy Monitor
+        </h3>
 
         {/* Description */}
         <p style={{
@@ -71,145 +54,56 @@ export const HeroMockup = () => {
           marginBottom: 'var(--space-lg)',
           lineHeight: 'var(--line-height-normal)',
         }}>
-          Building an IoT dashboard for university dormitories measuring real-time power consumption and energy savings.
+          IoT dashboard for university dormitories measuring real-time power consumption and visualizing campus energy savings.
         </p>
 
-        {/* Required Skills Tags */}
+        {/* Tech Stack Tags */}
         <div style={{
           display: 'flex',
           flexWrap: 'wrap',
           gap: 'var(--space-xs)',
-          marginBottom: 'var(--space-xl)',
+          marginBottom: 'var(--space-lg)',
         }}>
-          {['React', 'Node.js', 'Socket.IO', 'Tailwind', 'MongoDB'].map((skill) => (
-            <span key={skill} style={{
+          {['React', 'Node.js', 'Socket.IO', 'MongoDB'].map((tech) => (
+            <span key={tech} style={{
               fontSize: 'var(--font-size-xs)',
               fontWeight: 'var(--font-weight-medium)',
               backgroundColor: 'var(--color-bg-primary)',
               color: 'var(--color-text-main)',
-              padding: '4px 10px',
-              borderRadius: 'var(--radius-sm)',
+              padding: '3px 8px',
+              borderRadius: 'var(--radius-xs)',
               border: '1px solid var(--color-border-subtle)',
             }}>
-              {skill}
+              {tech}
             </span>
           ))}
         </div>
 
-        {/* Team Progress & Members */}
-        <div style={{
-          backgroundColor: 'var(--color-bg-primary)',
-          borderRadius: 'var(--radius-md)',
-          padding: 'var(--space-md)',
-          marginBottom: 'var(--space-lg)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          border: '1px solid var(--color-border-subtle)',
-        }}>
-          <div>
-            <div style={{
-              fontSize: 'var(--font-size-xs)',
-              color: 'var(--color-text-subtle)',
-              marginBottom: '2px',
-              fontWeight: 'var(--font-weight-medium)',
-            }}>
-              Team Capacity
-            </div>
-            <div style={{
-              fontSize: 'var(--font-size-sm)',
-              fontWeight: 'var(--font-weight-bold)',
-              color: 'var(--color-text-main)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--space-xs)',
-            }}>
-              <Users size={16} color="var(--color-accent)" />
-              3 of 4 Members Joined
-            </div>
-          </div>
-
-          {/* Member Avatar Stack */}
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            {['#FF5A36', '#3B82F6', '#10B981'].map((color, idx) => (
-              <div key={idx} style={{
-                width: '30px',
-                height: '30px',
-                borderRadius: '50%',
-                backgroundColor: color,
-                color: '#FFFFFF',
-                fontSize: '11px',
-                fontWeight: 'bold',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '2px solid #FFFFFF',
-                marginLeft: idx > 0 ? '-8px' : 0,
-              }}>
-                {['JS', 'AK', 'PR'][idx]}
-              </div>
-            ))}
-            <div style={{
-              width: '30px',
-              height: '30px',
-              borderRadius: '50%',
-              backgroundColor: 'var(--color-bg-elevated)',
-              color: 'var(--color-text-subtle)',
-              border: '2px dashed var(--color-border)',
-              marginLeft: '-8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <Plus size={13} />
-            </div>
-          </div>
-        </div>
-
-        {/* Action Bar */}
+        {/* Bottom Progress & Action */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          borderTop: '1px solid var(--color-border-subtle)',
+          paddingTop: 'var(--space-md)',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-            <div style={{
-              width: '8px',
-              height: '8px',
-              borderRadius: '50%',
-              backgroundColor: 'var(--color-success)',
-            }} />
-            <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
-              1 Pending Request
-            </span>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-xs)',
+            fontSize: 'var(--font-size-xs)',
+            color: 'var(--color-text-muted)',
+            fontWeight: 'var(--font-weight-medium)',
+          }}>
+            <Users size={15} color="var(--color-accent)" />
+            3 of 4 Teammates Joined
           </div>
 
-          <button className="btn btn-primary" style={{ padding: '0.45rem 1rem', fontSize: 'var(--font-size-xs)' }}>
+          <button className="btn btn-primary" style={{ padding: '0.4rem 0.95rem', fontSize: 'var(--font-size-xs)' }}>
             Request to Join
             <ArrowUpRight size={14} />
           </button>
         </div>
-      </div>
-
-      {/* Floating Mini Notification Badge */}
-      <div style={{
-        position: 'absolute',
-        bottom: '-14px',
-        right: '-14px',
-        backgroundColor: 'var(--color-dark)',
-        color: 'var(--color-text-dark-main)',
-        padding: 'var(--space-xs) var(--space-md)',
-        borderRadius: 'var(--radius-md)',
-        boxShadow: 'var(--shadow-dark)',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 'var(--space-xs)',
-        fontSize: 'var(--font-size-xs)',
-        fontWeight: 'var(--font-weight-semibold)',
-        border: '1px solid var(--color-dark-border)',
-      }}>
-        <CheckCircle2 size={15} color="var(--color-success)" />
-        Request Accepted! Joined workspace
       </div>
     </div>
   );
