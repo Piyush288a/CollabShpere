@@ -1,15 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 import { projectService } from '../services/project.service';
+import { collaborationService } from '../services/collaboration.service';
+import { TeamMembers } from '../components/projects/TeamMembers';
+import { ProjectRequestsList } from '../components/projects/ProjectRequestsList';
 import { ROUTES } from '../constants/routes.constants';
-import { ArrowLeft, Users, Calendar, ExternalLink, Code2, Layers, RefreshCw, FolderX } from 'lucide-react';
+import {
+  ArrowLeft,
+  Users,
+  Calendar,
+  ExternalLink,
+  Code2,
+  Layers,
+  FolderX,
+  LayoutDashboard,
+  Send,
+  Clock,
+  UserCheck,
+  Crown,
+  AlertCircle,
+  Loader2,
+  CheckCircle2,
+} from 'lucide-react';
 import '../styles/global.css';
 
 export const ProjectDetailPage = () => {
   const { id } = useParams();
+  const { user } = useAuth();
+
   const [project, setProject] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Request form state
+  const [requestMessage, setRequestMessage] = useState('');
+  const [isSubmittingRequest, setIsSubmittingRequest] = useState(false);
+  const [requestSuccess, setRequestSuccess] = useState(false);
+  const [requestError, setRequestError] = useState(null);
 
   const fetchProject = async () => {
     setIsLoading(true);
@@ -31,6 +59,24 @@ export const ProjectDetailPage = () => {
     }
   }, [id]);
 
+  const handleSendRequest = async (e) => {
+    e.preventDefault();
+    setRequestError(null);
+    setIsSubmittingRequest(true);
+
+    try {
+      await collaborationService.createRequest(id, requestMessage.trim());
+      setRequestSuccess(true);
+      setRequestMessage('');
+    } catch (err) {
+      console.error('Failed to submit collaboration request:', err);
+      // Display friendly error message from backend (e.g. 409 duplicate request)
+      setRequestError(err.message || 'Failed to submit collaboration request.');
+    } finally {
+      setIsSubmittingRequest(false);
+    }
+  };
+
   const formatDate = (dateString) => {
     if (!dateString) return 'Not specified';
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -43,7 +89,7 @@ export const ProjectDetailPage = () => {
   if (isLoading) {
     return (
       <div style={{ paddingTop: 'var(--space-3xl)', paddingBottom: 'var(--space-5xl)' }}>
-        <div className="container" style={{ maxWidth: '840px' }}>
+        <div className="container" style={{ maxWidth: '880px' }}>
           <div style={{
             backgroundColor: 'var(--color-bg-surface)',
             border: '1px solid var(--color-border-subtle)',
@@ -97,7 +143,15 @@ export const ProjectDetailPage = () => {
     );
   }
 
-  const memberCount = project.memberIds ? project.memberIds.length : 1;
+  // Resolve user relationship
+  const currentUserId = user?._id || user?.id;
+  const ownerId = typeof project.ownerId === 'object' ? project.ownerId?._id : project.ownerId;
+  const isOwner = currentUserId && String(ownerId) === String(currentUserId);
+  const memberIds = project.memberIds || [];
+  const isMember = currentUserId && memberIds.some((m) => String(m) === String(currentUserId));
+  const memberCount = memberIds.length || 1;
+  const isTeamFull = memberCount >= project.teamSize;
+  const isProjectOpen = project.status === 'OPEN';
 
   return (
     <div style={{
@@ -123,15 +177,16 @@ export const ProjectDetailPage = () => {
           Back to Projects
         </Link>
 
-        {/* Project Container Card */}
+        {/* Main Project Card */}
         <div style={{
           backgroundColor: 'var(--color-bg-surface)',
           border: '1px solid var(--color-border)',
           borderRadius: 'var(--radius-xl)',
           padding: 'clamp(var(--space-xl), 4vw, var(--space-3xl))',
           boxShadow: 'var(--shadow-sm)',
+          marginBottom: 'var(--space-2xl)',
         }}>
-          {/* Header Metadata */}
+          {/* Header Status & Categories */}
           <div style={{
             display: 'flex',
             flexWrap: 'wrap',
@@ -176,7 +231,7 @@ export const ProjectDetailPage = () => {
             {project.title}
           </h1>
 
-          {/* Key Details Row */}
+          {/* Key Details Grid */}
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
@@ -211,6 +266,47 @@ export const ProjectDetailPage = () => {
             </div>
           </div>
 
+          {/* Workspace Action Banner for Owner / Members */}
+          {(isOwner || isMember) && (
+            <div style={{
+              backgroundColor: 'var(--color-accent-soft)',
+              border: '1px solid var(--color-accent-border)',
+              borderRadius: 'var(--radius-lg)',
+              padding: 'var(--space-lg)',
+              marginBottom: 'var(--space-2xl)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 'var(--space-md)',
+              flexWrap: 'wrap',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+                {isOwner ? (
+                  <Crown size={20} color="var(--color-accent)" />
+                ) : (
+                  <UserCheck size={20} color="var(--color-accent)" />
+                )}
+                <div>
+                  <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-main)' }}>
+                    {isOwner ? 'You are the project owner' : 'You are an accepted team member'}
+                  </div>
+                  <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
+                    Access your team workspace to view project overview and details.
+                  </div>
+                </div>
+              </div>
+
+              <Link
+                to={`/projects/${project._id}/workspace`}
+                className="btn btn-primary"
+                style={{ padding: '0.5rem 1.1rem', fontSize: 'var(--font-size-xs)' }}
+              >
+                <LayoutDashboard size={15} />
+                Open Team Workspace
+              </Link>
+            </div>
+          )}
+
           {/* Description Section */}
           <div style={{ marginBottom: 'var(--space-2xl)' }}>
             <h3 style={sectionHeadingStyle}>About the Project</h3>
@@ -228,7 +324,7 @@ export const ProjectDetailPage = () => {
           {project.requiredSkills && project.requiredSkills.length > 0 && (
             <div style={{ marginBottom: 'var(--space-2xl)' }}>
               <h3 style={sectionHeadingStyle}>
-                <Code2 size={16} color="var(--color-accent)" inline style={{ verticalAlign: 'middle', marginRight: '6px' }} />
+                <Code2 size={16} color="var(--color-accent)" style={{ verticalAlign: 'middle', marginRight: '6px' }} />
                 Required Technologies & Skills
               </h3>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-xs)' }}>
@@ -254,6 +350,7 @@ export const ProjectDetailPage = () => {
             <div style={{
               paddingTop: 'var(--space-lg)',
               borderTop: '1px solid var(--color-border-subtle)',
+              marginBottom: 'var(--space-2xl)',
             }}>
               <a
                 href={project.repositoryUrl}
@@ -272,7 +369,177 @@ export const ProjectDetailPage = () => {
               </a>
             </div>
           )}
+
+          {/* Team Roster Section */}
+          <div style={{
+            borderTop: '1px solid var(--color-border-subtle)',
+            paddingTop: 'var(--space-2xl)',
+          }}>
+            <h3 style={{ ...sectionHeadingStyle, marginBottom: 'var(--space-md)' }}>
+              <Users size={18} color="var(--color-accent)" style={{ verticalAlign: 'middle', marginRight: '6px' }} />
+              Team Roster
+            </h3>
+            <TeamMembers projectId={project._id} ownerId={ownerId} />
+          </div>
         </div>
+
+        {/* OWNER MANAGEMENT SECTION */}
+        {isOwner && (
+          <div style={{
+            backgroundColor: 'var(--color-bg-surface)',
+            border: '1px solid var(--color-border)',
+            borderRadius: 'var(--radius-xl)',
+            padding: 'clamp(var(--space-xl), 4vw, var(--space-3xl))',
+            boxShadow: 'var(--shadow-sm)',
+            marginBottom: 'var(--space-2xl)',
+          }}>
+            <div style={{ marginBottom: 'var(--space-lg)' }}>
+              <h3 style={{
+                fontSize: 'var(--font-size-xl)',
+                fontWeight: 'var(--font-weight-bold)',
+                color: 'var(--color-text-main)',
+                marginBottom: '2px',
+              }}>
+                Pending Collaboration Requests
+              </h3>
+              <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 0 }}>
+                Review and accept student requests to join your project team.
+              </p>
+            </div>
+
+            <ProjectRequestsList projectId={project._id} onRequestDecided={fetchProject} />
+          </div>
+        )}
+
+        {/* NON-OWNER / NON-MEMBER COLLABORATION ACTION SECTION */}
+        {!isOwner && !isMember && (
+          <div style={{
+            backgroundColor: 'var(--color-bg-surface)',
+            border: '1px solid var(--color-border)',
+            borderRadius: 'var(--radius-xl)',
+            padding: 'clamp(var(--space-xl), 4vw, var(--space-3xl))',
+            boxShadow: 'var(--shadow-sm)',
+          }}>
+            {requestSuccess ? (
+              <div style={{
+                backgroundColor: 'rgba(16, 185, 129, 0.08)',
+                border: '1px solid rgba(16, 185, 129, 0.2)',
+                borderRadius: 'var(--radius-lg)',
+                padding: 'var(--space-xl)',
+                textAlign: 'center',
+              }}>
+                <CheckCircle2 size={32} color="#10B981" style={{ margin: '0 auto var(--space-xs)' }} />
+                <h3 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-bold)', color: '#047857', marginBottom: 'var(--space-xs)' }}>
+                  Request Submitted Successfully
+                </h3>
+                <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 0 }}>
+                  Your request to join this project has been sent. The project owner will review your application.
+                </p>
+              </div>
+            ) : !isProjectOpen ? (
+              <div style={{ textAlign: 'center', color: 'var(--color-text-muted)', padding: 'var(--space-lg)' }}>
+                <Clock size={24} style={{ margin: '0 auto var(--space-xs)', color: 'var(--color-text-subtle)' }} />
+                <div style={{ fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-bold)', marginBottom: '4px' }}>
+                  Collaboration Closed
+                </div>
+                <div style={{ fontSize: 'var(--font-size-sm)' }}>
+                  This project is currently not accepting new collaboration requests.
+                </div>
+              </div>
+            ) : isTeamFull ? (
+              <div style={{ textAlign: 'center', color: 'var(--color-text-muted)', padding: 'var(--space-lg)' }}>
+                <Users size={24} style={{ margin: '0 auto var(--space-xs)', color: 'var(--color-text-subtle)' }} />
+                <div style={{ fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-bold)', marginBottom: '4px' }}>
+                  Team Full Capacity
+                </div>
+                <div style={{ fontSize: 'var(--font-size-sm)' }}>
+                  This project team has reached its maximum capacity of {project.teamSize} members.
+                </div>
+              </div>
+            ) : (
+              /* Request Form */
+              <form onSubmit={handleSendRequest}>
+                <div style={{ marginBottom: 'var(--space-lg)' }}>
+                  <h3 style={{
+                    fontSize: 'var(--font-size-xl)',
+                    fontWeight: 'var(--font-weight-bold)',
+                    color: 'var(--color-text-main)',
+                    marginBottom: 'var(--space-xs)',
+                  }}>
+                    Request to Collaborate
+                  </h3>
+                  <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 0 }}>
+                    Introduce yourself to the project owner and share why you'd like to build together.
+                  </p>
+                </div>
+
+                {requestError && (
+                  <div style={{
+                    backgroundColor: 'rgba(239, 68, 68, 0.08)',
+                    border: '1px solid rgba(239, 68, 68, 0.2)',
+                    borderRadius: 'var(--radius-md)',
+                    padding: 'var(--space-md) var(--space-lg)',
+                    marginBottom: 'var(--space-lg)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 'var(--space-xs)',
+                    color: '#B91C1C',
+                    fontSize: 'var(--font-size-sm)',
+                  }}>
+                    <AlertCircle size={16} style={{ flexShrink: 0 }} />
+                    <span>{requestError}</span>
+                  </div>
+                )}
+
+                <div style={{ marginBottom: 'var(--space-lg)' }}>
+                  <label htmlFor="requestMessage" style={{
+                    display: 'block',
+                    fontSize: 'var(--font-size-sm)',
+                    fontWeight: 'var(--font-weight-bold)',
+                    marginBottom: 'var(--space-xs)',
+                  }}>
+                    Pitch / Message <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-subtle)' }}>(Optional)</span>
+                  </label>
+                  <textarea
+                    id="requestMessage"
+                    rows={3}
+                    maxLength={1000}
+                    placeholder="Mention your technical skills or background relevant to this project..."
+                    value={requestMessage}
+                    onChange={(e) => setRequestMessage(e.target.value)}
+                    className="form-control"
+                    style={{
+                      width: '100%',
+                      fontSize: 'var(--font-size-sm)',
+                      borderRadius: 'var(--radius-md)',
+                      lineHeight: 'var(--line-height-normal)',
+                      paddingTop: 'var(--space-sm)',
+                    }}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmittingRequest}
+                  className="btn btn-primary"
+                  style={{ padding: '0.65rem 1.5rem', minWidth: '160px', justifyContent: 'center' }}
+                >
+                  {isSubmittingRequest ? (
+                    <>
+                      <Loader2 size={16} className="spin-icon" />
+                      Sending Request...
+                    </>
+                  ) : (
+                    <>
+                      <Send size={15} />
+                      Send Collaboration Request
+                    </>
+                  )}
+                </button>
+              </form>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
