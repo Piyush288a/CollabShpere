@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { projectService } from '../services/project.service';
 import { TeamMembers } from '../components/projects/TeamMembers';
+import { TaskList } from '../components/tasks/TaskList';
 import { ROUTES } from '../constants/routes.constants';
 import {
   ArrowLeft,
@@ -232,8 +233,7 @@ export const WorkspacePage = () => {
             </button>
 
             <button
-              disabled
-              title="Tasks unlock in upcoming platform updates"
+              onClick={() => setActiveTab('tasks')}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -241,16 +241,15 @@ export const WorkspacePage = () => {
                 padding: '6px 14px',
                 borderRadius: 'var(--radius-sm)',
                 fontSize: 'var(--font-size-sm)',
-                fontWeight: 'var(--font-weight-medium)',
-                color: 'var(--color-text-subtle)',
-                backgroundColor: 'transparent',
+                fontWeight: activeTab === 'tasks' ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
+                color: activeTab === 'tasks' ? 'var(--color-accent)' : 'var(--color-text-muted)',
+                backgroundColor: activeTab === 'tasks' ? 'var(--color-accent-soft)' : 'transparent',
                 border: 'none',
-                cursor: 'not-allowed',
-                opacity: 0.6,
+                cursor: 'pointer',
               }}
             >
               <CheckSquare size={15} />
-              Tasks (Coming Soon)
+              Tasks
             </button>
 
             <button
@@ -382,6 +381,11 @@ export const WorkspacePage = () => {
               <TeamMembers projectId={project._id} ownerId={ownerId} />
             </div>
           </div>
+        )}
+
+        {/* TASKS TAB CONTENT */}
+        {activeTab === 'tasks' && (
+          <TaskList projectId={project._id} isOwner={isOwner} />
         )}
       </div>
     </div>
