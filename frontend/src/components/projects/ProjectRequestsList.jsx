@@ -35,9 +35,11 @@ export const ProjectRequestsList = ({ projectId, onRequestDecided }) => {
         fetchRequests();
       };
 
+      socketService.onRequestCreated(handleReqChange);
       socketService.onRequestUpdated(handleReqChange);
 
       return () => {
+        socketService.offRequestCreated(handleReqChange);
         socketService.offRequestUpdated(handleReqChange);
       };
     }

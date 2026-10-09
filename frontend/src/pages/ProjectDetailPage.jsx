@@ -67,9 +67,20 @@ export const ProjectDetailPage = () => {
       };
 
       socketService.onRequestUpdated(handleRequestUpdated);
+      socketService.onRequestCreated(handleRequestUpdated);
+
+      const handleFocus = () => fetchProject();
+      window.addEventListener('focus', handleFocus);
+
+      const pollInterval = setInterval(() => {
+        fetchProject();
+      }, 3000);
 
       return () => {
         socketService.offRequestUpdated(handleRequestUpdated);
+        socketService.offRequestCreated(handleRequestUpdated);
+        window.removeEventListener('focus', handleFocus);
+        clearInterval(pollInterval);
       };
     }
   }, [id]);
