@@ -155,12 +155,14 @@ const decideRequest = async (req, res, next) => {
 
     const io = getIo();
     if (io) {
-      io.to(roomName(project._id)).emit('request:updated', {
+      const payload = {
         request: formatRequest(request),
         status,
         senderId: String(request.senderId),
         projectId: String(project._id),
-      });
+      };
+      io.to(roomName(project._id)).emit('request:updated', payload);
+      io.to(`user:${request.senderId}`).emit('request:updated', payload);
     }
 
     res.status(200).json({

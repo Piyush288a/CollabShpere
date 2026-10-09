@@ -33,6 +33,10 @@ const initSocket = (httpServer) => {
   });
 
   io.on('connection', (socket) => {
+    if (socket.user?.userId) {
+      socket.join(`user:${socket.user.userId}`);
+    }
+
     // Join a project room after verifying team membership.
     socket.on('join_project', async ({ projectId } = {}, ack) => {
       try {

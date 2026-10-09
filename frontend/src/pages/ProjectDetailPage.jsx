@@ -39,6 +39,7 @@ export const ProjectDetailPage = () => {
   const [isSubmittingRequest, setIsSubmittingRequest] = useState(false);
   const [requestSuccess, setRequestSuccess] = useState(false);
   const [requestError, setRequestError] = useState(null);
+  const [myRequestStatus, setMyRequestStatus] = useState(null); // null | 'PENDING' | 'ACCEPTED' | 'REJECTED'
 
   const fetchProject = async (showLoading = false) => {
     if (showLoading) setIsLoading(true);
@@ -62,6 +63,10 @@ export const ProjectDetailPage = () => {
 
       const handleRequestUpdated = (data) => {
         if (data && String(data.projectId) === String(id)) {
+          const currentId = user?._id || user?.id;
+          if (data.senderId && String(data.senderId) === String(currentId)) {
+            setMyRequestStatus(data.status);
+          }
           fetchProject(false);
         }
       };
@@ -441,7 +446,23 @@ export const ProjectDetailPage = () => {
             padding: 'clamp(var(--space-xl), 4vw, var(--space-3xl))',
             boxShadow: 'var(--shadow-sm)',
           }}>
-            {requestSuccess ? (
+            {myRequestStatus === 'REJECTED' ? (
+              <div style={{
+                backgroundColor: '#FEF2F2',
+                border: '1px solid #FCA5A5',
+                borderRadius: 'var(--radius-lg)',
+                padding: 'var(--space-xl)',
+                textAlign: 'center',
+              }}>
+                <AlertCircle size={32} color="#DC2626" style={{ margin: '0 auto var(--space-xs)' }} />
+                <h3 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-bold)', color: '#991B1B', marginBottom: 'var(--space-xs)' }}>
+                  Collaboration Request Declined
+                </h3>
+                <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 0 }}>
+                  The project owner has reviewed and declined your request to join this project team.
+                </p>
+              </div>
+            ) : requestSuccess ? (
               <div style={{
                 backgroundColor: 'rgba(16, 185, 129, 0.08)',
                 border: '1px solid rgba(16, 185, 129, 0.2)',
