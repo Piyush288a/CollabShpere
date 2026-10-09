@@ -17,7 +17,7 @@ const authMiddleware = async (req, res, next) => {
   const token = authHeader.split(' ')[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'collabsphere_jwt_secret_dev_key');
 
     // Re-check the account on every request so suspensions take effect
     // immediately, even for previously issued tokens.

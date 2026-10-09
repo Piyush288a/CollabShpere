@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { ROUTES } from '../../constants/routes.constants';
-import { Rocket, Plus, LogOut, Menu, X, LayoutDashboard, Compass } from 'lucide-react';
+import { Rocket, Plus, LogOut, Menu, X, LayoutDashboard, Compass, Shield } from 'lucide-react';
 import '../../styles/global.css';
 
 export const AppHeader = () => {
@@ -111,6 +111,27 @@ export const AppHeader = () => {
               <Compass size={16} />
               Discover Projects
             </Link>
+
+            {user?.role === 'admin' && (
+              <Link
+                to={ROUTES.ADMIN}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '6px 12px',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: 'var(--font-size-sm)',
+                  fontWeight: isActive(ROUTES.ADMIN) ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
+                  color: isActive(ROUTES.ADMIN) ? 'var(--color-accent)' : 'var(--color-text-muted)',
+                  backgroundColor: isActive(ROUTES.ADMIN) ? 'var(--color-accent-soft)' : 'transparent',
+                  transition: 'all var(--transition-fast)',
+                }}
+              >
+                <Shield size={16} />
+                Admin Panel
+              </Link>
+            )}
           </nav>
         </div>
 
@@ -149,7 +170,7 @@ export const AppHeader = () => {
               width: '32px',
               height: '32px',
               borderRadius: 'var(--radius-full)',
-              backgroundColor: 'var(--color-dark)',
+              backgroundColor: user?.role === 'admin' ? 'var(--color-accent)' : 'var(--color-dark)',
               color: '#FFFFFF',
               display: 'flex',
               alignItems: 'center',
@@ -159,13 +180,29 @@ export const AppHeader = () => {
             }}>
               {initials}
             </div>
-            <span style={{
-              fontSize: 'var(--font-size-sm)',
-              fontWeight: 'var(--font-weight-semibold)',
-              color: 'var(--color-text-main)',
-            }}>
-              {firstName}
-            </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span style={{
+                fontSize: 'var(--font-size-sm)',
+                fontWeight: 'var(--font-weight-semibold)',
+                color: 'var(--color-text-main)',
+              }}>
+                {firstName}
+              </span>
+              {user?.role === 'admin' && (
+                <span style={{
+                  fontSize: '10px',
+                  fontWeight: 'var(--font-weight-bold)',
+                  backgroundColor: 'var(--color-accent-soft)',
+                  color: 'var(--color-accent)',
+                  padding: '1px 6px',
+                  borderRadius: 'var(--radius-full)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                }}>
+                  ADMIN
+                </span>
+              )}
+            </div>
           </div>
 
           {/* Logout Button */}
@@ -281,6 +318,24 @@ export const AppHeader = () => {
             <Compass size={18} />
             Discover Projects
           </Link>
+
+          {user?.role === 'admin' && (
+            <Link
+              to={ROUTES.ADMIN}
+              onClick={() => setMobileMenuOpen(false)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--space-xs)',
+                fontSize: 'var(--font-size-base)',
+                fontWeight: 'var(--font-weight-semibold)',
+                color: isActive(ROUTES.ADMIN) ? 'var(--color-accent)' : 'var(--color-text-main)',
+              }}
+            >
+              <Shield size={18} />
+              Admin Panel
+            </Link>
+          )}
 
           <Link
             to={ROUTES.CREATE_PROJECT}

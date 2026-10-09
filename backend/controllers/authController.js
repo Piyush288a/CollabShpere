@@ -6,7 +6,7 @@ const formatUser = require('../utils/formatUser');
 const signToken = (userId, role) => {
   return jwt.sign(
     { userId, role },
-    process.env.JWT_SECRET,
+    process.env.JWT_SECRET || 'collabsphere_jwt_secret_dev_key',
     { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
   );
 };

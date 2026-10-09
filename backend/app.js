@@ -14,8 +14,13 @@ const app = express();
 
 // --- Global Middleware ---
 
-// Allow requests from the React frontend (configured via CLIENT_URL)
-app.use(cors({ origin: process.env.CLIENT_URL }));
+// Allow requests from React frontend (reflects request origin in development for seamless local testing)
+app.use(
+  cors({
+    origin: process.env.NODE_ENV === 'production' ? (process.env.CLIENT_URL || true) : true,
+    credentials: true,
+  })
+);
 
 // Parse incoming JSON request bodies
 app.use(express.json());

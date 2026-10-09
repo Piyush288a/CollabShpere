@@ -9,6 +9,7 @@ import { ProjectDiscoveryPage } from '../pages/ProjectDiscoveryPage';
 import { ProjectDetailPage } from '../pages/ProjectDetailPage';
 import { CreateProjectPage } from '../pages/CreateProjectPage';
 import { WorkspacePage } from '../pages/WorkspacePage';
+import { AdminPage } from '../pages/AdminPage';
 import { MainLayout } from '../layouts/MainLayout';
 import { AppLayout } from '../layouts/AppLayout';
 import { ProtectedRoute } from './ProtectedRoute';
@@ -35,6 +36,7 @@ export const AppRoutes = () => {
             <Route path={ROUTES.CREATE_PROJECT} element={<CreateProjectPage />} />
             <Route path={ROUTES.PROJECT_DETAIL} element={<ProjectDetailPage />} />
             <Route path={ROUTES.WORKSPACE} element={<WorkspacePage />} />
+            <Route path={ROUTES.ADMIN} element={<AdminPage />} />
           </Route>
         </Route>
 
