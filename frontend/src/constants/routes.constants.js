@@ -5,6 +5,7 @@ export const ROUTES = {
   PROJECT_DETAIL: '/projects/:id',
   SHOWCASES: '/showcases',
   SHOWCASE_DETAIL: '/showcases/:id',
+  CREATE_SHOWCASE: '/showcases/create',
   LOGIN: '/login',
   REGISTER: '/register',
   DASHBOARD: '/dashboard',

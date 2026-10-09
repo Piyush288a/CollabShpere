@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { ROUTES } from '../../constants/routes.constants';
-import { Rocket, Plus, LogOut, Menu, X, LayoutDashboard, Compass, Shield } from 'lucide-react';
+import { Rocket, Plus, LogOut, Menu, X, LayoutDashboard, Compass, Shield, Award } from 'lucide-react';
 import '../../styles/global.css';
 
 export const AppHeader = () => {
@@ -110,6 +110,25 @@ export const AppHeader = () => {
             >
               <Compass size={16} />
               Discover Projects
+            </Link>
+
+            <Link
+              to={ROUTES.SHOWCASES}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '6px 12px',
+                borderRadius: 'var(--radius-sm)',
+                fontSize: 'var(--font-size-sm)',
+                fontWeight: isActive(ROUTES.SHOWCASES) ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
+                color: isActive(ROUTES.SHOWCASES) ? 'var(--color-accent)' : 'var(--color-text-muted)',
+                backgroundColor: isActive(ROUTES.SHOWCASES) ? 'var(--color-accent-soft)' : 'transparent',
+                transition: 'all var(--transition-fast)',
+              }}
+            >
+              <Award size={16} />
+              Showcase Gallery
             </Link>
 
             {user?.role === 'admin' && (
@@ -317,6 +336,22 @@ export const AppHeader = () => {
           >
             <Compass size={18} />
             Discover Projects
+          </Link>
+
+          <Link
+            to={ROUTES.SHOWCASES}
+            onClick={() => setMobileMenuOpen(false)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--space-xs)',
+              fontSize: 'var(--font-size-base)',
+              fontWeight: 'var(--font-weight-semibold)',
+              color: isActive(ROUTES.SHOWCASES) ? 'var(--color-accent)' : 'var(--color-text-main)',
+            }}
+          >
+            <Award size={18} />
+            Showcase Gallery
           </Link>
 
           {user?.role === 'admin' && (

@@ -10,6 +10,9 @@ import { ProjectDetailPage } from '../pages/ProjectDetailPage';
 import { CreateProjectPage } from '../pages/CreateProjectPage';
 import { WorkspacePage } from '../pages/WorkspacePage';
 import { AdminPage } from '../pages/AdminPage';
+import { ShowcaseFeedPage } from '../pages/ShowcaseFeedPage';
+import { ShowcaseDetailPage } from '../pages/ShowcaseDetailPage';
+import { CreateShowcasePage } from '../pages/CreateShowcasePage';
 import { MainLayout } from '../layouts/MainLayout';
 import { AppLayout } from '../layouts/AppLayout';
 import { ProtectedRoute } from './ProtectedRoute';
@@ -33,6 +36,9 @@ export const AppRoutes = () => {
           <Route element={<AppLayout />}>
             <Route path={ROUTES.DASHBOARD} element={<DashboardPage />} />
             <Route path={ROUTES.PROJECTS} element={<ProjectDiscoveryPage />} />
+            <Route path={ROUTES.SHOWCASES} element={<ShowcaseFeedPage />} />
+            <Route path={ROUTES.CREATE_SHOWCASE} element={<CreateShowcasePage />} />
+            <Route path={ROUTES.SHOWCASE_DETAIL} element={<ShowcaseDetailPage />} />
             <Route path={ROUTES.CREATE_PROJECT} element={<CreateProjectPage />} />
             <Route path={ROUTES.PROJECT_DETAIL} element={<ProjectDetailPage />} />
             <Route path={ROUTES.WORKSPACE} element={<WorkspacePage />} />

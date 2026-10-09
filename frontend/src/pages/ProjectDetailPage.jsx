@@ -23,6 +23,7 @@ import {
   AlertCircle,
   Loader2,
   CheckCircle2,
+  Sparkles,
 } from 'lucide-react';
 import '../styles/global.css';
 
@@ -322,14 +323,26 @@ export const ProjectDetailPage = () => {
                 </div>
               </div>
 
-              <Link
-                to={`/projects/${project._id}/workspace`}
-                className="btn btn-primary"
-                style={{ padding: '0.5rem 1.1rem', fontSize: 'var(--font-size-xs)' }}
-              >
-                <LayoutDashboard size={15} />
-                Open Team Workspace
-              </Link>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
+                {isOwner && project.status === 'COMPLETED' && (
+                  <Link
+                    to={`/showcases/create?projectId=${project._id}`}
+                    className="btn btn-secondary"
+                    style={{ padding: '0.5rem 1.1rem', fontSize: 'var(--font-size-xs)', gap: '4px' }}
+                  >
+                    <Sparkles size={15} color="var(--color-accent)" />
+                    Showcase Project
+                  </Link>
+                )}
+                <Link
+                  to={`/projects/${project._id}/workspace`}
+                  className="btn btn-primary"
+                  style={{ padding: '0.5rem 1.1rem', fontSize: 'var(--font-size-xs)' }}
+                >
+                  <LayoutDashboard size={15} />
+                  Open Team Workspace
+                </Link>
+              </div>
             </div>
           )}
 
