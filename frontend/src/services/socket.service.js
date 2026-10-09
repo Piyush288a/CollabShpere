@@ -33,12 +33,12 @@ export const socketService = {
 
   joinProject(projectId, callback) {
     if (!socket) return;
-    socket.emit('project:join', { projectId }, callback);
+    socket.emit('join_project', { projectId }, callback);
   },
 
   leaveProject(projectId) {
     if (!socket) return;
-    socket.emit('project:leave', { projectId });
+    socket.emit('leave_project', { projectId });
   },
 
   onNewMessage(callback) {

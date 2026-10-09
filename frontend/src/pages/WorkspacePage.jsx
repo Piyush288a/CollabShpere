@@ -4,6 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 import { projectService } from '../services/project.service';
 import { TeamMembers } from '../components/projects/TeamMembers';
 import { TaskList } from '../components/tasks/TaskList';
+import { MessageList } from '../components/messaging/MessageList';
 import { ROUTES } from '../constants/routes.constants';
 import {
   ArrowLeft,
@@ -253,8 +254,7 @@ export const WorkspacePage = () => {
             </button>
 
             <button
-              disabled
-              title="Messages unlock in upcoming platform updates"
+              onClick={() => setActiveTab('messages')}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -262,16 +262,15 @@ export const WorkspacePage = () => {
                 padding: '6px 14px',
                 borderRadius: 'var(--radius-sm)',
                 fontSize: 'var(--font-size-sm)',
-                fontWeight: 'var(--font-weight-medium)',
-                color: 'var(--color-text-subtle)',
-                backgroundColor: 'transparent',
+                fontWeight: activeTab === 'messages' ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
+                color: activeTab === 'messages' ? 'var(--color-accent)' : 'var(--color-text-muted)',
+                backgroundColor: activeTab === 'messages' ? 'var(--color-accent-soft)' : 'transparent',
                 border: 'none',
-                cursor: 'not-allowed',
-                opacity: 0.6,
+                cursor: 'pointer',
               }}
             >
               <MessageSquare size={15} />
-              Messages (Coming Soon)
+              Messages
             </button>
           </div>
         </div>
@@ -386,6 +385,11 @@ export const WorkspacePage = () => {
         {/* TASKS TAB CONTENT */}
         {activeTab === 'tasks' && (
           <TaskList projectId={project._id} isOwner={isOwner} />
+        )}
+
+        {/* MESSAGES TAB CONTENT */}
+        {activeTab === 'messages' && (
+          <MessageList projectId={project._id} />
         )}
       </div>
     </div>
