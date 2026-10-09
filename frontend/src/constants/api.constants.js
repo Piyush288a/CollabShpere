@@ -44,5 +44,5 @@ export const ENDPOINTS = {
   ADMIN_DELETE_PROJECT: (id) => `/admin/projects/${id}`,
   ADMIN_REPORTS: '/admin/reports',
   ADMIN_REPORT_UPDATE: (id) => `/admin/reports/${id}`,
-  ADMIN_STATS: '/admin/stats',
+  ADMIN_STATS: '/admin/statistics',
 };

@@ -21,5 +21,6 @@ router.delete('/projects/:id', deleteProject);
 router.get('/reports', listReports);
 router.patch('/reports/:id', decideReport);
 router.get('/statistics', getStatistics);
+router.get('/stats', getStatistics);
 
 module.exports = router;
