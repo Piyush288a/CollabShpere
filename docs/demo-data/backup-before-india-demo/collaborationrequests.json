@@ -1,0 +1,92 @@
+[
+  {
+    "_id": "6ac51f760fa8ee01f5a6bff0",
+    "projectId": "6ac51f760fa8ee01f5a6bfee",
+    "senderId": "6ac51f750fa8ee01f5a6bfe8",
+    "message": "I would love to help build the backend.",
+    "status": "ACCEPTED",
+    "createdAt": "2026-10-06T16:19:02.288Z",
+    "updatedAt": "2026-10-06T16:19:02.288Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ac51f760fa8ee01f5a6bff4",
+    "projectId": "6ac51f760fa8ee01f5a6bff2",
+    "senderId": "6ac51f760fa8ee01f5a6bfea",
+    "message": "I can design and build the UI.",
+    "status": "REJECTED",
+    "createdAt": "2026-10-06T16:19:02.293Z",
+    "updatedAt": "2026-10-09T05:35:06.346Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ac5d171081fa14e3a705d51",
+    "projectId": "6ac5ce69081fa14e3a705ced",
+    "senderId": "6ac5d164081fa14e3a705d3c",
+    "message": "",
+    "status": "ACCEPTED",
+    "createdAt": "2026-10-07T04:58:25.239Z",
+    "updatedAt": "2026-10-07T04:59:05.813Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ac87c52fe31c99b7bba34bc",
+    "projectId": "6ac51f760fa8ee01f5a6bff2",
+    "senderId": "6ac5cda4081fa14e3a705cb9",
+    "message": "",
+    "status": "ACCEPTED",
+    "createdAt": "2026-10-09T05:32:02.201Z",
+    "updatedAt": "2026-10-09T05:34:49.505Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ac8818c87c0523302e8e06e",
+    "projectId": "6ac51f760fa8ee01f5a6bff2",
+    "senderId": "6ac87ff787c0523302e8df98",
+    "message": "",
+    "status": "ACCEPTED",
+    "createdAt": "2026-10-09T05:54:20.095Z",
+    "updatedAt": "2026-10-09T05:54:29.938Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ac884e687c0523302e8ed4e",
+    "projectId": "6ac8828a87c0523302e8e206",
+    "senderId": "6ac51f750fa8ee01f5a6bfe5",
+    "message": "",
+    "status": "ACCEPTED",
+    "createdAt": "2026-10-09T06:08:38.200Z",
+    "updatedAt": "2026-10-09T06:08:42.907Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ac8853587c0523302e8edd5",
+    "projectId": "6ac8828a87c0523302e8e206",
+    "senderId": "6ac5cda4081fa14e3a705cb9",
+    "message": "",
+    "status": "ACCEPTED",
+    "createdAt": "2026-10-09T06:09:57.794Z",
+    "updatedAt": "2026-10-09T06:10:56.756Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ac887172fcda3575ae4dcad",
+    "projectId": "6ac8828a87c0523302e8e206",
+    "senderId": "6ac51f750fa8ee01f5a6bfe8",
+    "message": "",
+    "status": "ACCEPTED",
+    "createdAt": "2026-10-09T06:17:59.475Z",
+    "updatedAt": "2026-10-09T06:18:18.740Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ac888d72fcda3575ae4dd52",
+    "projectId": "6ac888c92fcda3575ae4dd22",
+    "senderId": "6ac51f750fa8ee01f5a6bfe8",
+    "message": "",
+    "status": "ACCEPTED",
+    "createdAt": "2026-10-09T06:25:27.774Z",
+    "updatedAt": "2026-10-09T06:25:29.958Z",
+    "__v": 0
+  }
+]

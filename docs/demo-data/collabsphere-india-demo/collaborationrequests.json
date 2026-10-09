@@ -1,0 +1,137 @@
+[
+  {
+    "_id": { "$oid": "650000000000000000000201" },
+    "projectId": { "$oid": "650000000000000000000101" },
+    "senderId": { "$oid": "650000000000000000000007" },
+    "message": "Hi Priya, I have experience with Vue and GraphQL. I would love to build the frontend dashboard for KisanVani!",
+    "status": "ACCEPTED",
+    "createdAt": { "$date": "2026-09-02T11:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-03T10:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000202" },
+    "projectId": { "$oid": "650000000000000000000102" },
+    "senderId": { "$oid": "650000000000000000000008" },
+    "message": "Hey Rohan! I specialize in Figma UI/UX design and React components. Interested in helping with SwasthyaConnect.",
+    "status": "ACCEPTED",
+    "createdAt": { "$date": "2026-09-03T14:30:00.000Z" },
+    "updatedAt": { "$date": "2026-09-04T09:15:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000203" },
+    "projectId": { "$oid": "650000000000000000000103" },
+    "senderId": { "$oid": "650000000000000000000009" },
+    "message": "Hello Ananya, I can handle the backend database synchronization for offline SQLite storage in ShikshaSetu.",
+    "status": "ACCEPTED",
+    "createdAt": { "$date": "2026-09-04T16:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-05T11:20:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000204" },
+    "projectId": { "$oid": "650000000000000000000104" },
+    "senderId": { "$oid": "65000000000000000000000a" },
+    "message": "Hi Vikram, I can design the NLP categorization engine for classifying ward-level complaints in NagarSeva.",
+    "status": "ACCEPTED",
+    "createdAt": { "$date": "2026-09-05T12:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-06T15:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000205" },
+    "projectId": { "$oid": "650000000000000000000105" },
+    "senderId": { "$oid": "65000000000000000000000b" },
+    "message": "Hey Kavya, I am familiar with Next.js and real-time Chart.js visualizations for microgrid analytics.",
+    "status": "ACCEPTED",
+    "createdAt": { "$date": "2026-09-06T10:15:00.000Z" },
+    "updatedAt": { "$date": "2026-09-07T14:30:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000206" },
+    "projectId": { "$oid": "650000000000000000000106" },
+    "senderId": { "$oid": "650000000000000000000008" },
+    "message": "Hi Priya, I'd love to help design the UI components for UPI-Khata merchants!",
+    "status": "ACCEPTED",
+    "createdAt": { "$date": "2026-09-07T09:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-08T10:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000207" },
+    "projectId": { "$oid": "650000000000000000000111" },
+    "senderId": { "$oid": "65000000000000000000000c" },
+    "message": "Hi Priya, I am a frontend developer interested in creating the textbook catalog UI for VidyaVishwa.",
+    "status": "PENDING",
+    "createdAt": { "$date": "2026-09-13T10:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-13T10:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000208" },
+    "projectId": { "$oid": "650000000000000000000112" },
+    "senderId": { "$oid": "65000000000000000000000d" },
+    "message": "Hey Rohan, I have Android experience and want to contribute to the CropShield mobile app camera module.",
+    "status": "PENDING",
+    "createdAt": { "$date": "2026-09-15T11:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-15T11:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000209" },
+    "projectId": { "$oid": "650000000000000000000113" },
+    "senderId": { "$oid": "65000000000000000000000e" },
+    "message": "Hello Ananya, I can help build student verification logic for CampusPool using university ID data.",
+    "status": "PENDING",
+    "createdAt": { "$date": "2026-09-16T15:30:00.000Z" },
+    "updatedAt": { "$date": "2026-09-16T15:30:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "65000000000000000000020a" },
+    "projectId": { "$oid": "650000000000000000000114" },
+    "senderId": { "$oid": "650000000000000000000007" },
+    "message": "Hi Vikram, I can assist with backend API integration for PaySathi micro-savings calculations.",
+    "status": "PENDING",
+    "createdAt": { "$date": "2026-09-17T09:45:00.000Z" },
+    "updatedAt": { "$date": "2026-09-17T09:45:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "65000000000000000000020b" },
+    "projectId": { "$oid": "650000000000000000000115" },
+    "senderId": { "$oid": "650000000000000000000008" },
+    "message": "Hey Kavya, I'd like to work on the UI wireframes for AaharShare alert notifications.",
+    "status": "PENDING",
+    "createdAt": { "$date": "2026-09-19T11:15:00.000Z" },
+    "updatedAt": { "$date": "2026-09-19T11:15:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "65000000000000000000020c" },
+    "projectId": { "$oid": "650000000000000000000116" },
+    "senderId": { "$oid": "65000000000000000000000c" },
+    "message": "Hi Aditya, I am interested in building the web interface for speech feedback in MockInterview-AI.",
+    "status": "PENDING",
+    "createdAt": { "$date": "2026-09-21T13:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-21T13:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "65000000000000000000020d" },
+    "projectId": { "$oid": "650000000000000000000117" },
+    "senderId": { "$oid": "65000000000000000000000d" },
+    "message": "Hi Sneha, I submitted a request to join BloodLine.",
+    "status": "REJECTED",
+    "createdAt": { "$date": "2026-09-23T10:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-24T12:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "65000000000000000000020e" },
+    "projectId": { "$oid": "650000000000000000000118" },
+    "senderId": { "$oid": "65000000000000000000000e" },
+    "message": "Hello Arjun, applying to join SmartGrants.",
+    "status": "REJECTED",
+    "createdAt": { "$date": "2026-09-25T14:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-26T16:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "65000000000000000000020f" },
+    "projectId": { "$oid": "650000000000000000000119" },
+    "senderId": { "$oid": "65000000000000000000000c" },
+    "message": "Hi Diya, interested in AirQuality-India project.",
+    "status": "REJECTED",
+    "createdAt": { "$date": "2026-09-26T11:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-27T09:30:00.000Z" }
+  }
+]

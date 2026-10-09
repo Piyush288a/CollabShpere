@@ -1,0 +1,134 @@
+[
+  {
+    "_id": { "$oid": "650000000000000000000501" },
+    "projectId": { "$oid": "650000000000000000000101" },
+    "title": "KisanVani — AI Agritech Advisory System Showcase",
+    "description": "KisanVani brings computer-vision crop pathology diagnosis and localized weather warnings directly to smallholder farmers in vernacular languages.",
+    "technologies": ["React", "Node.js", "Express", "MongoDB", "TensorFlow"],
+    "githubUrl": "https://github.com/frappe/frappe",
+    "demoUrl": "https://kisanvani.example.com",
+    "images": [],
+    "likesCount": 3,
+    "likedBy": [
+      { "$oid": "650000000000000000000003" },
+      { "$oid": "650000000000000000000008" },
+      { "$oid": "65000000000000000000000c" }
+    ],
+    "comments": [
+      {
+        "_id": { "$oid": "650000000000000000000511" },
+        "userId": { "$oid": "650000000000000000000003" },
+        "text": "Extremely impactful work for rural agricultural communities!",
+        "createdAt": { "$date": "2026-10-02T10:00:00.000Z" }
+      },
+      {
+        "_id": { "$oid": "650000000000000000000512" },
+        "userId": { "$oid": "65000000000000000000000c" },
+        "text": "The Hindi UI disease classification workflow is super clean.",
+        "createdAt": { "$date": "2026-10-03T14:20:00.000Z" }
+      }
+    ],
+    "createdAt": { "$date": "2026-10-01T14:00:00.000Z" },
+    "updatedAt": { "$date": "2026-10-03T14:20:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000502" },
+    "projectId": { "$oid": "650000000000000000000102" },
+    "title": "SwasthyaConnect — Rural Primary Care Health Platform",
+    "description": "SwasthyaConnect streamlines patient records, prescription tracking, and specialist telemedicine referrals for rural Indian health clinics.",
+    "technologies": ["Python", "FastAPI", "React", "PostgreSQL"],
+    "githubUrl": "https://github.com/appsmithorg/appsmith",
+    "demoUrl": "https://swasthyaconnect.example.com",
+    "images": [],
+    "likesCount": 2,
+    "likedBy": [
+      { "$oid": "650000000000000000000002" },
+      { "$oid": "650000000000000000000009" }
+    ],
+    "comments": [
+      {
+        "_id": { "$oid": "650000000000000000000513" },
+        "userId": { "$oid": "650000000000000000000009" },
+        "text": "Great low-bandwidth design for primary health centers.",
+        "createdAt": { "$date": "2026-10-03T09:15:00.000Z" }
+      }
+    ],
+    "createdAt": { "$date": "2026-10-02T16:30:00.000Z" },
+    "updatedAt": { "$date": "2026-10-03T09:15:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000503" },
+    "projectId": { "$oid": "650000000000000000000103" },
+    "title": "ShikshaSetu — Vernacular Offline Education Suite",
+    "description": "ShikshaSetu empowers students in low-connectivity areas to access interactive STEM lessons in regional Indian languages.",
+    "technologies": ["Flutter", "Dart", "SQLite", "Firebase"],
+    "githubUrl": "https://github.com/fossunited/fossunited",
+    "demoUrl": "https://shikshasetu.example.com",
+    "images": [],
+    "likesCount": 2,
+    "likedBy": [
+      { "$oid": "650000000000000000000005" },
+      { "$oid": "65000000000000000000000b" }
+    ],
+    "comments": [
+      {
+        "_id": { "$oid": "650000000000000000000514" },
+        "userId": { "$oid": "65000000000000000000000b" },
+        "text": "The offline SQLite sync mechanism works seamlessly!",
+        "createdAt": { "$date": "2026-10-04T11:00:00.000Z" }
+      }
+    ],
+    "createdAt": { "$date": "2026-10-03T17:00:00.000Z" },
+    "updatedAt": { "$date": "2026-10-04T11:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000504" },
+    "projectId": { "$oid": "650000000000000000000104" },
+    "title": "NagarSeva — Ward Grievance Resolution Portal",
+    "description": "NagarSeva bridges civic communication between urban residents and ward municipal representatives with real-time status tracking.",
+    "technologies": ["Node.js", "Express", "React", "PostgreSQL"],
+    "githubUrl": "https://github.com/chatwoot/chatwoot",
+    "demoUrl": "https://nagarseva.example.com",
+    "images": [],
+    "likesCount": 2,
+    "likedBy": [
+      { "$oid": "650000000000000000000002" },
+      { "$oid": "650000000000000000000006" }
+    ],
+    "comments": [
+      {
+        "_id": { "$oid": "650000000000000000000515" },
+        "userId": { "$oid": "650000000000000000000006" },
+        "text": "Crucial civic tech project for urban local bodies.",
+        "createdAt": { "$date": "2026-10-05T08:45:00.000Z" }
+      }
+    ],
+    "createdAt": { "$date": "2026-10-04T12:00:00.000Z" },
+    "updatedAt": { "$date": "2026-10-05T08:45:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000505" },
+    "projectId": { "$oid": "650000000000000000000105" },
+    "title": "UrjaDrishti — Microgrid Energy Analytics Showcase",
+    "description": "UrjaDrishti captures solar array generation metrics and campus building consumption data in real time via IoT sensors.",
+    "technologies": ["React Native", "Node.js", "IoT", "Chart.js"],
+    "githubUrl": "https://github.com/hoppscotch/hoppscotch",
+    "demoUrl": "https://urjadrishti.example.com",
+    "images": [],
+    "likesCount": 2,
+    "likedBy": [
+      { "$oid": "650000000000000000000003" },
+      { "$oid": "650000000000000000000004" }
+    ],
+    "comments": [
+      {
+        "_id": { "$oid": "650000000000000000000516" },
+        "userId": { "$oid": "650000000000000000000004" },
+        "text": "The live IoT telemetry graphs look fantastic!",
+        "createdAt": { "$date": "2026-10-06T10:15:00.000Z" }
+      }
+    ],
+    "createdAt": { "$date": "2026-10-05T10:00:00.000Z" },
+    "updatedAt": { "$date": "2026-10-06T10:15:00.000Z" }
+  }
+]

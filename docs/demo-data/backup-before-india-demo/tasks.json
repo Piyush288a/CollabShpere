@@ -1,0 +1,50 @@
+[
+  {
+    "_id": "6ac51f760fa8ee01f5a6bff6",
+    "projectId": "6ac51f760fa8ee01f5a6bfee",
+    "title": "Set up the repository and CI",
+    "description": "Initialize the repo, add linting and the test runner.",
+    "assignedTo": "6ac51f750fa8ee01f5a6bfe8",
+    "status": "COMPLETED",
+    "dueDate": "2026-10-01T00:00:00.000Z",
+    "createdAt": "2026-10-06T16:19:02.295Z",
+    "updatedAt": "2026-10-06T16:19:02.295Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ac51f760fa8ee01f5a6bff7",
+    "projectId": "6ac51f760fa8ee01f5a6bfee",
+    "title": "Build the matching algorithm",
+    "description": "Match students by shared courses and free time.",
+    "assignedTo": "6ac51f750fa8ee01f5a6bfe5",
+    "status": "IN_PROGRESS",
+    "dueDate": null,
+    "createdAt": "2026-10-06T16:19:02.295Z",
+    "updatedAt": "2026-10-06T16:19:02.295Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ac51f760fa8ee01f5a6bff8",
+    "projectId": "6ac51f760fa8ee01f5a6bfee",
+    "title": "Write the user guide",
+    "description": "",
+    "assignedTo": null,
+    "status": "TODO",
+    "dueDate": null,
+    "createdAt": "2026-10-06T16:19:02.295Z",
+    "updatedAt": "2026-10-06T16:19:02.295Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ac8779cae3723cde5e7942e",
+    "projectId": "6ac5ce69081fa14e3a705ced",
+    "title": "Backend Initiate",
+    "description": "Complete the initial phase of the backend",
+    "assignedTo": "6ac5d164081fa14e3a705d3c",
+    "status": "COMPLETED",
+    "dueDate": "2026-10-12T00:00:00.000Z",
+    "createdAt": "2026-10-09T05:11:56.189Z",
+    "updatedAt": "2026-10-09T05:12:00.903Z",
+    "__v": 0
+  }
+]

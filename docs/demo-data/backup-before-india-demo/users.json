@@ -1,0 +1,162 @@
+[
+  {
+    "_id": "6ac51f750fa8ee01f5a6bfe1",
+    "name": "Carol Admin",
+    "email": "admin@university.edu",
+    "password": "$2a$10$Ku2Bc3i2zFFOzb.DzB7JrOEYd4Q5YCqyukb1RO4NDAY7D850.IAFm",
+    "role": "admin",
+    "status": "active",
+    "avatar": null,
+    "skills": [
+      "Moderation"
+    ],
+    "bio": "Platform administrator.",
+    "githubUrl": "",
+    "linkedinUrl": "",
+    "createdAt": "2026-10-06T16:19:01.684Z",
+    "updatedAt": "2026-10-06T16:19:01.684Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ac51f750fa8ee01f5a6bfe5",
+    "name": "Alice Owner",
+    "email": "alice@university.edu",
+    "password": "$2a$10$YFwUwwElD0.txpiUUyvz8.C.X96cCC0sMHS3wV.bNtkSRjkbXrniC",
+    "role": "student",
+    "status": "active",
+    "avatar": null,
+    "skills": [
+      "React",
+      "Node.js",
+      "MongoDB"
+    ],
+    "bio": "Full-stack developer and team lead.",
+    "githubUrl": "https://github.com/alice",
+    "linkedinUrl": "",
+    "createdAt": "2026-10-06T16:19:01.820Z",
+    "updatedAt": "2026-10-06T16:19:01.820Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ac51f750fa8ee01f5a6bfe8",
+    "name": "Bob Member",
+    "email": "bob@university.edu",
+    "password": "$2a$10$QpOdtDULEKeL0q3GWJnmauXQxLe81pscE32U9qHnOSOxXxeHZinlm",
+    "role": "student",
+    "status": "active",
+    "avatar": null,
+    "skills": [
+      "Node.js",
+      "Express",
+      "Docker"
+    ],
+    "bio": "Backend enthusiast.",
+    "githubUrl": "",
+    "linkedinUrl": "",
+    "createdAt": "2026-10-06T16:19:01.942Z",
+    "updatedAt": "2026-10-06T16:19:01.942Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ac51f760fa8ee01f5a6bfea",
+    "name": "Dave Applicant",
+    "email": "dave@university.edu",
+    "password": "$2a$10$cFgLlmraraSVwI2K9I/.5eeqar7uKSqpECaRx6yNH2Ynb7HLtSdyq",
+    "role": "student",
+    "status": "active",
+    "avatar": null,
+    "skills": [
+      "React",
+      "CSS",
+      "UI/UX"
+    ],
+    "bio": "Frontend developer looking to collaborate.",
+    "githubUrl": "",
+    "linkedinUrl": "",
+    "createdAt": "2026-10-06T16:19:02.056Z",
+    "updatedAt": "2026-10-06T16:19:02.056Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ac51f760fa8ee01f5a6bfec",
+    "name": "Sam Suspended",
+    "email": "sam@university.edu",
+    "password": "$2a$10$Wuy6rracAYNlHFXcd/FIkOedO/jnz3jY91S8lX3HdEfGXARtgFEmS",
+    "role": "student",
+    "status": "suspended",
+    "avatar": null,
+    "skills": [
+      "JavaScript"
+    ],
+    "bio": "",
+    "githubUrl": "",
+    "linkedinUrl": "",
+    "createdAt": "2026-10-06T16:19:02.169Z",
+    "updatedAt": "2026-10-06T16:19:02.169Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ac5cda4081fa14e3a705cb9",
+    "name": "Test Student",
+    "email": "test@university.edu",
+    "password": "$2a$10$ukxeg.wkt1ee.yZjawRu/uOlSC01uFQF9Tkv1BGHw0/1rigqjwOgW",
+    "role": "student",
+    "status": "active",
+    "avatar": null,
+    "skills": [],
+    "bio": "",
+    "githubUrl": "",
+    "linkedinUrl": "",
+    "createdAt": "2026-10-07T04:42:12.369Z",
+    "updatedAt": "2026-10-07T04:42:12.369Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ac5d164081fa14e3a705d3c",
+    "name": "Charlie Visitor",
+    "email": "charlie@university.edu",
+    "password": "$2a$10$j.Ld0GZkuz68FJ3l7h.UzuREKj.7mf7IB8fiSgxJUkjVKLH3gCgo.",
+    "role": "student",
+    "status": "active",
+    "avatar": null,
+    "skills": [],
+    "bio": "",
+    "githubUrl": "",
+    "linkedinUrl": "",
+    "createdAt": "2026-10-07T04:58:12.698Z",
+    "updatedAt": "2026-10-07T04:58:12.698Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ac86a8b86ef915e2a76b902",
+    "name": "Piyush Desai",
+    "email": "piyush288a@gmail.com",
+    "password": "$2a$10$uqOegiQqVVbobojwx0dC3.JqLfrSv.j3Laro.o9SHgm0E4d3OWQdW",
+    "role": "admin",
+    "status": "active",
+    "avatar": null,
+    "skills": [],
+    "bio": "",
+    "githubUrl": "",
+    "linkedinUrl": "",
+    "createdAt": "2026-10-09T04:16:11.757Z",
+    "updatedAt": "2026-10-09T04:26:11.020Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ac87ff787c0523302e8df98",
+    "name": "Samarth Jain",
+    "email": "sam@gmail.com",
+    "password": "$2a$10$.xkpHLc7jMgqqcQpjJZweeIzmAM73xnhFFR9UHPDRAzmupRAYHnke",
+    "role": "student",
+    "status": "active",
+    "avatar": null,
+    "skills": [],
+    "bio": "",
+    "githubUrl": "",
+    "linkedinUrl": "",
+    "createdAt": "2026-10-09T05:47:35.323Z",
+    "updatedAt": "2026-10-09T05:47:35.323Z",
+    "__v": 0
+  }
+]

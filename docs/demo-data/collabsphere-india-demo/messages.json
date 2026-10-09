@@ -1,0 +1,162 @@
+[
+  {
+    "_id": { "$oid": "650000000000000000000401" },
+    "projectId": { "$oid": "650000000000000000000101" },
+    "senderId": { "$oid": "650000000000000000000002" },
+    "message": "Welcome Aditya to the KisanVani project workspace!",
+    "createdAt": { "$date": "2026-09-03T10:05:00.000Z" },
+    "updatedAt": { "$date": "2026-09-03T10:05:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000402" },
+    "projectId": { "$oid": "650000000000000000000101" },
+    "senderId": { "$oid": "650000000000000000000007" },
+    "message": "Thanks Priya! Happy to contribute to the agricultural disease detection UI.",
+    "createdAt": { "$date": "2026-09-03T10:15:00.000Z" },
+    "updatedAt": { "$date": "2026-09-03T10:15:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000403" },
+    "projectId": { "$oid": "650000000000000000000101" },
+    "senderId": { "$oid": "650000000000000000000002" },
+    "message": "I've uploaded the fine-tuned TensorFlow model weights for rice leaf blast classification.",
+    "createdAt": { "$date": "2026-09-18T14:30:00.000Z" },
+    "updatedAt": { "$date": "2026-09-18T14:30:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000404" },
+    "projectId": { "$oid": "650000000000000000000101" },
+    "senderId": { "$oid": "650000000000000000000007" },
+    "message": "Awesome! I'll integrate the model inference endpoint into the React frontend tonight.",
+    "createdAt": { "$date": "2026-09-18T15:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-18T15:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000405" },
+    "projectId": { "$oid": "650000000000000000000102" },
+    "senderId": { "$oid": "650000000000000000000003" },
+    "message": "Hi Sneha, excited to collaborate on SwasthyaConnect healthcare portal.",
+    "createdAt": { "$date": "2026-09-04T09:30:00.000Z" },
+    "updatedAt": { "$date": "2026-09-04T09:30:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000406" },
+    "projectId": { "$oid": "650000000000000000000102" },
+    "senderId": { "$oid": "650000000000000000000008" },
+    "message": "Hello Rohan! I'm reviewing the doctor appointment booking mockups on Figma.",
+    "createdAt": { "$date": "2026-09-04T10:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-04T10:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000407" },
+    "projectId": { "$oid": "650000000000000000000102" },
+    "senderId": { "$oid": "650000000000000000000003" },
+    "message": "Great! FastAPI backend endpoints for patient health record queries are live.",
+    "createdAt": { "$date": "2026-09-20T11:45:00.000Z" },
+    "updatedAt": { "$date": "2026-09-20T11:45:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000408" },
+    "projectId": { "$oid": "650000000000000000000103" },
+    "senderId": { "$oid": "650000000000000000000004" },
+    "message": "Welcome Arjun! Let's get the offline SQLite sync ready for ShikshaSetu.",
+    "createdAt": { "$date": "2026-09-05T11:30:00.000Z" },
+    "updatedAt": { "$date": "2026-09-05T11:30:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000409" },
+    "projectId": { "$oid": "650000000000000000000103" },
+    "senderId": { "$oid": "650000000000000000000009" },
+    "message": "Working on background sync logic when device connects to school Wi-Fi.",
+    "createdAt": { "$date": "2026-09-12T16:20:00.000Z" },
+    "updatedAt": { "$date": "2026-09-12T16:20:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000410" },
+    "projectId": { "$oid": "650000000000000000000104" },
+    "senderId": { "$oid": "650000000000000000000005" },
+    "message": "Diya, the ward complaint classification API is returning high accuracy on test data.",
+    "createdAt": { "$date": "2026-09-15T14:10:00.000Z" },
+    "updatedAt": { "$date": "2026-09-15T14:10:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000411" },
+    "projectId": { "$oid": "650000000000000000000104" },
+    "senderId": { "$oid": "65000000000000000000000a" },
+    "message": "Excellent! I have mapped sanitation and streetlight categories to ward counselor IDs.",
+    "createdAt": { "$date": "2026-09-15T14:40:00.000Z" },
+    "updatedAt": { "$date": "2026-09-15T14:40:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000412" },
+    "projectId": { "$oid": "650000000000000000000105" },
+    "senderId": { "$oid": "650000000000000000000006" },
+    "message": "Siddharth, solar panel sensor data on building 4 is streaming live via MQTT.",
+    "createdAt": { "$date": "2026-09-16T10:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-16T10:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000413" },
+    "projectId": { "$oid": "650000000000000000000105" },
+    "senderId": { "$oid": "65000000000000000000000b" },
+    "message": "Got it! Building the real-time energy usage chart on the UrjaDrishti dashboard.",
+    "createdAt": { "$date": "2026-09-16T10:25:00.000Z" },
+    "updatedAt": { "$date": "2026-09-16T10:25:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000414" },
+    "projectId": { "$oid": "650000000000000000000106" },
+    "senderId": { "$oid": "650000000000000000000002" },
+    "message": "Sneha, the merchant ledger backend API for Kirana shops is up.",
+    "createdAt": { "$date": "2026-10-06T11:00:00.000Z" },
+    "updatedAt": { "$date": "2026-10-06T11:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000415" },
+    "projectId": { "$oid": "650000000000000000000106" },
+    "senderId": { "$oid": "650000000000000000000008" },
+    "message": "Perfect! Connecting the dynamic UPI QR code generator to the settlement screen.",
+    "createdAt": { "$date": "2026-10-06T11:30:00.000Z" },
+    "updatedAt": { "$date": "2026-10-06T11:30:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000416" },
+    "projectId": { "$oid": "650000000000000000000107" },
+    "senderId": { "$oid": "650000000000000000000003" },
+    "message": "Aditya, regional dataset for Indic Speech recognition is prepared for training.",
+    "createdAt": { "$date": "2026-10-07T14:15:00.000Z" },
+    "updatedAt": { "$date": "2026-10-07T14:15:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000417" },
+    "projectId": { "$oid": "650000000000000000000107" },
+    "senderId": { "$oid": "650000000000000000000007" },
+    "message": "Running the Word Error Rate (WER) benchmark script on Hindi test audio files.",
+    "createdAt": { "$date": "2026-10-07T15:00:00.000Z" },
+    "updatedAt": { "$date": "2026-10-07T15:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000418" },
+    "projectId": { "$oid": "650000000000000000000108" },
+    "senderId": { "$oid": "650000000000000000000004" },
+    "message": "Siddharth, the Drishti extension popup now supports screen reader speech speed control.",
+    "createdAt": { "$date": "2026-10-08T11:15:00.000Z" },
+    "updatedAt": { "$date": "2026-10-08T11:15:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000419" },
+    "projectId": { "$oid": "650000000000000000000109" },
+    "senderId": { "$oid": "650000000000000000000005" },
+    "message": "Arjun, Docker compose templates for full-stack student setups are tested.",
+    "createdAt": { "$date": "2026-10-08T16:45:00.000Z" },
+    "updatedAt": { "$date": "2026-10-08T16:45:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000420" },
+    "projectId": { "$oid": "650000000000000000000110" },
+    "senderId": { "$oid": "650000000000000000000006" },
+    "message": "Diya, village water table depth sensors in Gram Panchayat zone 2 are sending data.",
+    "createdAt": { "$date": "2026-10-09T09:20:00.000Z" },
+    "updatedAt": { "$date": "2026-10-09T09:20:00.000Z" }
+  }
+]

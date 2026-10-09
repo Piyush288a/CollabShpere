@@ -17,6 +17,7 @@ import { MainLayout } from '../layouts/MainLayout';
 import { AppLayout } from '../layouts/AppLayout';
 import { ProtectedRoute } from './ProtectedRoute';
 import { PublicRoute } from './PublicRoute';
+import { AdminRoute } from './AdminRoute';
 
 export const AppRoutes = () => {
   return (
@@ -42,7 +43,11 @@ export const AppRoutes = () => {
             <Route path={ROUTES.CREATE_PROJECT} element={<CreateProjectPage />} />
             <Route path={ROUTES.PROJECT_DETAIL} element={<ProjectDetailPage />} />
             <Route path={ROUTES.WORKSPACE} element={<WorkspacePage />} />
-            <Route path={ROUTES.ADMIN} element={<AdminPage />} />
+
+            {/* Admin-only Protected Route */}
+            <Route element={<AdminRoute />}>
+              <Route path={ROUTES.ADMIN} element={<AdminPage />} />
+            </Route>
           </Route>
         </Route>
 

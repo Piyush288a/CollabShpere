@@ -1,0 +1,52 @@
+[
+  {
+    "_id": { "$oid": "650000000000000000000601" },
+    "reporterId": { "$oid": "650000000000000000000003" },
+    "targetType": "PROJECT",
+    "targetId": { "$oid": "650000000000000000000114" },
+    "reason": "Possible duplicate description of an existing student fintech application.",
+    "status": "PENDING",
+    "createdAt": { "$date": "2026-09-17T10:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-17T10:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000602" },
+    "reporterId": { "$oid": "650000000000000000000005" },
+    "targetType": "USER",
+    "targetId": { "$oid": "65000000000000000000000f" },
+    "reason": "Account sending automated spam messages in campus forums.",
+    "status": "RESOLVED",
+    "createdAt": { "$date": "2026-09-01T09:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-02T10:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000603" },
+    "reporterId": { "$oid": "650000000000000000000008" },
+    "targetType": "SHOWCASE",
+    "targetId": { "$oid": "650000000000000000000501" },
+    "reason": "Incorrect demo URL provided in showcase metadata.",
+    "status": "DISMISSED",
+    "createdAt": { "$date": "2026-10-04T12:00:00.000Z" },
+    "updatedAt": { "$date": "2026-10-04T15:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000604" },
+    "reporterId": { "$oid": "650000000000000000000002" },
+    "targetType": "COMMENT",
+    "targetId": { "$oid": "650000000000000000000511" },
+    "reason": "Flagging comment for review.",
+    "status": "PENDING",
+    "createdAt": { "$date": "2026-10-05T11:00:00.000Z" },
+    "updatedAt": { "$date": "2026-10-05T11:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000605" },
+    "reporterId": { "$oid": "650000000000000000000007" },
+    "targetType": "PROJECT",
+    "targetId": { "$oid": "650000000000000000000120" },
+    "reason": "Unrealistic project scope for a single student team semester deadline.",
+    "status": "PENDING",
+    "createdAt": { "$date": "2026-09-27T16:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-27T16:00:00.000Z" }
+  }
+]

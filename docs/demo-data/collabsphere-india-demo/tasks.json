@@ -1,0 +1,222 @@
+[
+  {
+    "_id": { "$oid": "650000000000000000000301" },
+    "projectId": { "$oid": "650000000000000000000101" },
+    "title": "Build TensorFlow Plant Disease Classification Pipeline",
+    "description": "Train MobileNetV3 on leaf disease dataset for offline edge inference.",
+    "assignedTo": { "$oid": "650000000000000000000002" },
+    "status": "COMPLETED",
+    "dueDate": { "$date": "2026-09-20T00:00:00.000Z" },
+    "createdAt": { "$date": "2026-09-04T10:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-20T16:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000302" },
+    "projectId": { "$oid": "650000000000000000000101" },
+    "title": "Design Vernacular Multilingual UI Components",
+    "description": "Create responsive React layout supporting Hindi and Gujarati toggle options.",
+    "assignedTo": { "$oid": "650000000000000000000007" },
+    "status": "COMPLETED",
+    "dueDate": { "$date": "2026-09-25T00:00:00.000Z" },
+    "createdAt": { "$date": "2026-09-05T11:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-25T14:30:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000303" },
+    "projectId": { "$oid": "650000000000000000000102" },
+    "title": "Implement Patient Appointment Booking API",
+    "description": "Create REST endpoints for slot scheduling with SMS confirmation payload.",
+    "assignedTo": { "$oid": "650000000000000000000003" },
+    "status": "COMPLETED",
+    "dueDate": { "$date": "2026-09-22T00:00:00.000Z" },
+    "createdAt": { "$date": "2026-09-06T09:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-22T11:15:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000304" },
+    "projectId": { "$oid": "650000000000000000000102" },
+    "title": "Design Clinic Health Record Interface",
+    "description": "Develop accessible Figma design system for low-spec clinic monitors.",
+    "assignedTo": { "$oid": "650000000000000000000008" },
+    "status": "COMPLETED",
+    "dueDate": { "$date": "2026-09-28T00:00:00.000Z" },
+    "createdAt": { "$date": "2026-09-07T14:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-28T10:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000305" },
+    "projectId": { "$oid": "650000000000000000000103" },
+    "title": "Build SQLite Offline Storage Synchronization",
+    "description": "Ensure learning progress syncs seamlessly when internet connectivity resumes.",
+    "assignedTo": { "$oid": "650000000000000000000009" },
+    "status": "COMPLETED",
+    "dueDate": { "$date": "2026-09-30T00:00:00.000Z" },
+    "createdAt": { "$date": "2026-09-08T10:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-30T15:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000306" },
+    "projectId": { "$oid": "650000000000000000000104" },
+    "title": "Implement Geolocation Ward Mapping Component",
+    "description": "Embed OpenStreetMap view highlighting ward complaint clusters.",
+    "assignedTo": { "$oid": "650000000000000000000005" },
+    "status": "COMPLETED",
+    "dueDate": { "$date": "2026-10-02T00:00:00.000Z" },
+    "createdAt": { "$date": "2026-09-09T13:00:00.000Z" },
+    "updatedAt": { "$date": "2026-10-02T09:30:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000307" },
+    "projectId": { "$oid": "650000000000000000000106" },
+    "title": "Develop UPI Payment QR Code Generator",
+    "description": "Generate dynamic UPI QR codes per invoice for instant Kirana customer settlement.",
+    "assignedTo": { "$oid": "650000000000000000000002" },
+    "status": "IN_PROGRESS",
+    "dueDate": { "$date": "2026-10-25T00:00:00.000Z" },
+    "createdAt": { "$date": "2026-09-10T11:00:00.000Z" },
+    "updatedAt": { "$date": "2026-10-06T12:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000308" },
+    "projectId": { "$oid": "650000000000000000000106" },
+    "title": "Design Merchant Ledger Summary Table",
+    "description": "Create high-contrast mobile layout showing outstanding customer balances.",
+    "assignedTo": { "$oid": "650000000000000000000008" },
+    "status": "IN_PROGRESS",
+    "dueDate": { "$date": "2026-10-28T00:00:00.000Z" },
+    "createdAt": { "$date": "2026-09-11T14:30:00.000Z" },
+    "updatedAt": { "$date": "2026-10-07T09:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000309" },
+    "projectId": { "$oid": "650000000000000000000107" },
+    "title": "Fine-Tune Whisper Model for Hindi Dialects",
+    "description": "Adapt pre-trained speech model on regional audio samples.",
+    "assignedTo": { "$oid": "650000000000000000000003" },
+    "status": "IN_PROGRESS",
+    "dueDate": { "$date": "2026-11-05T00:00:00.000Z" },
+    "createdAt": { "$date": "2026-09-12T10:00:00.000Z" },
+    "updatedAt": { "$date": "2026-10-08T11:30:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000310" },
+    "projectId": { "$oid": "650000000000000000000107" },
+    "title": "Create Speech Processing Benchmark Suite",
+    "description": "Build automated evaluation script measuring Word Error Rate (WER).",
+    "assignedTo": { "$oid": "650000000000000000000007" },
+    "status": "IN_PROGRESS",
+    "dueDate": { "$date": "2026-11-10T00:00:00.000Z" },
+    "createdAt": { "$date": "2026-09-13T16:00:00.000Z" },
+    "updatedAt": { "$date": "2026-10-08T14:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000311" },
+    "projectId": { "$oid": "650000000000000000000108" },
+    "title": "Implement Devanagari Screen Reader Parser",
+    "description": "Parse Unicode text nodes for screen reading TTS engine.",
+    "assignedTo": { "$oid": "650000000000000000000004" },
+    "status": "IN_PROGRESS",
+    "dueDate": { "$date": "2026-11-15T00:00:00.000Z" },
+    "createdAt": { "$date": "2026-09-14T09:20:00.000Z" },
+    "updatedAt": { "$date": "2026-10-09T08:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000312" },
+    "projectId": { "$oid": "650000000000000000000109" },
+    "title": "Create Docker Container Presets for MERN Stack",
+    "description": "Assemble optimized Dockerfile templates for student dev setups.",
+    "assignedTo": { "$oid": "650000000000000000000005" },
+    "status": "IN_PROGRESS",
+    "dueDate": { "$date": "2026-11-20T00:00:00.000Z" },
+    "createdAt": { "$date": "2026-09-15T15:00:00.000Z" },
+    "updatedAt": { "$date": "2026-10-08T17:10:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000313" },
+    "projectId": { "$oid": "650000000000000000000110" },
+    "title": "Calibrate Water Table Sensor MQTT Broker",
+    "description": "Set up Mosquitto broker to receive data packets from village sensors.",
+    "assignedTo": { "$oid": "650000000000000000000006" },
+    "status": "IN_PROGRESS",
+    "dueDate": { "$date": "2026-11-25T00:00:00.000Z" },
+    "createdAt": { "$date": "2026-09-16T11:30:00.000Z" },
+    "updatedAt": { "$date": "2026-10-09T09:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000314" },
+    "projectId": { "$oid": "650000000000000000000111" },
+    "title": "Design Courseware Catalog Wireframes",
+    "description": "Outline user journey for uploading and searching engineering lecture notes.",
+    "assignedTo": null,
+    "status": "TODO",
+    "dueDate": { "$date": "2026-12-01T00:00:00.000Z" },
+    "createdAt": { "$date": "2026-09-17T10:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-17T10:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000315" },
+    "projectId": { "$oid": "650000000000000000000112" },
+    "title": "Gather Paddy Field Leaf Disease Dataset",
+    "description": "Collect 5,000 annotated images of rice leaf blast and brown spot diseases.",
+    "assignedTo": null,
+    "status": "TODO",
+    "dueDate": { "$date": "2026-12-05T00:00:00.000Z" },
+    "createdAt": { "$date": "2026-09-18T14:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-18T14:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000316" },
+    "projectId": { "$oid": "650000000000000000000113" },
+    "title": "Set up Student Verification API Endpoint",
+    "description": "Validate student email domains and OTP verification flow.",
+    "assignedTo": null,
+    "status": "TODO",
+    "dueDate": { "$date": "2026-12-10T00:00:00.000Z" },
+    "createdAt": { "$date": "2026-09-19T09:30:00.000Z" },
+    "updatedAt": { "$date": "2026-09-19T09:30:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000317" },
+    "projectId": { "$oid": "650000000000000000000114" },
+    "title": "Define Student Allowance Budget Schema",
+    "description": "Create MongoDB models for recurring monthly expenses and savings goals.",
+    "assignedTo": null,
+    "status": "TODO",
+    "dueDate": { "$date": "2026-12-15T00:00:00.000Z" },
+    "createdAt": { "$date": "2026-09-20T11:00:00.000Z" },
+    "updatedAt": { "$date": "2026-09-20T11:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000318" },
+    "projectId": { "$oid": "650000000000000000000115" },
+    "title": "Implement Mess Surplus Alert Broadcaster",
+    "description": "Set up Socket.IO events notifying nearby NGO partners when surplus food is logged.",
+    "assignedTo": null,
+    "status": "TODO",
+    "dueDate": { "$date": "2026-12-20T00:00:00.000Z" },
+    "createdAt": { "$date": "2026-09-21T15:20:00.000Z" },
+    "updatedAt": { "$date": "2026-09-21T15:20:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000319" },
+    "projectId": { "$oid": "650000000000000000000116" },
+    "title": "Build Code Execution Sandbox Runner",
+    "description": "Isolate user submitted Python code snippets in secure sandbox environment.",
+    "assignedTo": null,
+    "status": "TODO",
+    "dueDate": { "$date": "2026-12-25T00:00:00.000Z" },
+    "createdAt": { "$date": "2026-09-22T13:40:00.000Z" },
+    "updatedAt": { "$date": "2026-09-22T13:40:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000320" },
+    "projectId": { "$oid": "650000000000000000000117" },
+    "title": "Integrate SMS Emergency Broadcast Service",
+    "description": "Connect Twilio / Gupshup gateway for urgent blood donor notifications.",
+    "assignedTo": null,
+    "status": "TODO",
+    "dueDate": { "$date": "2026-12-30T00:00:00.000Z" },
+    "createdAt": { "$date": "2026-09-23T10:15:00.000Z" },
+    "updatedAt": { "$date": "2026-09-23T10:15:00.000Z" }
+  }
+]
