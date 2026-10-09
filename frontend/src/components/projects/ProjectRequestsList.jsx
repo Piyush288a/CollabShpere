@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { collaborationService } from '../../services/collaboration.service';
 import { socketService } from '../../services/socket.service';
 import { Check, X, Clock, MessageSquare, Loader2, AlertCircle } from 'lucide-react';
