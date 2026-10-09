@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import { collaborationService } from '../../services/collaboration.service';
+import { socketService } from '../../services/socket.service';
 import { Check, X, Clock, MessageSquare, Loader2, AlertCircle } from 'lucide-react';
 import '../../styles/global.css';
 
@@ -27,6 +27,18 @@ export const ProjectRequestsList = ({ projectId, onRequestDecided }) => {
   useEffect(() => {
     if (projectId) {
       fetchRequests();
+
+      socketService.joinProject(projectId);
+
+      const handleReqChange = () => {
+        fetchRequests();
+      };
+
+      socketService.onRequestUpdated(handleReqChange);
+
+      return () => {
+        socketService.offRequestUpdated(handleReqChange);
+      };
     }
   }, [projectId]);
 

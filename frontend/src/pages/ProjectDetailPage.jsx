@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { projectService } from '../services/project.service';
 import { collaborationService } from '../services/collaboration.service';
+import { socketService } from '../services/socket.service';
 import { TeamMembers } from '../components/projects/TeamMembers';
 import { ProjectRequestsList } from '../components/projects/ProjectRequestsList';
 import { ROUTES } from '../constants/routes.constants';
@@ -56,6 +57,20 @@ export const ProjectDetailPage = () => {
   useEffect(() => {
     if (id) {
       fetchProject();
+
+      socketService.joinProject(id);
+
+      const handleRequestUpdated = (data) => {
+        if (data && String(data.projectId) === String(id)) {
+          fetchProject();
+        }
+      };
+
+      socketService.onRequestUpdated(handleRequestUpdated);
+
+      return () => {
+        socketService.offRequestUpdated(handleRequestUpdated);
+      };
     }
   }, [id]);
 

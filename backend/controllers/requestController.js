@@ -5,6 +5,7 @@ const User = require('../models/User');
 const formatRequest = require('../utils/formatRequest');
 const formatUser = require('../utils/formatUser');
 const { parsePagination, buildPagination } = require('../utils/paginate');
+const { getIo, roomName } = require('../socket');
 
 const httpError = (message, statusCode) => {
   const err = new Error(message);
@@ -53,6 +54,14 @@ const createRequest = async (req, res, next) => {
       senderId,
       message: req.body.message,
     });
+
+    const io = getIo();
+    if (io) {
+      io.to(roomName(project._id)).emit('request:created', {
+        request: formatRequest(request),
+        projectId: String(project._id),
+      });
+    }
 
     res.status(201).json({
       success: true,
@@ -143,6 +152,16 @@ const decideRequest = async (req, res, next) => {
 
     request.status = status;
     await request.save();
+
+    const io = getIo();
+    if (io) {
+      io.to(roomName(project._id)).emit('request:updated', {
+        request: formatRequest(request),
+        status,
+        senderId: String(request.senderId),
+        projectId: String(project._id),
+      });
+    }
 
     res.status(200).json({
       success: true,

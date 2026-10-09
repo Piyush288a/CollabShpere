@@ -51,6 +51,16 @@ export const socketService = {
     socket.off('message:new', callback);
   },
 
+  onRequestUpdated(callback) {
+    if (!socket) return;
+    socket.on('request:updated', callback);
+  },
+
+  offRequestUpdated(callback) {
+    if (!socket) return;
+    socket.off('request:updated', callback);
+  },
+
   getSocket() {
     return socket;
   },
