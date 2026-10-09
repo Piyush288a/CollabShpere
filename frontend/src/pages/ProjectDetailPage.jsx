@@ -40,8 +40,8 @@ export const ProjectDetailPage = () => {
   const [requestSuccess, setRequestSuccess] = useState(false);
   const [requestError, setRequestError] = useState(null);
 
-  const fetchProject = async () => {
-    setIsLoading(true);
+  const fetchProject = async (showLoading = false) => {
+    if (showLoading) setIsLoading(true);
     setError(null);
     try {
       const data = await projectService.getProjectById(id);
@@ -50,37 +50,32 @@ export const ProjectDetailPage = () => {
       console.error('Failed to load project details:', err);
       setError(err.message || 'Project not found or unavailable.');
     } finally {
-      setIsLoading(false);
+      if (showLoading) setIsLoading(false);
     }
   };
 
   useEffect(() => {
     if (id) {
-      fetchProject();
+      fetchProject(true);
 
       socketService.joinProject(id);
 
       const handleRequestUpdated = (data) => {
         if (data && String(data.projectId) === String(id)) {
-          fetchProject();
+          fetchProject(false);
         }
       };
 
       socketService.onRequestUpdated(handleRequestUpdated);
       socketService.onRequestCreated(handleRequestUpdated);
 
-      const handleFocus = () => fetchProject();
+      const handleFocus = () => fetchProject(false);
       window.addEventListener('focus', handleFocus);
-
-      const pollInterval = setInterval(() => {
-        fetchProject();
-      }, 3000);
 
       return () => {
         socketService.offRequestUpdated(handleRequestUpdated);
         socketService.offRequestCreated(handleRequestUpdated);
         window.removeEventListener('focus', handleFocus);
-        clearInterval(pollInterval);
       };
     }
   }, [id]);

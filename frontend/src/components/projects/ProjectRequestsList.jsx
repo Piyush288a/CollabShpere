@@ -11,8 +11,8 @@ export const ProjectRequestsList = ({ projectId, onRequestDecided }) => {
   const [decidingId, setDecidingId] = useState(null);
   const [actionFeedback, setActionFeedback] = useState(null);
 
-  const fetchRequests = async () => {
-    setIsLoading(true);
+  const fetchRequests = async (showLoading = false) => {
+    if (showLoading) setIsLoading(true);
     setError(null);
     try {
       const data = await collaborationService.getProjectRequests(projectId, { status: 'PENDING' });
@@ -21,18 +21,18 @@ export const ProjectRequestsList = ({ projectId, onRequestDecided }) => {
       console.error('Failed to load project requests:', err);
       setError(err.message || 'Failed to load requests');
     } finally {
-      setIsLoading(false);
+      if (showLoading) setIsLoading(false);
     }
   };
 
   useEffect(() => {
     if (projectId) {
-      fetchRequests();
+      fetchRequests(true);
 
       socketService.joinProject(projectId);
 
       const handleReqChange = () => {
-        fetchRequests();
+        fetchRequests(false);
       };
 
       socketService.onRequestCreated(handleReqChange);
