@@ -1,4 +1,5 @@
 import React from 'react';
+import { Bot, User, Clock, CheckCheck } from 'lucide-react';
 import '../../styles/global.css';
 
 export const MessageBubble = ({ message, currentUserId, teamMembers = [] }) => {
@@ -6,7 +7,7 @@ export const MessageBubble = ({ message, currentUserId, teamMembers = [] }) => {
   
   // Find sender in team members
   const sender = teamMembers.find((m) => String(m._id) === String(message.senderId));
-  const senderName = sender ? sender.name : isOwnMessage ? 'You' : 'Team Member';
+  const senderName = sender ? sender.name : isOwnMessage ? 'You' : 'Teammate';
   
   const getInitials = (name) => {
     if (!name) return 'U';
@@ -21,7 +22,7 @@ export const MessageBubble = ({ message, currentUserId, teamMembers = [] }) => {
   const formatTime = (dateString) => {
     if (!dateString) return '';
     const date = new Date(dateString);
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
   };
 
   return (
@@ -31,23 +32,26 @@ export const MessageBubble = ({ message, currentUserId, teamMembers = [] }) => {
       alignItems: isOwnMessage ? 'flex-end' : 'flex-start',
       marginBottom: 'var(--space-md)',
       width: '100%',
+      animation: 'fadeIn 0.2s ease-out',
     }}>
-      {/* Sender Name (for other members) */}
+      {/* Sender Identifier */}
       {!isOwnMessage && (
         <div style={{
           display: 'flex',
           alignItems: 'center',
           gap: '6px',
-          marginBottom: '4px',
-          paddingLeft: '4px',
+          marginBottom: '5px',
+          paddingLeft: '6px',
         }}>
           <div style={{
             width: '20px',
             height: '20px',
-            borderRadius: 'var(--radius-full)',
-            backgroundColor: 'var(--color-dark)',
-            color: '#FFFFFF',
+            borderRadius: 'var(--radius-xs)',
+            background: 'linear-gradient(135deg, #1e293b, #0f172a)',
+            color: 'var(--color-cyan)',
+            border: '1px solid rgba(6, 182, 212, 0.4)',
             fontSize: '9px',
+            fontFamily: 'var(--font-mono)',
             fontWeight: 'bold',
             display: 'flex',
             alignItems: 'center',
@@ -56,45 +60,73 @@ export const MessageBubble = ({ message, currentUserId, teamMembers = [] }) => {
             {getInitials(senderName)}
           </div>
           <span style={{
-            fontSize: 'var(--font-size-xs)',
+            fontSize: '11px',
             fontWeight: 'var(--font-weight-bold)',
-            color: 'var(--color-text-main)',
+            color: 'var(--color-text-muted)',
+            fontFamily: 'var(--font-mono)',
           }}>
             {senderName}
           </span>
         </div>
       )}
 
-      {/* Bubble */}
+      {/* Cyber Bubble */}
       <div style={{
-        maxWidth: '75%',
-        padding: '10px 14px',
+        maxWidth: '78%',
+        padding: '12px 16px',
         borderRadius: isOwnMessage
-          ? 'var(--radius-lg) var(--radius-lg) 2px var(--radius-lg)'
-          : 'var(--radius-lg) var(--radius-lg) var(--radius-lg) 2px',
-        backgroundColor: isOwnMessage ? 'var(--color-accent)' : 'var(--color-bg-surface)',
-        color: isOwnMessage ? '#FFFFFF' : 'var(--color-text-main)',
-        border: isOwnMessage ? 'none' : '1px solid var(--color-border-subtle)',
-        boxShadow: 'var(--shadow-xs)',
+          ? 'var(--radius-md) var(--radius-md) 2px var(--radius-md)'
+          : 'var(--radius-md) var(--radius-md) var(--radius-md) 2px',
+        background: isOwnMessage 
+          ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(6, 182, 212, 0.2) 100%)' 
+          : 'rgba(22, 29, 45, 0.75)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        color: '#FFFFFF',
+        border: isOwnMessage 
+          ? '1px solid rgba(99, 102, 241, 0.4)' 
+          : '1px solid rgba(255, 255, 255, 0.08)',
+        boxShadow: isOwnMessage 
+          ? '0 4px 20px rgba(99, 102, 241, 0.2), inset 0 0 12px rgba(99, 102, 241, 0.1)' 
+          : '0 4px 15px rgba(0, 0, 0, 0.3)',
         wordBreak: 'break-word',
+        position: 'relative',
       }}>
+        {/* Subtle Cyber Corner Indicator */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          right: isOwnMessage ? 'auto' : 0,
+          left: isOwnMessage ? 0 : 'auto',
+          width: '6px',
+          height: '6px',
+          backgroundColor: isOwnMessage ? 'var(--color-cyan)' : 'var(--color-accent)',
+          borderRadius: isOwnMessage ? 'var(--radius-md) 0 0 0' : '0 var(--radius-md) 0 0',
+          opacity: 0.8,
+        }} />
+
         <p style={{
-          margin: 0,
           fontSize: 'var(--font-size-sm)',
-          lineHeight: 'var(--line-height-normal)',
-          whiteSpace: 'pre-wrap',
+          lineHeight: 1.55,
+          color: '#f8fafc',
+          margin: 0,
         }}>
           {message.message}
         </p>
 
+        {/* Time Stamp & Status */}
         <div style={{
-          textAlign: 'right',
-          marginTop: '4px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          gap: '4px',
+          marginTop: '6px',
           fontSize: '10px',
-          opacity: 0.8,
-          color: isOwnMessage ? 'rgba(255, 255, 255, 0.85)' : 'var(--color-text-subtle)',
+          fontFamily: 'var(--font-mono)',
+          color: isOwnMessage ? 'rgba(255, 255, 255, 0.6)' : 'var(--color-text-subtle)',
         }}>
-          {formatTime(message.createdAt)}
+          <span>{formatTime(message.createdAt)}</span>
+          {isOwnMessage && <CheckCheck size={13} color="var(--color-cyan)" />}
         </div>
       </div>
     </div>

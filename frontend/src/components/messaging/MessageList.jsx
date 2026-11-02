@@ -5,7 +5,7 @@ import { messageService } from '../../services/message.service';
 import { collaborationService } from '../../services/collaboration.service';
 import { MessageBubble } from './MessageBubble';
 import { MessageComposer } from './MessageComposer';
-import { MessageSquare, Loader2, AlertCircle, Wifi, WifiOff } from 'lucide-react';
+import { MessageSquare, Loader2, AlertCircle, Wifi, WifiOff, Terminal, Activity, Zap } from 'lucide-react';
 import '../../styles/global.css';
 
 export const MessageList = ({ projectId }) => {
@@ -105,9 +105,9 @@ export const MessageList = ({ projectId }) => {
       return () => {
         isMounted = false;
         socketService.offNewMessage(handleNewMessage);
-        socketService.leaveProject(projectId);
         currentSocket.off('connect', onConnect);
         currentSocket.off('disconnect', onDisconnect);
+        socketService.leaveProject(projectId);
       };
     }
 
@@ -116,86 +116,127 @@ export const MessageList = ({ projectId }) => {
       socketService.offNewMessage(handleNewMessage);
       socketService.leaveProject(projectId);
     };
-  }, [projectId, socketService, socket]);
+  }, [projectId, socketService]);
 
-  // Send message handler
   const handleSendMessage = async (text) => {
     try {
-      const res = await messageService.sendMessage(projectId, text);
-      const sentMsg = res.message;
-      if (sentMsg) {
-        setMessages((prev) => {
-          if (prev.some((m) => String(m._id) === String(sentMsg._id))) {
-            return prev;
-          }
-          return [...prev, sentMsg];
-        });
-      }
+      const response = await messageService.sendMessage(projectId, text);
+      const savedMsg = response.message || response;
+
+      // Optimistically append if not received through socket yet
+      setMessages((prev) => {
+        if (prev.some((m) => String(m._id) === String(savedMsg._id))) {
+          return prev;
+        }
+        return [...prev, savedMsg];
+      });
     } catch (err) {
-      console.error('Failed to send message:', err);
+      console.error('Failed to dispatch message:', err);
       throw err;
     }
   };
 
   return (
     <div style={{
-      backgroundColor: 'var(--color-bg-surface)',
-      border: '1px solid var(--color-border)',
-      borderRadius: 'var(--radius-xl)',
       display: 'flex',
       flexDirection: 'column',
       height: '620px',
-      boxShadow: 'var(--shadow-sm)',
+      backgroundColor: 'rgba(14, 18, 28, 0.7)',
+      backdropFilter: 'blur(16px)',
+      WebkitBackdropFilter: 'blur(16px)',
+      border: '1px solid rgba(255, 255, 255, 0.08)',
+      borderRadius: 'var(--radius-lg)',
       overflow: 'hidden',
+      boxShadow: 'var(--shadow-lg)',
     }}>
-      {/* Header bar */}
+      {/* High-Tech Channel Header */}
       <div style={{
-        padding: 'var(--space-md) var(--space-lg)',
-        borderBottom: '1px solid var(--color-border-subtle)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: 'var(--color-bg-surface)',
+        padding: '12px 20px',
+        backgroundColor: 'rgba(10, 13, 20, 0.85)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
-          <MessageSquare size={18} color="var(--color-accent)" />
-          <h3 style={{ fontSize: 'var(--font-size-md)', fontWeight: 'var(--font-weight-extrabold)', margin: 0 }}>
-            Team Discussion
-          </h3>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{
+            width: '28px',
+            height: '28px',
+            borderRadius: 'var(--radius-xs)',
+            background: 'rgba(99, 102, 241, 0.2)',
+            border: '1px solid var(--color-accent-border)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--color-cyan)',
+          }}>
+            <Terminal size={16} />
+          </div>
+          <div>
+            <span style={{
+              fontSize: 'var(--font-size-sm)',
+              fontWeight: 'var(--font-weight-bold)',
+              color: '#FFFFFF',
+              fontFamily: 'var(--font-mono)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+            }}>
+              PROJECT_QUANTUM_STREAM
+              <span style={{
+                fontSize: '10px',
+                color: 'var(--color-text-subtle)',
+                fontWeight: 'normal',
+              }}>
+                [ROOM:{projectId.slice(-6).toUpperCase()}]
+              </span>
+            </span>
+          </div>
         </div>
 
-        {/* Live Status Indicator */}
+        {/* Live Network Status Indicator */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '6px',
-          fontSize: 'var(--font-size-xs)',
-          color: socketConnected ? '#166534' : 'var(--color-text-muted)',
-          backgroundColor: socketConnected ? '#F0FDF4' : 'var(--color-bg-primary)',
-          padding: '3px 10px',
-          borderRadius: 'var(--radius-full)',
-          fontWeight: 'var(--font-weight-medium)',
+          gap: '8px',
+          padding: '4px 10px',
+          borderRadius: 'var(--radius-xs)',
+          backgroundColor: socketConnected ? 'rgba(16, 185, 129, 0.1)' : 'rgba(244, 63, 94, 0.1)',
+          border: `1px solid ${socketConnected ? 'rgba(16, 185, 129, 0.3)' : 'rgba(244, 63, 94, 0.3)'}`,
+          fontFamily: 'var(--font-mono)',
+          fontSize: '11px',
         }}>
           {socketConnected ? (
             <>
-              <Wifi size={13} />
-              <span>Realtime Live</span>
+              <span style={{
+                width: '6px',
+                height: '6px',
+                borderRadius: '50%',
+                backgroundColor: 'var(--color-emerald)',
+                boxShadow: '0 0 8px var(--color-emerald)',
+              }} />
+              <span style={{ color: 'var(--color-emerald)', fontWeight: 'bold' }}>LIVE_NODE</span>
             </>
           ) : (
             <>
-              <WifiOff size={13} />
-              <span>Connecting...</span>
+              <span style={{
+                width: '6px',
+                height: '6px',
+                borderRadius: '50%',
+                backgroundColor: 'var(--color-danger)',
+                boxShadow: '0 0 8px var(--color-danger)',
+              }} />
+              <span style={{ color: '#f87171' }}>RECONNECTING</span>
             </>
           )}
         </div>
       </div>
 
-      {/* Messages Scroll Area */}
+      {/* Message Stream Area */}
       <div style={{
         flex: 1,
-        padding: 'var(--space-lg)',
         overflowY: 'auto',
-        backgroundColor: 'var(--color-bg-primary)',
+        padding: '20px',
         display: 'flex',
         flexDirection: 'column',
       }}>
@@ -206,28 +247,28 @@ export const MessageList = ({ projectId }) => {
             alignItems: 'center',
             justifyContent: 'center',
             height: '100%',
-            gap: 'var(--space-md)',
-            color: 'var(--color-text-muted)',
+            gap: '12px',
+            color: 'var(--color-cyan)',
           }}>
-            <Loader2 size={32} className="spin" style={{ color: 'var(--color-accent)' }} />
-            <span style={{ fontSize: 'var(--font-size-sm)' }}>Loading message history...</span>
+            <Loader2 size={32} className="spin" />
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--color-text-muted)' }}>
+              INITIALIZING SECURE QUANTUM STREAM...
+            </span>
           </div>
         ) : error ? (
           <div style={{
-            backgroundColor: '#FEF2F2',
-            border: '1px solid #FCA5A5',
-            color: '#991B1B',
-            padding: 'var(--space-lg)',
-            borderRadius: 'var(--radius-lg)',
-            textAlign: 'center',
-            fontSize: 'var(--font-size-sm)',
-            margin: 'auto 0',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100%',
+            gap: '10px',
+            color: '#f87171',
           }}>
-            <AlertCircle size={24} style={{ marginBottom: 'var(--space-xs)' }} />
-            <div>{error}</div>
+            <AlertCircle size={28} />
+            <span style={{ fontSize: 'var(--font-size-sm)' }}>{error}</span>
           </div>
         ) : messages.length === 0 ? (
-          /* Empty Chat State */
           <div style={{
             display: 'flex',
             flexDirection: 'column',
@@ -235,20 +276,32 @@ export const MessageList = ({ projectId }) => {
             justifyContent: 'center',
             height: '100%',
             textAlign: 'center',
-            color: 'var(--color-text-muted)',
-            padding: 'var(--space-xl)',
+            gap: '12px',
           }}>
-            <MessageSquare size={44} color="var(--color-text-subtle)" style={{ marginBottom: 'var(--space-md)' }} />
-            <h4 style={{ fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-main)', marginBottom: '4px' }}>
-              No messages yet
-            </h4>
-            <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', maxWidth: '360px', margin: 0 }}>
-              Start the discussion! Send a message below to coordinate tasks, share links, or say hello to your team.
-            </p>
+            <div style={{
+              width: '48px',
+              height: '48px',
+              borderRadius: 'var(--radius-sm)',
+              background: 'rgba(99, 102, 241, 0.1)',
+              border: '1px solid rgba(99, 102, 241, 0.25)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'var(--color-cyan)',
+            }}>
+              <Terminal size={24} />
+            </div>
+            <div>
+              <h4 style={{ color: '#FFFFFF', fontSize: 'var(--font-size-base)', marginBottom: '4px' }}>
+                Channel Initialized
+              </h4>
+              <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', maxWidth: '320px' }}>
+                No transmission packets detected in this workspace room. Broadcast the first message to synchronize team members.
+              </p>
+            </div>
           </div>
         ) : (
-          /* Message List Bubbles */
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+          <>
             {messages.map((msg) => (
               <MessageBubble
                 key={msg._id}
@@ -258,12 +311,15 @@ export const MessageList = ({ projectId }) => {
               />
             ))}
             <div ref={messagesEndRef} />
-          </div>
+          </>
         )}
       </div>
 
-      {/* Message Composer Footer */}
-      <MessageComposer onSend={handleSendMessage} disabled={isLoading || Boolean(error)} />
+      {/* Cyber Message Composer */}
+      <MessageComposer
+        onSendMessage={handleSendMessage}
+        disabled={isLoading || Boolean(error)}
+      />
     </div>
   );
 };
