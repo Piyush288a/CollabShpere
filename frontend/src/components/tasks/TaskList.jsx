@@ -4,7 +4,7 @@ import { collaborationService } from '../../services/collaboration.service';
 import { TaskCard } from './TaskCard';
 import { TaskForm } from './TaskForm';
 import { TaskSkeleton } from './TaskSkeleton';
-import { Plus, CheckSquare, RefreshCw, AlertCircle, Sparkles, Filter, Terminal, Cpu } from 'lucide-react';
+import { Plus, CheckSquare, RefreshCw, AlertCircle, Sparkles } from 'lucide-react';
 import '../../styles/global.css';
 
 export const TaskList = ({ projectId, isOwner }) => {
@@ -83,177 +83,134 @@ export const TaskList = ({ projectId, isOwner }) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xl)' }}>
-      {/* Action Error Banner */}
-      {actionError && (
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          padding: '12px 16px',
-          backgroundColor: 'rgba(244, 63, 94, 0.12)',
-          border: '1px solid rgba(244, 63, 94, 0.3)',
-          borderRadius: 'var(--radius-sm)',
-          color: '#f87171',
-          fontSize: 'var(--font-size-sm)',
-        }}>
-          <AlertCircle size={18} />
-          <span>{actionError}</span>
-        </div>
-      )}
-
-      {/* Cyber Task Control Bar */}
+      {/* Top Action & Filter Bar */}
       <div style={{
         display: 'flex',
         flexWrap: 'wrap',
         alignItems: 'center',
         justifyContent: 'space-between',
         gap: 'var(--space-md)',
-        backgroundColor: 'rgba(14, 18, 28, 0.75)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
-        borderRadius: 'var(--radius-md)',
-        padding: '14px 18px',
+        backgroundColor: 'var(--color-bg-surface)',
+        border: '1px solid var(--color-border)',
+        borderRadius: 'var(--radius-xl)',
+        padding: 'var(--space-lg)',
         boxShadow: 'var(--shadow-sm)',
       }}>
-        {/* Filter Badges */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-          <span style={{
-            fontSize: '11px',
-            fontFamily: 'var(--font-mono)',
-            color: 'var(--color-cyan)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '4px',
-            marginRight: '6px',
-          }}>
-            <Cpu size={14} /> FILTER:
-          </span>
-
+        {/* Status Filters */}
+        <div style={{ display: 'flex', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
           {[
-            { id: 'ALL', label: 'ALL DIRECTIVES', count: tasks.length },
-            { id: 'TODO', label: 'QUEUED', count: todoCount },
-            { id: 'IN_PROGRESS', label: 'RUNNING', count: inProgressCount },
-            { id: 'COMPLETED', label: 'EXECUTED', count: completedCount },
-          ].map((tab) => {
-            const isSelected = statusFilter === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setStatusFilter(tab.id)}
-                style={{
-                  padding: '6px 12px',
-                  borderRadius: 'var(--radius-xs)',
-                  border: isSelected ? '1px solid var(--color-cyan)' : '1px solid rgba(255, 255, 255, 0.08)',
-                  backgroundColor: isSelected ? 'rgba(6, 182, 212, 0.15)' : 'rgba(22, 29, 45, 0.5)',
-                  color: isSelected ? '#FFFFFF' : 'var(--color-text-muted)',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '11px',
-                  cursor: 'pointer',
-                  transition: 'all var(--transition-fast)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                }}
-              >
-                <span>{tab.label}</span>
-                <span style={{
-                  backgroundColor: isSelected ? 'var(--color-cyan)' : 'rgba(255, 255, 255, 0.1)',
-                  color: isSelected ? '#000000' : 'var(--color-text-subtle)',
-                  borderRadius: '10px',
-                  padding: '1px 6px',
-                  fontSize: '10px',
-                  fontWeight: 'bold',
-                }}>
-                  {tab.count}
-                </span>
-              </button>
-            );
-          })}
+            { id: 'ALL', label: 'All Tasks' },
+            { id: 'TODO', label: `To Do (${statusFilter === 'ALL' ? todoCount : statusFilter === 'TODO' ? tasks.length : 0})` },
+            { id: 'IN_PROGRESS', label: `In Progress (${statusFilter === 'ALL' ? inProgressCount : statusFilter === 'IN_PROGRESS' ? tasks.length : 0})` },
+            { id: 'COMPLETED', label: `Completed (${statusFilter === 'ALL' ? completedCount : statusFilter === 'COMPLETED' ? tasks.length : 0})` },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setStatusFilter(tab.id)}
+              style={{
+                padding: '6px 12px',
+                borderRadius: 'var(--radius-sm)',
+                fontSize: 'var(--font-size-xs)',
+                fontWeight: statusFilter === tab.id ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
+                color: statusFilter === tab.id ? 'var(--color-accent)' : 'var(--color-text-muted)',
+                backgroundColor: statusFilter === tab.id ? 'var(--color-accent-soft)' : 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all var(--transition-fast)',
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
 
-        {/* Deploy Directive Button */}
-        <button
-          onClick={() => setIsFormOpen(true)}
-          className="btn btn-primary"
-          style={{
-            padding: '8px 16px',
-            fontSize: 'var(--font-size-xs)',
-            fontFamily: 'var(--font-mono)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-          }}
-        >
-          <Plus size={16} />
-          <span>NEW DIRECTIVE</span>
-        </button>
-      </div>
+        {/* Action Buttons */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+          <button
+            onClick={loadTasksAndTeam}
+            disabled={isLoading}
+            className="btn btn-secondary"
+            style={{ padding: '0.45rem 0.75rem', fontSize: 'var(--font-size-xs)' }}
+            title="Refresh tasks"
+          >
+            <RefreshCw size={14} className={isLoading ? 'spin' : ''} />
+          </button>
 
-      {/* Task Cards Grid */}
-      {isLoading ? (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '16px' }}>
-          <TaskSkeleton />
-          <TaskSkeleton />
-          <TaskSkeleton />
-        </div>
-      ) : error ? (
-        <div style={{
-          padding: 'var(--space-3xl)',
-          textAlign: 'center',
-          backgroundColor: 'rgba(22, 29, 45, 0.6)',
-          borderRadius: 'var(--radius-md)',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
-        }}>
-          <AlertCircle size={32} color="#f87171" style={{ margin: '0 auto 12px' }} />
-          <h4 style={{ color: '#FFFFFF', marginBottom: '6px' }}>Execution Error</h4>
-          <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-sm)', marginBottom: '16px' }}>{error}</p>
-          <button onClick={loadTasksAndTeam} className="btn btn-secondary" style={{ padding: '6px 14px', fontSize: '12px' }}>
-            <RefreshCw size={14} /> Retry Query
+          <button
+            onClick={() => setIsFormOpen(true)}
+            className="btn btn-primary"
+            style={{ padding: '0.45rem 0.95rem', fontSize: 'var(--font-size-xs)', gap: '4px' }}
+          >
+            <Plus size={15} />
+            Create Task
           </button>
         </div>
-      ) : tasks.length === 0 ? (
+      </div>
+
+      {/* Action Error Alert */}
+      {actionError && (
         <div style={{
-          padding: 'var(--space-4xl)',
-          textAlign: 'center',
-          backgroundColor: 'rgba(22, 29, 45, 0.4)',
-          borderRadius: 'var(--radius-lg)',
-          border: '1px dashed rgba(255, 255, 255, 0.1)',
+          backgroundColor: '#FEF2F2',
+          border: '1px solid #FCA5A5',
+          color: '#991B1B',
+          padding: 'var(--space-md)',
+          borderRadius: 'var(--radius-md)',
+          fontSize: 'var(--font-size-xs)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'var(--space-xs)',
         }}>
-          <div style={{
-            width: '52px',
-            height: '52px',
-            borderRadius: 'var(--radius-sm)',
-            background: 'rgba(99, 102, 241, 0.1)',
-            border: '1px solid rgba(99, 102, 241, 0.25)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'var(--color-cyan)',
-            margin: '0 auto 16px',
-          }}>
-            <Terminal size={26} />
-          </div>
-          <h4 style={{ color: '#FFFFFF', fontSize: 'var(--font-size-lg)', marginBottom: '6px' }}>
-            Zero Directives Active
-          </h4>
-          <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-sm)', maxWidth: '420px', margin: '0 auto 20px' }}>
-            No task protocols currently queued for this filter state. Create a directive to divide work among teammates.
+          <AlertCircle size={16} />
+          {actionError}
+        </div>
+      )}
+
+      {/* Loading State */}
+      {isLoading ? (
+        <TaskSkeleton />
+      ) : error ? (
+        <div style={{
+          backgroundColor: '#FEF2F2',
+          border: '1px solid #FCA5A5',
+          color: '#991B1B',
+          padding: 'var(--space-xl)',
+          borderRadius: 'var(--radius-lg)',
+          textAlign: 'center',
+          fontSize: 'var(--font-size-sm)',
+        }}>
+          <AlertCircle size={24} style={{ marginBottom: 'var(--space-xs)' }} />
+          <div>{error}</div>
+        </div>
+      ) : tasks.length === 0 ? (
+        /* Empty State */
+        <div style={{
+          backgroundColor: 'var(--color-bg-surface)',
+          border: '1px solid var(--color-border-subtle)',
+          borderRadius: 'var(--radius-xl)',
+          padding: 'var(--space-4xl) var(--space-xl)',
+          textAlign: 'center',
+        }}>
+          <CheckSquare size={44} color="var(--color-text-subtle)" style={{ marginBottom: 'var(--space-md)' }} />
+          <h3 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-main)', marginBottom: 'var(--space-xs)' }}>
+            No tasks found
+          </h3>
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', maxWidth: '400px', margin: '0 auto var(--space-lg)' }}>
+            {statusFilter === 'ALL'
+              ? 'There are no active tasks in this workspace. Create your first task to start tracking team progress!'
+              : `No tasks currently match the "${statusFilter.replace('_', ' ')}" status filter.`}
           </p>
           <button
             onClick={() => setIsFormOpen(true)}
             className="btn btn-primary"
-            style={{ padding: '8px 18px', fontSize: 'var(--font-size-xs)' }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
           >
-            <Plus size={16} /> Deploy Directive
+            <Plus size={16} />
+            Create First Task
           </button>
         </div>
       ) : (
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-          gap: '16px',
-        }}>
+        /* Task Cards Grid */
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
           {tasks.map((task) => (
             <TaskCard
               key={task._id}
@@ -266,7 +223,7 @@ export const TaskList = ({ projectId, isOwner }) => {
         </div>
       )}
 
-      {/* Task Creation Modal */}
+      {/* Task Creation Form Modal */}
       {isFormOpen && (
         <TaskForm
           teamMembers={teamMembers}

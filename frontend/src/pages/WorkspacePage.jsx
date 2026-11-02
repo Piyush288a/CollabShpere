@@ -19,10 +19,6 @@ import {
   MessageSquare,
   Sparkles,
   RefreshCw,
-  Cpu,
-  Terminal,
-  Activity,
-  AlertCircle
 } from 'lucide-react';
 import '../styles/global.css';
 
@@ -67,10 +63,10 @@ export const WorkspacePage = () => {
   if (isLoading) {
     return (
       <div style={{ paddingTop: 'var(--space-3xl)', paddingBottom: 'var(--space-5xl)' }}>
-        <div className="container" style={{ maxWidth: '1100px' }}>
+        <div className="container" style={{ maxWidth: '960px' }}>
           <div style={{
-            backgroundColor: 'rgba(22, 29, 45, 0.65)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
+            backgroundColor: 'var(--color-bg-surface)',
+            border: '1px solid var(--color-border-subtle)',
             borderRadius: 'var(--radius-xl)',
             padding: 'var(--space-3xl)',
             height: '380px',
@@ -84,291 +80,348 @@ export const WorkspacePage = () => {
   // Resolve authorization
   const currentUserId = user?._id || user?.id;
   const ownerId = typeof project?.ownerId === 'object' ? project?.ownerId?._id : project?.ownerId;
+  const isOwner = currentUserId && String(ownerId) === String(currentUserId);
   const memberIds = project?.memberIds || [];
+  const isMember = currentUserId && memberIds.some((m) => String(m) === String(currentUserId));
+  const isAuthorized = isOwner || isMember;
 
-  const isOwner = String(ownerId) === String(currentUserId);
-  const isMember = memberIds.some((m) => {
-    const mId = typeof m === 'object' ? m?._id : m;
-    return String(mId) === String(currentUserId);
-  });
-  const hasAccess = isOwner || isMember || user?.role === 'admin';
-
-  if (error || !project) {
+  if (error || !project || !isAuthorized) {
     return (
-      <div style={{ paddingTop: 'var(--space-4xl)', paddingBottom: 'var(--space-5xl)', textAlign: 'center' }}>
-        <div className="container" style={{ maxWidth: '540px' }}>
-          <AlertCircle size={48} color="#f87171" style={{ margin: '0 auto 16px' }} />
-          <h2 style={{ color: '#FFFFFF', marginBottom: '8px' }}>Workspace Access Denied</h2>
-          <p style={{ color: 'var(--color-text-muted)', marginBottom: '24px' }}>
-            {error || 'The requested project could not be found or access has been restricted.'}
-          </p>
-          <Link to={ROUTES.DASHBOARD} className="btn btn-primary">
-            Return to Dashboard
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  if (!hasAccess) {
-    return (
-      <div style={{ paddingTop: 'var(--space-4xl)', paddingBottom: 'var(--space-5xl)', textAlign: 'center' }}>
-        <div className="container" style={{ maxWidth: '540px' }}>
+      <div style={{ paddingTop: 'var(--space-3xl)', paddingBottom: 'var(--space-5xl)' }}>
+        <div className="container" style={{ maxWidth: '600px', textAlign: 'center' }}>
           <div style={{
-            width: '64px',
-            height: '64px',
-            borderRadius: 'var(--radius-sm)',
-            background: 'rgba(244, 63, 94, 0.1)',
-            border: '1px solid rgba(244, 63, 94, 0.3)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#f87171',
-            margin: '0 auto 16px',
+            backgroundColor: 'var(--color-bg-surface)',
+            border: '1px solid var(--color-border)',
+            borderRadius: 'var(--radius-xl)',
+            padding: 'var(--space-4xl) var(--space-xl)',
+            boxShadow: 'var(--shadow-sm)',
           }}>
-            <Lock size={32} />
+            <div style={{
+              width: '56px',
+              height: '56px',
+              borderRadius: 'var(--radius-full)',
+              backgroundColor: 'rgba(239, 68, 68, 0.08)',
+              color: '#B91C1C',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto var(--space-md)',
+            }}>
+              <Lock size={28} />
+            </div>
+            <h2 style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 'var(--font-weight-extrabold)', marginBottom: 'var(--space-xs)' }}>
+              Workspace Access Restricted
+            </h2>
+            <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-xl)' }}>
+              This team workspace is private and accessible only to accepted project team members.
+            </p>
+            <Link to={`/projects/${id}`} className="btn btn-primary" style={{ padding: '0.6rem 1.4rem' }}>
+              <ArrowLeft size={16} />
+              Back to Project Details
+            </Link>
           </div>
-          <h2 style={{ color: '#FFFFFF', marginBottom: '8px' }}>Restricted Perimeter</h2>
-          <p style={{ color: 'var(--color-text-muted)', marginBottom: '24px' }}>
-            This workspace contains private project deliverables. Only verified team members and the project creator are authorized.
-          </p>
-          <Link to={ROUTES.PROJECT_DETAIL(id)} className="btn btn-secondary">
-            View Public Project Proposal
-          </Link>
         </div>
       </div>
     );
   }
+
+  const memberCount = memberIds.length || 1;
 
   return (
-    <div style={{ paddingTop: 'var(--space-2xl)', paddingBottom: 'var(--space-5xl)' }}>
-      <div className="container" style={{ maxWidth: '1180px' }}>
-        {/* Navigation Breadcrumb */}
-        <div style={{ marginBottom: 'var(--space-lg)' }}>
-          <Link
-            to={ROUTES.DASHBOARD}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              fontSize: '12px',
-              fontFamily: 'var(--font-mono)',
-              color: 'var(--color-text-muted)',
-              transition: 'all var(--transition-fast)',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-cyan)')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-text-muted)')}
-          >
-            <ArrowLeft size={14} /> BACK_TO_DASHBOARD
-          </Link>
-        </div>
+    <div style={{
+      paddingTop: 'var(--space-2xl)',
+      paddingBottom: 'var(--space-5xl)',
+    }}>
+      <div className="container" style={{ maxWidth: '960px' }}>
+        {/* Navigation Back Link */}
+        <Link
+          to={`/projects/${project._id}`}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 'var(--space-xs)',
+            fontSize: 'var(--font-size-sm)',
+            fontWeight: 'var(--font-weight-semibold)',
+            color: 'var(--color-text-muted)',
+            marginBottom: 'var(--space-xl)',
+            textDecoration: 'none',
+          }}
+        >
+          <ArrowLeft size={16} />
+          Back to Project Details
+        </Link>
 
-        {/* High-Tech Workspace Banner */}
+        {/* Workspace Header */}
         <div style={{
-          backgroundColor: 'rgba(17, 22, 34, 0.85)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
-          border: '1px solid rgba(99, 102, 241, 0.3)',
+          backgroundColor: 'var(--color-bg-surface)',
+          border: '1px solid var(--color-border)',
           borderRadius: 'var(--radius-xl)',
-          padding: 'clamp(var(--space-xl), 3vw, var(--space-2xl))',
+          padding: 'clamp(var(--space-xl), 4vw, var(--space-2xl))',
           marginBottom: 'var(--space-2xl)',
-          boxShadow: '0 12px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 102, 241, 0.1)',
-          position: 'relative',
-          overflow: 'hidden',
+          boxShadow: 'var(--shadow-sm)',
         }}>
-          {/* Subtle Cyber Top Line */}
-          <div style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            height: '3px',
-            background: 'var(--gradient-cyber)',
-          }} />
-
           <div style={{
             display: 'flex',
             flexWrap: 'wrap',
-            alignItems: 'flex-start',
+            alignItems: 'center',
             justifyContent: 'space-between',
-            gap: 'var(--space-lg)',
+            gap: 'var(--space-sm)',
+            marginBottom: 'var(--space-sm)',
           }}>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                <span className="badge badge-cyan">SECURE_WORKSPACE</span>
-                <span className="badge badge-indigo">{project.status}</span>
-                {isOwner && <span className="badge badge-amber">CREATOR_NODE</span>}
-              </div>
+            <span style={{
+              fontSize: 'var(--font-size-xs)',
+              fontWeight: 'var(--font-weight-extrabold)',
+              color: project.status === 'OPEN' ? '#10B981' : project.status === 'IN_PROGRESS' ? '#3B82F6' : '#6C655F',
+              backgroundColor: project.status === 'OPEN' ? 'rgba(16, 185, 129, 0.1)' : project.status === 'IN_PROGRESS' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(108, 101, 95, 0.1)',
+              padding: '3px 10px',
+              borderRadius: 'var(--radius-xs)',
+              letterSpacing: '0.04em',
+            }}>
+              STATUS: {project.status}
+            </span>
 
-              <h1 style={{
-                fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)',
-                fontWeight: 'var(--font-weight-extrabold)',
-                color: '#FFFFFF',
-                letterSpacing: '-0.03em',
-                marginBottom: '8px',
-              }}>
-                {project.title}
-              </h1>
+            <div style={{ display: 'flex', gap: 'var(--space-xs)' }}>
+              <span style={badgeStyle}>
+                <Layers size={13} color="var(--color-accent)" />
+                {project.category}
+              </span>
+              <span style={badgeStyle}>
+                {project.difficulty}
+              </span>
+            </div>
+          </div>
 
-              <div style={{
+          <h1 style={{
+            fontSize: 'clamp(1.75rem, 3.5vw, var(--font-size-3xl))',
+            fontWeight: 'var(--font-weight-extrabold)',
+            color: 'var(--color-text-main)',
+            letterSpacing: '-0.025em',
+            marginBottom: 'var(--space-xs)',
+          }}>
+            {project.title} — Team Workspace
+          </h1>
+
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 0 }}>
+            Dedicated collaboration environment for accepted team members.
+          </p>
+
+          {/* Sub-Navigation Tabs */}
+          <div style={{
+            display: 'flex',
+            gap: 'var(--space-xs)',
+            marginTop: 'var(--space-xl)',
+            borderTop: '1px solid var(--color-border-subtle)',
+            paddingTop: 'var(--space-md)',
+          }}>
+            <button
+              onClick={() => setActiveTab('overview')}
+              style={{
                 display: 'flex',
-                flexWrap: 'wrap',
                 alignItems: 'center',
-                gap: 'var(--space-lg)',
-                fontSize: '12px',
-                fontFamily: 'var(--font-mono)',
-                color: 'var(--color-text-muted)',
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Layers size={14} color="var(--color-cyan)" />
-                  <span>{project.category}</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Users size={14} color="var(--color-accent)" />
-                  <span>TEAM: {(project.memberIds?.length || 0)} / {project.teamSize}</span>
-                </div>
-                {project.deadline && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <Calendar size={14} color="var(--color-amber)" />
-                    <span>TARGET: {formatDate(project.deadline)}</span>
-                  </div>
-                )}
-              </div>
-            </div>
+                gap: '6px',
+                padding: '6px 14px',
+                borderRadius: 'var(--radius-sm)',
+                fontSize: 'var(--font-size-sm)',
+                fontWeight: activeTab === 'overview' ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
+                color: activeTab === 'overview' ? 'var(--color-accent)' : 'var(--color-text-muted)',
+                backgroundColor: activeTab === 'overview' ? 'var(--color-accent-soft)' : 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+              }}
+            >
+              <LayoutDashboard size={15} />
+              Overview
+            </button>
 
-            {/* Quick Actions */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <Link
-                to={ROUTES.PROJECT_DETAIL(id)}
-                className="btn btn-secondary"
-                style={{ padding: '8px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)' }}
-              >
-                <ExternalLink size={14} /> PUBLIC_VIEW
-              </Link>
-            </div>
+            <button
+              onClick={() => setActiveTab('tasks')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '6px 14px',
+                borderRadius: 'var(--radius-sm)',
+                fontSize: 'var(--font-size-sm)',
+                fontWeight: activeTab === 'tasks' ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
+                color: activeTab === 'tasks' ? 'var(--color-accent)' : 'var(--color-text-muted)',
+                backgroundColor: activeTab === 'tasks' ? 'var(--color-accent-soft)' : 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+              }}
+            >
+              <CheckSquare size={15} />
+              Tasks
+            </button>
+
+            <button
+              onClick={() => setActiveTab('messages')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '6px 14px',
+                borderRadius: 'var(--radius-sm)',
+                fontSize: 'var(--font-size-sm)',
+                fontWeight: activeTab === 'messages' ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
+                color: activeTab === 'messages' ? 'var(--color-accent)' : 'var(--color-text-muted)',
+                backgroundColor: activeTab === 'messages' ? 'var(--color-accent-soft)' : 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+              }}
+            >
+              <MessageSquare size={15} />
+              Messages
+            </button>
           </div>
         </div>
 
-        {/* High-Tech Tab Controls */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-          marginBottom: 'var(--space-2xl)',
-          paddingBottom: '8px',
-        }}>
-          {[
-            { id: 'overview', label: 'OVERVIEW', icon: LayoutDashboard },
-            { id: 'tasks', label: 'DIRECTIVES & TASKS', icon: CheckSquare },
-            { id: 'messages', label: 'QUANTUM CHAT', icon: MessageSquare },
-            { id: 'team', label: 'TEAM ROSTER', icon: Users },
-          ].map((tab) => {
-            const Icon = tab.icon;
-            const isSelected = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '10px 18px',
-                  borderRadius: 'var(--radius-sm)',
-                  border: isSelected ? '1px solid var(--color-cyan)' : '1px solid transparent',
-                  backgroundColor: isSelected ? 'rgba(6, 182, 212, 0.12)' : 'transparent',
-                  color: isSelected ? '#FFFFFF' : 'var(--color-text-muted)',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '12px',
-                  fontWeight: isSelected ? 'bold' : 'normal',
-                  cursor: 'pointer',
-                  transition: 'all var(--transition-fast)',
-                }}
-              >
-                <Icon size={15} color={isSelected ? 'var(--color-cyan)' : 'currentColor'} />
-                {tab.label}
-              </button>
-            );
-          })}
-        </div>
+        {/* OVERVIEW TAB CONTENT */}
+        {activeTab === 'overview' && (
+          <div>
+            {/* Context Banner */}
+            <div style={{
+              backgroundColor: 'var(--color-accent-soft)',
+              border: '1px solid var(--color-accent-border)',
+              borderRadius: 'var(--radius-lg)',
+              padding: 'var(--space-lg)',
+              marginBottom: 'var(--space-2xl)',
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: 'var(--space-sm)',
+            }}>
+              <Sparkles size={20} color="var(--color-accent)" style={{ flexShrink: 0, marginTop: '2px' }} />
+              <div>
+                <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-main)', marginBottom: '2px' }}>
+                  Team Overview Active
+                </div>
+                <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-normal)' }}>
+                  Welcome to your project workspace. Team roster, repository links, and scope details are available below. Real-time chat and task boards will unlock in upcoming platform updates.
+                </div>
+              </div>
+            </div>
 
-        {/* Tab Views */}
-        <div>
-          {activeTab === 'overview' && (
+            {/* Key Workspace Grid */}
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-              gap: 'var(--space-2xl)',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+              gap: 'var(--space-md)',
+              padding: 'var(--space-lg)',
+              backgroundColor: 'var(--color-bg-surface)',
+              borderRadius: 'var(--radius-lg)',
+              border: '1px solid var(--color-border)',
+              marginBottom: 'var(--space-2xl)',
             }}>
-              {/* Project Specs */}
-              <div style={{
-                backgroundColor: 'rgba(22, 29, 45, 0.65)',
-                backdropFilter: 'blur(16px)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                borderRadius: 'var(--radius-lg)',
-                padding: 'var(--space-xl)',
-              }}>
-                <h3 style={{
-                  fontSize: 'var(--font-size-base)',
-                  fontFamily: 'var(--font-mono)',
-                  color: 'var(--color-cyan)',
-                  marginBottom: 'var(--space-md)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                }}>
-                  <Terminal size={16} /> SPECIFICATION_SUMMARY
-                </h3>
-
-                <p style={{
-                  fontSize: 'var(--font-size-sm)',
-                  color: 'var(--color-text-main)',
-                  lineHeight: 'var(--line-height-relaxed)',
-                  marginBottom: 'var(--space-xl)',
-                }}>
-                  {project.description}
-                </p>
-
-                <h4 style={{
-                  fontSize: '12px',
-                  fontFamily: 'var(--font-mono)',
-                  color: 'var(--color-text-muted)',
-                  marginBottom: '10px',
-                }}>
-                  REQUIRED_SKILL_MATRIX
-                </h4>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                  {(project.requiredSkills || []).map((skill) => (
-                    <span key={skill} className="badge badge-cyan">
-                      {skill}
-                    </span>
-                  ))}
+              <div>
+                <span style={metaLabelStyle}>Team Roster</span>
+                <div style={metaValueStyle}>
+                  <Users size={16} color="var(--color-accent)" />
+                  {memberCount} / {project.teamSize} Members Active
                 </div>
               </div>
 
-              {/* Workspace Roster Snippet */}
               <div>
-                <TeamMembers projectId={id} isOwner={isOwner} />
+                <span style={metaLabelStyle}>Target Deadline</span>
+                <div style={metaValueStyle}>
+                  <Calendar size={16} color="var(--color-accent)" />
+                  {formatDate(project.deadline)}
+                </div>
               </div>
+
+              {project.repositoryUrl && (
+                <div>
+                  <span style={metaLabelStyle}>Code Repository</span>
+                  <a
+                    href={project.repositoryUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      fontSize: 'var(--font-size-sm)',
+                      fontWeight: 'var(--font-weight-bold)',
+                      color: 'var(--color-accent)',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    Open GitHub Repo
+                    <ExternalLink size={13} />
+                  </a>
+                </div>
+              )}
             </div>
-          )}
 
-          {activeTab === 'tasks' && (
-            <TaskList projectId={id} isOwner={isOwner} />
-          )}
-
-          {activeTab === 'messages' && (
-            <MessageList projectId={id} />
-          )}
-
-          {activeTab === 'team' && (
-            <div style={{ maxWidth: '720px' }}>
-              <TeamMembers projectId={id} isOwner={isOwner} />
+            {/* Project Description Block */}
+            <div style={{
+              backgroundColor: 'var(--color-bg-surface)',
+              border: '1px solid var(--color-border)',
+              borderRadius: 'var(--radius-lg)',
+              padding: 'var(--space-xl)',
+              marginBottom: 'var(--space-2xl)',
+            }}>
+              <h3 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-bold)', marginBottom: 'var(--space-sm)' }}>
+                Project Overview & Requirements
+              </h3>
+              <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-main)', lineHeight: 'var(--line-height-relaxed)', whiteSpace: 'pre-wrap', margin: 0 }}>
+                {project.description}
+              </p>
             </div>
-          )}
-        </div>
+
+            {/* Team Roster Block */}
+            <div style={{
+              backgroundColor: 'var(--color-bg-surface)',
+              border: '1px solid var(--color-border)',
+              borderRadius: 'var(--radius-lg)',
+              padding: 'var(--space-xl)',
+            }}>
+              <h3 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-bold)', marginBottom: 'var(--space-lg)' }}>
+                Team Members
+              </h3>
+              <TeamMembers projectId={project._id} ownerId={ownerId} />
+            </div>
+          </div>
+        )}
+
+        {/* TASKS TAB CONTENT */}
+        {activeTab === 'tasks' && (
+          <TaskList projectId={project._id} isOwner={isOwner} />
+        )}
+
+        {/* MESSAGES TAB CONTENT */}
+        {activeTab === 'messages' && (
+          <MessageList projectId={project._id} />
+        )}
       </div>
     </div>
   );
+};
+
+const badgeStyle = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '4px',
+  fontSize: 'var(--font-size-xs)',
+  color: 'var(--color-text-main)',
+  backgroundColor: 'var(--color-bg-primary)',
+  padding: '3px 9px',
+  borderRadius: 'var(--radius-xs)',
+  border: '1px solid var(--color-border-subtle)',
+  fontWeight: 'var(--font-weight-medium)',
+};
+
+const metaLabelStyle = {
+  fontSize: 'var(--font-size-xs)',
+  color: 'var(--color-text-muted)',
+  fontWeight: 'var(--font-weight-medium)',
+  display: 'block',
+  marginBottom: '4px',
+};
+
+const metaValueStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '6px',
+  fontSize: 'var(--font-size-sm)',
+  fontWeight: 'var(--font-weight-bold)',
+  color: 'var(--color-text-main)',
 };
