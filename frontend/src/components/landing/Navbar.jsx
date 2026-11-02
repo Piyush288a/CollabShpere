@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { ROUTES } from '../../constants/routes.constants';
-import { Menu, X, Rocket, LayoutDashboard, LogOut } from 'lucide-react';
+import { Rocket, Sparkles, Menu, X, LogOut, User, LayoutDashboard } from 'lucide-react';
 import '../../styles/global.css';
 
 export const Navbar = () => {
@@ -20,77 +20,80 @@ export const Navbar = () => {
       position: 'sticky',
       top: 0,
       zIndex: 100,
-      backgroundColor: 'rgba(250, 248, 245, 0.92)',
-      backdropFilter: 'blur(10px)',
-      WebkitBackdropFilter: 'blur(10px)',
+      backgroundColor: 'rgba(250, 248, 245, 0.88)',
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
       borderBottom: '1px solid var(--color-border-subtle)',
     }}>
       <div className="container" style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        height: '68px',
+        height: '72px',
       }}>
-        {/* Left: Logo */}
+        {/* Brand Logo */}
         <Link to={ROUTES.HOME} style={{
           display: 'flex',
           alignItems: 'center',
-          gap: 'var(--space-xs)',
-          fontSize: 'var(--font-size-lg)',
+          gap: 'var(--space-sm)',
+          fontSize: 'var(--font-size-xl)',
           fontWeight: 'var(--font-weight-extrabold)',
           color: 'var(--color-text-main)',
-          letterSpacing: '-0.025em',
+          letterSpacing: '-0.03em',
         }}>
           <span style={{
-            width: '28px',
-            height: '28px',
-            borderRadius: 'var(--radius-sm)',
+            width: '32px',
+            height: '32px',
+            borderRadius: 'var(--radius-md)',
             backgroundColor: 'var(--color-accent)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             color: '#FFFFFF',
+            boxShadow: 'var(--shadow-glow)',
           }}>
-            <Rocket size={16} />
+            <Rocket size={18} />
           </span>
           CollabSphere
         </Link>
 
-        {/* Center: Navigation Links */}
+        {/* Desktop Nav Links */}
         <nav style={{
           display: 'none',
           alignItems: 'center',
-          gap: 'var(--space-xl)',
+          gap: 'var(--space-2xl)',
         }} className="desktop-nav">
-          <Link to={ROUTES.HOME} style={navLinkStyle}>Projects</Link>
-          <Link to={ROUTES.HOME} style={navLinkStyle}>Showcases</Link>
-          <a href="#what-is-collabsphere" style={navLinkStyle}>About</a>
+          <a href="#features" style={navLinkStyle}>Features</a>
+          <a href="#workspace" style={navLinkStyle}>Workspace</a>
+          <a href="#showcases" style={navLinkStyle}>Showcases</a>
+          <a href="#how-it-works" style={navLinkStyle}>How it works</a>
         </nav>
 
-        {/* Right: Actions */}
+        {/* Right Action Buttons */}
         <div style={{
           display: 'none',
           alignItems: 'center',
-          gap: 'var(--space-sm)',
+          gap: 'var(--space-md)',
         }} className="desktop-actions">
           {isAuthenticated ? (
             <>
-              <Link to={ROUTES.DASHBOARD} className="btn btn-secondary" style={{ padding: '0.5rem 1rem', fontSize: 'var(--font-size-xs)' }}>
-                <LayoutDashboard size={14} color="var(--color-accent)" />
-                Workspace ({user?.name?.split(' ')[0] || 'User'})
+              <Link to={ROUTES.DASHBOARD} className="btn btn-secondary">
+                <LayoutDashboard size={16} color="var(--color-accent)" />
+                Workspace ({user?.name.split(' ')[0]})
               </Link>
-              <button onClick={handleLogout} className="btn btn-outline" style={{ padding: '0.5rem 0.85rem', fontSize: 'var(--font-size-xs)', border: 'none' }}>
-                <LogOut size={14} />
+              <button onClick={handleLogout} className="btn btn-outline" style={{ border: 'none' }}>
+                <LogOut size={16} />
                 Log out
               </button>
             </>
           ) : (
             <>
-              <Link to={ROUTES.LOGIN} className="btn btn-outline" style={{ padding: '0.5rem 1rem', fontSize: 'var(--font-size-xs)', border: 'none' }}>
-                Login
+              <Link to={ROUTES.LOGIN} className="btn btn-outline" style={{ border: 'none' }}>
+                Log in
               </Link>
-              <Link to={ROUTES.REGISTER} className="btn btn-primary" style={{ padding: '0.5rem 1.1rem', fontSize: 'var(--font-size-xs)' }}>
+              <Link to={ROUTES.REGISTER} className="btn btn-primary">
                 Get Started
+                <Sparkles size={16} />
               </Link>
             </>
           )}
@@ -112,7 +115,7 @@ export const Navbar = () => {
             padding: 'var(--space-xs)',
           }}
         >
-          {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
@@ -126,9 +129,10 @@ export const Navbar = () => {
           flexDirection: 'column',
           gap: 'var(--space-md)',
         }}>
-          <Link to={ROUTES.HOME} onClick={() => setMobileMenuOpen(false)} style={mobileNavLinkStyle}>Projects</Link>
-          <Link to={ROUTES.HOME} onClick={() => setMobileMenuOpen(false)} style={mobileNavLinkStyle}>Showcases</Link>
-          <a href="#what-is-collabsphere" onClick={() => setMobileMenuOpen(false)} style={mobileNavLinkStyle}>About</a>
+          <a href="#features" onClick={() => setMobileMenuOpen(false)} style={mobileNavLinkStyle}>Features</a>
+          <a href="#workspace" onClick={() => setMobileMenuOpen(false)} style={mobileNavLinkStyle}>Workspace</a>
+          <a href="#showcases" onClick={() => setMobileMenuOpen(false)} style={mobileNavLinkStyle}>Showcases</a>
+          <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} style={mobileNavLinkStyle}>How it works</a>
           <hr style={{ border: 'none', borderTop: '1px solid var(--color-border-subtle)', margin: 'var(--space-xs) 0' }} />
 
           {isAuthenticated ? (
@@ -143,7 +147,7 @@ export const Navbar = () => {
           ) : (
             <>
               <Link to={ROUTES.LOGIN} onClick={() => setMobileMenuOpen(false)} className="btn btn-secondary" style={{ width: '100%' }}>
-                Login
+                Log in
               </Link>
               <Link to={ROUTES.REGISTER} onClick={() => setMobileMenuOpen(false)} className="btn btn-primary" style={{ width: '100%' }}>
                 Get Started
@@ -153,7 +157,7 @@ export const Navbar = () => {
         </div>
       )}
 
-      {/* Responsive stylesheet */}
+      {/* Inline styles for responsive queries */}
       <style>{`
         @media (min-width: 768px) {
           .desktop-nav { display: flex !important; }

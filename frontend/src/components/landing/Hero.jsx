@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Compass } from 'lucide-react';
+import { ArrowRight, Sparkles, Compass } from 'lucide-react';
 import { HeroMockup } from './HeroMockup';
 import { ROUTES } from '../../constants/routes.constants';
 import '../../styles/global.css';
@@ -8,64 +8,101 @@ import '../../styles/global.css';
 export const Hero = () => {
   return (
     <section className="bg-grid-pattern" style={{
-      paddingTop: 'clamp(var(--space-3xl), 6vw, var(--space-4xl))',
-      paddingBottom: 'clamp(var(--space-3xl), 6vw, var(--space-4xl))',
+      paddingTop: 'clamp(var(--space-3xl), 8vw, var(--space-5xl))',
+      paddingBottom: 'clamp(var(--space-3xl), 8vw, var(--space-5xl))',
       overflow: 'hidden',
     }}>
-      <div className="container" style={{ textAlign: 'center' }}>
-        {/* Hero Content */}
-        <div style={{ maxWidth: '720px', margin: '0 auto var(--space-3xl)' }}>
-          <h1 style={{
-            fontSize: 'clamp(2.5rem, 5.5vw, var(--font-size-6xl))',
-            lineHeight: 1.12,
-            letterSpacing: '-0.035em',
-            marginBottom: 'var(--space-md)',
-            fontWeight: 'var(--font-weight-extrabold)',
-            color: 'var(--color-text-main)',
-          }}>
-            Build Together.<br />
-            <span style={{ color: 'var(--color-accent)' }}>
-              Create Something Great.
-            </span>
-          </h1>
+      <div className="container">
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr',
+          gap: 'var(--space-3xl)',
+          alignItems: 'center',
+        }} className="hero-grid">
+          {/* Left Column: Hero Content */}
+          <div style={{ maxWidth: '640px' }}>
+            {/* Top Pill */}
+            <div className="badge" style={{ marginBottom: 'var(--space-lg)' }}>
+              <Sparkles size={14} />
+              <span>Student Collaboration Startup Platform</span>
+            </div>
 
-          <p style={{
-            fontSize: 'clamp(var(--font-size-base), 2vw, var(--font-size-lg))',
-            color: 'var(--color-text-muted)',
-            maxWidth: '560px',
-            margin: '0 auto var(--space-2xl)',
-            lineHeight: 'var(--line-height-relaxed)',
-          }}>
-            CollabSphere helps students discover projects, find teammates, and build together.
-          </p>
+            {/* Main Headline */}
+            <h1 style={{
+              marginBottom: 'var(--space-lg)',
+              letterSpacing: '-0.03em',
+              lineHeight: 1.1,
+            }}>
+              Build Together.{' '}
+              <span style={{ color: 'var(--color-accent)' }}>
+                Create Something Great.
+              </span>
+            </h1>
 
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 'var(--space-md)',
-            flexWrap: 'wrap',
-          }}>
-            <Link to={ROUTES.REGISTER} className="btn btn-primary" style={{
-              padding: '0.75rem 1.6rem',
-              fontSize: 'var(--font-size-base)',
+            {/* Supporting Copy */}
+            <p style={{
+              fontSize: 'clamp(var(--font-size-base), 2vw, var(--font-size-lg))',
+              color: 'var(--color-text-muted)',
+              marginBottom: 'var(--space-2xl)',
+              lineHeight: 'var(--line-height-relaxed)',
             }}>
-              Get Started
-              <ArrowRight size={18} />
-            </Link>
-            <a href="#what-is-collabsphere" className="btn btn-secondary" style={{
-              padding: '0.75rem 1.4rem',
-              fontSize: 'var(--font-size-base)',
+              CollabSphere helps university students discover software projects, find skilled teammates, manage task boards, chat in real time, and showcase finished work to the campus community.
+            </p>
+
+            {/* CTA Group */}
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              gap: 'var(--space-md)',
             }}>
-              <Compass size={18} color="var(--color-accent)" />
-              Explore Projects
-            </a>
+              <Link to={ROUTES.REGISTER} className="btn btn-primary" style={{
+                padding: '0.85rem 1.75rem',
+                fontSize: 'var(--font-size-base)',
+              }}>
+                Get Started Free
+                <ArrowRight size={18} />
+              </Link>
+              <a href="#showcases" className="btn btn-secondary" style={{
+                padding: '0.85rem 1.5rem',
+                fontSize: 'var(--font-size-base)',
+              }}>
+                <Compass size={18} color="var(--color-accent)" />
+                Explore Projects
+              </a>
+            </div>
+
+            {/* Small Trust Micro-copy */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--space-md)',
+              marginTop: 'var(--space-2xl)',
+              fontSize: 'var(--font-size-xs)',
+              color: 'var(--color-text-subtle)',
+            }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                ✓ Built for Students & Teams
+              </span>
+              <span>•</span>
+              <span>✓ REST & Socket.IO Real-Time Engine</span>
+            </div>
+          </div>
+
+          {/* Right Column: Interactive Visual Mockup */}
+          <div>
+            <HeroMockup />
           </div>
         </div>
-
-        {/* Clean Single Product Preview Card */}
-        <HeroMockup />
       </div>
+
+      <style>{`
+        @media (min-width: 992px) {
+          .hero-grid {
+            grid-template-columns: 1.1fr 0.9fr !important;
+          }
+        }
+      `}</style>
     </section>
   );
 };

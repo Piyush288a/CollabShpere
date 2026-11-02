@@ -5,67 +5,64 @@ export const HowItWorks = () => {
   const steps = [
     {
       number: '01',
-      title: 'Discover',
-      description: 'Find project ideas worth building across campus.',
+      title: 'Discover Ideas',
+      description: 'Browse student project proposals or post your own project idea requiring specific technical skills.',
     },
     {
       number: '02',
-      title: 'Connect',
-      description: 'Message creators and form a balanced software team.',
+      title: 'Connect & Form Team',
+      description: 'Send collaboration requests with personalized pitch messages and build a balanced team.',
     },
     {
       number: '03',
-      title: 'Build',
-      description: 'Collaborate with task tracking, chat, and team workspaces.',
+      title: 'Build Together',
+      description: 'Manage task boards, assign responsibilities, and chat in real time inside your project workspace.',
     },
     {
       number: '04',
-      title: 'Showcase',
-      description: 'Publish your completed project to the campus feed.',
+      title: 'Showcase Finished Work',
+      description: 'Publish completed software to the university showcase feed, gather peer likes, and receive feedback.',
     },
   ];
 
   return (
     <section id="how-it-works" style={{
-      paddingTop: 'clamp(var(--space-3xl), 7vw, var(--space-5xl))',
-      paddingBottom: 'clamp(var(--space-3xl), 7vw, var(--space-5xl))',
-      backgroundColor: 'var(--color-bg-primary)',
+      paddingTop: 'clamp(var(--space-3xl), 8vw, var(--space-5xl))',
+      paddingBottom: 'clamp(var(--space-3xl), 8vw, var(--space-5xl))',
+      backgroundColor: 'var(--color-bg-surface)',
+      borderTop: '1px solid var(--color-border-subtle)',
     }}>
-      <div className="container" style={{ maxWidth: '960px' }}>
-        {/* Header */}
-        <div style={{ textAlign: 'center', maxWidth: '560px', margin: '0 auto var(--space-3xl)' }}>
-          <h2 style={{
-            fontSize: 'clamp(2rem, 4vw, var(--font-size-4xl))',
-            fontWeight: 'var(--font-weight-extrabold)',
-            color: 'var(--color-text-main)',
-            marginBottom: 'var(--space-xs)',
-          }}>
-            How It Works
+      <div className="container">
+        {/* Section Header */}
+        <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto var(--space-3xl)' }}>
+          <span className="section-tag">WORKFLOW</span>
+          <h2 style={{ marginBottom: 'var(--space-md)' }}>
+            Four steps to launch your project
           </h2>
           <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)' }}>
-            Four simple steps to turn student ideas into real software.
+            A structured journey taking student ideas from concept to campus-wide showcase.
           </p>
         </div>
 
-        {/* 4 Minimal Step Cards */}
+        {/* 4 Steps Flow Grid */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
           gap: 'var(--space-xl)',
         }}>
           {steps.map((item, idx) => (
             <div key={idx} style={{
-              backgroundColor: 'var(--color-bg-surface)',
+              backgroundColor: 'var(--color-bg-primary)',
               border: '1px solid var(--color-border)',
               borderRadius: 'var(--radius-lg)',
               padding: 'var(--space-xl)',
-              boxShadow: 'var(--shadow-sm)',
+              position: 'relative',
             }}>
               <div style={{
-                fontSize: 'var(--font-size-2xl)',
+                fontSize: 'var(--font-size-3xl)',
                 fontWeight: 'var(--font-weight-extrabold)',
                 color: 'var(--color-accent)',
-                marginBottom: 'var(--space-sm)',
+                marginBottom: 'var(--space-md)',
                 letterSpacing: '-0.03em',
               }}>
                 {item.number}
@@ -73,9 +70,7 @@ export const HowItWorks = () => {
 
               <h3 style={{
                 fontSize: 'var(--font-size-lg)',
-                fontWeight: 'var(--font-weight-bold)',
                 marginBottom: 'var(--space-xs)',
-                color: 'var(--color-text-main)',
               }}>
                 {item.title}
               </h3>
@@ -84,7 +79,6 @@ export const HowItWorks = () => {
                 fontSize: 'var(--font-size-sm)',
                 color: 'var(--color-text-muted)',
                 lineHeight: 'var(--line-height-normal)',
-                margin: 0,
               }}>
                 {item.description}
               </p>

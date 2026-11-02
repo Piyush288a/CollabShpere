@@ -1,8 +1,13 @@
 import React from 'react';
 import { Navbar } from '../components/landing/Navbar';
 import { Hero } from '../components/landing/Hero';
-import { WhatIsCollabSphere } from '../components/landing/WhatIsCollabSphere';
+import { TrustStrip } from '../components/landing/TrustStrip';
+import { ValueProp } from '../components/landing/ValueProp';
+import { FeaturesGrid } from '../components/landing/FeaturesGrid';
+import { DarkShowcase } from '../components/landing/DarkShowcase';
+import { ShowcaseSection } from '../components/landing/ShowcaseSection';
 import { HowItWorks } from '../components/landing/HowItWorks';
+import { PrinciplesSection } from '../components/landing/PrinciplesSection';
 import { FinalCTA } from '../components/landing/FinalCTA';
 import { Footer } from '../components/landing/Footer';
 
@@ -12,8 +17,13 @@ export const LandingPage = () => {
       <Navbar />
       <main>
         <Hero />
-        <WhatIsCollabSphere />
+        <TrustStrip />
+        <ValueProp />
+        <FeaturesGrid />
+        <DarkShowcase />
+        <ShowcaseSection />
         <HowItWorks />
+        <PrinciplesSection />
         <FinalCTA />
       </main>
       <Footer />
