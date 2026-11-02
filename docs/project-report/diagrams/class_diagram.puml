@@ -1,0 +1,128 @@
+' Figure 4.2: Class Diagram of CollabSphere
+@startuml
+skinparam class {
+    BackgroundColor #FFFFFF
+    BorderColor #161311
+    ArrowColor #161311
+}
+
+class User {
+  +_id: ObjectId
+  +name: String
+  +email: String
+  +password: String
+  +role: String = "student" | "admin"
+  +status: String = "active" | "suspended"
+  +skills: List<String>
+  +bio: String
+  +githubUrl: String
+  +linkedinUrl: String
+  +avatar: String
+  +createdAt: Date
+  +updatedAt: Date
+  +matchPassword(enteredPassword): Boolean
+}
+
+class Project {
+  +_id: ObjectId
+  +ownerId: ObjectId
+  +memberIds: List<ObjectId>
+  +title: String
+  +description: String
+  +category: String
+  +requiredSkills: List<String>
+  +teamSize: Number
+  +deadline: Date
+  +difficulty: String = "Beginner" | "Intermediate" | "Advanced"
+  +status: String = "OPEN" | "IN_PROGRESS" | "COMPLETED"
+  +bookmarkedBy: List<ObjectId>
+  +repositoryUrl: String
+  +projectImage: String
+  +createdAt: Date
+  +updatedAt: Date
+}
+
+class CollaborationRequest {
+  +_id: ObjectId
+  +projectId: ObjectId
+  +senderId: ObjectId
+  +message: String
+  +status: String = "PENDING" | "ACCEPTED" | "REJECTED"
+  +createdAt: Date
+  +updatedAt: Date
+}
+
+class Task {
+  +_id: ObjectId
+  +projectId: ObjectId
+  +title: String
+  +description: String
+  +assignedTo: ObjectId
+  +status: String = "TODO" | "IN_PROGRESS" | "COMPLETED"
+  +dueDate: Date
+  +createdAt: Date
+  +updatedAt: Date
+}
+
+class Message {
+  +_id: ObjectId
+  +projectId: ObjectId
+  +senderId: ObjectId
+  +message: String
+  +createdAt: Date
+  +updatedAt: Date
+}
+
+class Showcase {
+  +_id: ObjectId
+  +projectId: ObjectId
+  +title: String
+  +description: String
+  +technologies: List<String>
+  +githubUrl: String
+  +demoUrl: String
+  +images: List<String>
+  +likesCount: Number
+  +likedBy: List<ObjectId>
+  +comments: List<Comment>
+  +createdAt: Date
+  +updatedAt: Date
+}
+
+class Comment <<Embedded>> {
+  +_id: ObjectId
+  +userId: ObjectId
+  +text: String
+  +createdAt: Date
+}
+
+class Report {
+  +_id: ObjectId
+  +reporterId: ObjectId
+  +targetType: String = "USER" | "PROJECT" | "SHOWCASE" | "COMMENT"
+  +targetId: ObjectId
+  +reason: String
+  +status: String = "PENDING" | "RESOLVED" | "DISMISSED"
+  +createdAt: Date
+  +updatedAt: Date
+}
+
+User "1" -- "0..*" Project : owns (ownerId)
+User "0..*" -- "0..*" Project : memberOf (memberIds)
+User "0..*" -- "0..*" Project : bookmarks (bookmarkedBy)
+
+Project "1" -- "0..*" CollaborationRequest : receives
+User "1" -- "0..*" CollaborationRequest : sends (senderId)
+
+Project "1" -- "0..*" Task : contains
+User "0..1" -- "0..*" Task : assignedTo
+
+Project "1" -- "0..*" Message : hasHistory
+User "1" -- "0..*" Message : sends (senderId)
+
+Project "1" -- "0..1" Showcase : showcases (unique projectId)
+User "0..*" -- "0..*" Showcase : likes (likedBy)
+Showcase "1" *-- "0..*" Comment : embeds
+
+User "1" -- "0..*" Report : files (reporterId)
+@enduml

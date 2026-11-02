@@ -1,0 +1,41 @@
+' Figure 4.3: Activity Diagram – Project Collaboration Workflow
+@startuml
+skinparam activity {
+    BackgroundColor #FFFFFF
+    BorderColor #161311
+    BarColor #161311
+    StartColor #161311
+    EndColor #161311
+}
+
+start
+:Student views Open Project;
+:Student submits Collaboration Request;
+:System validates Request rules (Project is OPEN, sender is not owner/member, no duplicate PENDING request);
+
+if (Rules Valid?) then (Yes)
+  :System saves Collaboration Request with status PENDING;
+  :System notifies Project Owner;
+  :Project Owner reviews Request and Applicant Profile;
+  
+  if (Owner Decision?) then (Accept)
+    if (Team Member Capacity Available?) then (Yes)
+      :Set Request Status to ACCEPTED;
+      :Add Applicant to Project memberIds ($addToSet);
+      :System notifies Applicant;
+    else (No - Team Full)
+      :Reject Acceptance (Error 400: Team size limit reached);
+      stop
+    endif
+  else (Reject)
+    :Set Request Status to REJECTED;
+    :System notifies Applicant;
+  endif
+
+else (No)
+  :Return Validation Error (400 / 409 Conflict);
+  stop
+endif
+
+stop
+@enduml

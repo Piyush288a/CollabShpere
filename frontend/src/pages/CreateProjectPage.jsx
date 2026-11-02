@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { projectService } from '../services/project.service';
 import { ROUTES } from '../constants/routes.constants';
 import { ArrowLeft, Rocket, AlertCircle, Loader2 } from 'lucide-react';
 import '../styles/global.css';
 
-const CATEGORIES = [
+const DEFAULT_CATEGORIES = [
   'Web Development',
   'Mobile Development',
   'AI & Machine Learning',
@@ -14,6 +14,12 @@ const CATEGORIES = [
   'Game Development',
   'Open Source',
   'Cybersecurity',
+  'Healthcare',
+  'Fintech',
+  'Civic Tech',
+  'Agriculture',
+  'Education',
+  'Sustainability',
   'Other',
 ];
 
@@ -33,8 +39,26 @@ export const CreateProjectPage = () => {
     repositoryUrl: '',
   });
 
+  const [categories, setCategories] = useState(DEFAULT_CATEGORIES);
+  const [isCustomCategory, setIsCustomCategory] = useState(false);
+  const [customCategory, setCustomCategory] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const res = await projectService.getCategories();
+        if (res?.categories && Array.isArray(res.categories)) {
+          const list = res.categories.filter((c) => c !== 'Other');
+          setCategories([...list, 'Other']);
+        }
+      } catch (err) {
+        console.warn('Could not load dynamic categories, using defaults:', err);
+      }
+    };
+    loadCategories();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -242,17 +266,42 @@ export const CreateProjectPage = () => {
                 <select
                   id="category"
                   name="category"
-                  value={formData.category}
-                  onChange={handleChange}
+                  value={isCustomCategory ? 'Other' : formData.category}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val === 'Other') {
+                      setIsCustomCategory(true);
+                      setFormData((prev) => ({ ...prev, category: 'Other' }));
+                    } else {
+                      setIsCustomCategory(false);
+                      setFormData((prev) => ({ ...prev, category: val }));
+                    }
+                  }}
                   className="form-control"
                   style={inputStyle}
                 >
-                  {CATEGORIES.map((cat) => (
+                  {categories.map((cat) => (
                     <option key={cat} value={cat}>
-                      {cat}
+                      {cat === 'Other' ? '+ Other / Custom Category...' : cat}
                     </option>
                   ))}
                 </select>
+
+                {isCustomCategory && (
+                  <div style={{ marginTop: 'var(--space-sm)' }}>
+                    <input
+                      type="text"
+                      placeholder="Enter custom category (e.g. Healthcare, Fintech, Robotics)..."
+                      value={customCategory}
+                      onChange={(e) => setCustomCategory(e.target.value)}
+                      className="form-control"
+                      style={inputStyle}
+                      maxLength={60}
+                      required
+                    />
+                    <span style={helpTextStyle}>This category will be saved with your project and added to campus filters.</span>
+                  </div>
+                )}
               </div>
 
               {/* Difficulty */}

@@ -71,6 +71,16 @@ export const socketService = {
     socket.off('request:created', callback);
   },
 
+  onProjectUpdated(callback) {
+    if (!socket) return;
+    socket.on('project:updated', callback);
+  },
+
+  offProjectUpdated(callback) {
+    if (!socket) return;
+    socket.off('project:updated', callback);
+  },
+
   getSocket() {
     return socket;
   },

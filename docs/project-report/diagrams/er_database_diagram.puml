@@ -1,0 +1,126 @@
+' Figure 4.7: ER / Database Design Diagram of CollabSphere
+@startuml
+skinparam class {
+    BackgroundColor #FFFFFF
+    BorderColor #161311
+    ArrowColor #161311
+}
+
+entity "Users" as Users {
+  * _id : ObjectId <<PK>>
+  --
+  * name : String
+  * email : String <<Unique>>
+  * password : String <<Hashed>>
+  * role : String <<Enum: student, admin>>
+  * status : String <<Enum: active, suspended>>
+  skills : Array<String>
+  bio : String
+  githubUrl : String
+  linkedinUrl : String
+  avatar : String
+  createdAt : Date
+  updatedAt : Date
+}
+
+entity "Projects" as Projects {
+  * _id : ObjectId <<PK>>
+  --
+  * ownerId : ObjectId <<FK -> Users>>
+  memberIds : Array<ObjectId> <<FK -> Users>>
+  * title : String
+  * description : String
+  * category : String
+  requiredSkills : Array<String>
+  * teamSize : Number
+  deadline : Date
+  * difficulty : String <<Enum: Beginner, Intermediate, Advanced>>
+  * status : String <<Enum: OPEN, IN_PROGRESS, COMPLETED>>
+  bookmarkedBy : Array<ObjectId> <<FK -> Users>>
+  repositoryUrl : String
+  projectImage : String
+  createdAt : Date
+  updatedAt : Date
+}
+
+entity "CollaborationRequests" as CollaborationRequests {
+  * _id : ObjectId <<PK>>
+  --
+  * projectId : ObjectId <<FK -> Projects>>
+  * senderId : ObjectId <<FK -> Users>>
+  message : String
+  * status : String <<Enum: PENDING, ACCEPTED, REJECTED>>
+  createdAt : Date
+  updatedAt : Date
+}
+
+entity "Tasks" as Tasks {
+  * _id : ObjectId <<PK>>
+  --
+  * projectId : ObjectId <<FK -> Projects>>
+  * title : String
+  description : String
+  assignedTo : ObjectId <<FK -> Users>>
+  * status : String <<Enum: TODO, IN_PROGRESS, COMPLETED>>
+  dueDate : Date
+  createdAt : Date
+  updatedAt : Date
+}
+
+entity "Messages" as Messages {
+  * _id : ObjectId <<PK>>
+  --
+  * projectId : ObjectId <<FK -> Projects>>
+  * senderId : ObjectId <<FK -> Users>>
+  * message : String
+  createdAt : Date
+  updatedAt : Date
+}
+
+entity "Showcases" as Showcases {
+  * _id : ObjectId <<PK>>
+  --
+  * projectId : ObjectId <<FK -> Projects, Unique>>
+  * title : String
+  * description : String
+  technologies : Array<String>
+  githubUrl : String
+  demoUrl : String
+  images : Array<String>
+  likesCount : Number
+  likedBy : Array<ObjectId> <<FK -> Users>>
+  comments : Array<EmbeddedComment>
+  createdAt : Date
+  updatedAt : Date
+}
+
+entity "Reports" as Reports {
+  * _id : ObjectId <<PK>>
+  --
+  * reporterId : ObjectId <<FK -> Users>>
+  * targetType : String <<Enum: USER, PROJECT, SHOWCASE, COMMENT>>
+  * targetId : ObjectId
+  * reason : String
+  * status : String <<Enum: PENDING, RESOLVED, DISMISSED>>
+  createdAt : Date
+  updatedAt : Date
+}
+
+Users ||--o{ Projects : "owns (ownerId)"
+Users }|--o{ Projects : "memberOf (memberIds)"
+Users }|--o{ Projects : "bookmarks (bookmarkedBy)"
+
+Projects ||--o{ CollaborationRequests : "receives"
+Users ||--o{ CollaborationRequests : "sends (senderId)"
+
+Projects ||--o{ Tasks : "contains"
+Users ||--o{ Tasks : "assignedTo"
+
+Projects ||--o{ Messages : "storesHistory"
+Users ||--o{ Messages : "sends (senderId)"
+
+Projects ||--|| Showcases : "publishedAs (1:1)"
+Users }|--o{ Showcases : "likes (likedBy)"
+
+Users ||--o{ Reports : "files (reporterId)"
+@enduml

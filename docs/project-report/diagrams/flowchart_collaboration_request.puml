@@ -1,0 +1,33 @@
+' Figure 5.2: Flowchart – Collaboration Request Processing
+@startuml
+skinparam activity {
+    BackgroundColor #FFFFFF
+    BorderColor #161311
+    BarColor #161311
+    StartColor #161311
+    EndColor #161311
+}
+
+start
+:Receive Join Request (projectId, message);
+:Retrieve Project details from Database;
+
+if (Project Status == "OPEN"?) then (No)
+  :Return Error 400 (Project not open for requests);
+  stop
+endif
+
+if (Sender == Project Owner OR Sender in memberIds?) then (Yes)
+  :Return Error 400 (Cannot request to join own or already-joined project);
+  stop
+endif
+
+if (Existing Pending Request for Sender & Project?) then (Yes)
+  :Return Error 409 Conflict (Duplicate active request);
+  stop
+endif
+
+:Save CollaborationRequest (status: PENDING);
+:Return HTTP 201 Created { success: true };
+stop
+@enduml

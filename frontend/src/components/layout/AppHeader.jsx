@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { ROUTES } from '../../constants/routes.constants';
-import { Rocket, Plus, LogOut, Menu, X, LayoutDashboard, Compass, Shield, Award } from 'lucide-react';
+import { Logo } from '../common/Logo';
+import { Plus, LogOut, Menu, X, LayoutDashboard, Compass, Shield, Award } from 'lucide-react';
 import '../../styles/global.css';
 
 export const AppHeader = () => {
@@ -43,29 +44,32 @@ export const AppHeader = () => {
         height: '64px',
       }}>
         {/* Left: Brand Logo + Nav Links */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2xl)' }}>
-          <Link to={ROUTES.DASHBOARD} style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 'var(--space-xs)',
-            fontSize: 'var(--font-size-lg)',
-            fontWeight: 'var(--font-weight-extrabold)',
-            color: 'var(--color-text-main)',
-            letterSpacing: '-0.025em',
-          }}>
-            <span style={{
-              width: '28px',
-              height: '28px',
-              borderRadius: 'var(--radius-sm)',
-              backgroundColor: 'var(--color-accent)',
-              display: 'flex',
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2xl)', height: '100%' }}>
+          <Link
+            to={ROUTES.DASHBOARD}
+            style={{
+              display: 'inline-flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              color: '#FFFFFF',
-            }}>
-              <Rocket size={16} />
-            </span>
-            CollabSphere
+              textDecoration: 'none',
+              position: 'relative',
+              height: '100%',
+              paddingRight: '6px',
+            }}
+          >
+            <Logo height={48} />
+            {/* Header border bends/contours along with the text like a thick border */}
+            <span
+              style={{
+                position: 'absolute',
+                bottom: '-1px',
+                left: 0,
+                right: 0,
+                height: '3.5px',
+                backgroundColor: '#B84B00',
+                borderRadius: '2px 2px 0 0',
+                boxShadow: '0 2px 8px rgba(184, 75, 0, 0.28)',
+              }}
+            />
           </Link>
 
           {/* Desktop Navigation Links */}

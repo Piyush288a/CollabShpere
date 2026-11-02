@@ -225,3 +225,15 @@ a {
     scroll-behavior: auto !important;
   }
 }
+
+/* Dynamic Project Detail Page Layout & Floating Nav */
+@media (max-width: 992px) {
+  .project-layout-container {
+    grid-template-columns: 1fr !important;
+  }
+  .project-floating-nav-column {
+    position: static !important;
+    top: auto !important;
+    order: -1;
+  }
+}

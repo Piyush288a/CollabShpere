@@ -1,0 +1,67 @@
+' Figure 4.5: Sequence Diagram – Collaboration Request Workflow
+@startuml
+skinparam sequence {
+    ParticipantBackgroundColor #FFFFFF
+    ParticipantBorderColor #161311
+    ActorBackgroundColor #FAF8F5
+    ActorBorderColor #161311
+    LifeLineBorderColor #161311
+    ArrowColor #161311
+}
+
+actor "Applicant Student" as Applicant
+participant "React Frontend\n(Workspace/Discovery)" as React
+participant "Express REST API\n(requestController)" as API
+database "MongoDB Database\n(Collections)" as DB
+actor "Project Owner" as Owner
+
+Applicant -> React : Click "Apply to Join" (message)
+React -> API : POST /api/projects/:id/requests { message }
+activate API
+
+API -> DB : Find Project & existing Requests
+activate DB
+DB --> API : Project details & Request list
+deactivate DB
+
+API -> API : Validate OPEN status, not owner, not member, no pending duplicate
+API -> DB : Create CollaborationRequest (status: PENDING)
+activate DB
+DB --> API : Request saved
+deactivate DB
+
+API --> React : 201 Created { success: true, data: request }
+deactivate API
+React --> Applicant : Display "Application Submitted"
+
+... Time Passes ...
+
+Owner -> React : View Project Requests List
+React -> API : GET /api/projects/:id/requests
+activate API
+API -> DB : Query CollaborationRequests (projectId)
+activate DB
+DB --> API : Return requests list
+deactivate DB
+API --> React : 200 OK { success: true, data: { results } }
+deactivate API
+
+Owner -> React : Click "Accept Request"
+React -> API : PATCH /api/requests/:id { status: "ACCEPTED" }
+activate API
+
+API -> API : Verify Owner identity & check teamSize capacity
+API -> DB : Update Request status -> ACCEPTED
+activate DB
+DB --> API : Request updated
+deactivate DB
+
+API -> DB : Update Project memberIds ($addToSet: senderId)
+activate DB
+DB --> API : Member added to Project
+deactivate DB
+
+API --> React : 200 OK { success: true, data: updatedRequest }
+deactivate API
+React --> Owner : Display "Member Accepted & Added to Team"
+@enduml

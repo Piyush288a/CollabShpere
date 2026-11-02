@@ -13,6 +13,7 @@ export const ENDPOINTS = {
 
   // Projects
   PROJECTS: '/projects',
+  PROJECT_CATEGORIES: '/projects/categories',
   PROJECT_BY_ID: (id) => `/projects/${id}`,
   PROJECT_STATUS: (id) => `/projects/${id}/status`,
   PROJECT_BOOKMARK: (id) => `/projects/${id}/bookmark`,

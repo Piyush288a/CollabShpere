@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Project = require('../models/Project');
 const formatProject = require('../utils/formatProject');
 const { parsePagination, buildPagination } = require('../utils/paginate');
+const { getIo } = require('../socket');
 
 // Fields a user may set on create / update. Server-controlled fields
 // (ownerId, memberIds, status, bookmarkedBy) are never accepted here.
@@ -15,6 +16,17 @@ const EDITABLE_FIELDS = [
   'difficulty',
   'repositoryUrl',
   'projectImage',
+];
+
+const PREDEFINED_CATEGORIES = [
+  'Web Development',
+  'Mobile Development',
+  'AI & Machine Learning',
+  'Data Science',
+  'DevOps',
+  'Game Development',
+  'Open Source',
+  'Cybersecurity',
 ];
 
 const DIFFICULTIES = ['Beginner', 'Intermediate', 'Advanced'];
@@ -77,9 +89,26 @@ const listProjects = async (req, res, next) => {
       filter.$or = [{ title: rx }, { description: rx }];
     }
 
-    // Exact (case-insensitive) category match.
+    // Category filter: exact match, or if 'Other', match 'Other' + anything not in PREDEFINED_CATEGORIES
     if (category) {
-      filter.category = new RegExp(`^${category}$`, 'i');
+      if (category.toLowerCase() === 'other') {
+        const otherConditions = [
+          { category: /^other$/i },
+          {
+            category: {
+              $nin: PREDEFINED_CATEGORIES.map((c) => new RegExp(`^${c}$`, 'i')),
+            },
+          },
+        ];
+        if (filter.$or) {
+          filter.$and = [{ $or: filter.$or }, { $or: otherConditions }];
+          delete filter.$or;
+        } else {
+          filter.$or = otherConditions;
+        }
+      } else {
+        filter.category = new RegExp(`^${category}$`, 'i');
+      }
     }
 
     // Enum filters — reject unknown values with 400.
@@ -214,6 +243,16 @@ const updateStatus = async (req, res, next) => {
     project.status = status;
     await project.save();
 
+    const io = getIo();
+    if (io) {
+      io.emit('project:updated', {
+        projectId: String(project._id),
+        status: project.status,
+        memberIds: project.memberIds.map(String),
+        teamSize: project.teamSize,
+      });
+    }
+
     res.status(200).json({
       success: true,
       data: { project: formatProject(project) },
@@ -290,9 +329,33 @@ const removeBookmark = async (req, res, next) => {
   }
 };
 
+// GET /api/projects/categories — list all distinct categories from DB merged with predefined
+const getCategories = async (req, res, next) => {
+  try {
+    const dbCategories = await Project.distinct('category');
+    const all = Array.from(
+      new Set([
+        ...PREDEFINED_CATEGORIES,
+        ...dbCategories.filter((c) => typeof c === 'string' && c.trim().length > 0),
+      ])
+    ).sort((a, b) => a.localeCompare(b));
+
+    res.status(200).json({
+      success: true,
+      data: {
+        categories: all,
+        predefined: PREDEFINED_CATEGORIES,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createProject,
   listProjects,
+  getCategories,
   getProjectById,
   updateProject,
   updateStatus,

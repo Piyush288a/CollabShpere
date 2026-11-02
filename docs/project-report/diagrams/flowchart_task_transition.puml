@@ -1,0 +1,28 @@
+' Figure 5.3: Flowchart – Task Status Transition
+@startuml
+skinparam activity {
+    BackgroundColor #FFFFFF
+    BorderColor #161311
+    BarColor #161311
+    StartColor #161311
+    EndColor #161311
+}
+
+start
+:Receive Task Update Request (taskId, newStatus);
+:Fetch Task & associated Project;
+
+if (Caller is Owner OR Caller in memberIds?) then (No)
+  :Return Error 403 Forbidden (Team members only);
+  stop
+endif
+
+if (New Status is valid forward transition?) then (Yes: TODO -> IN_PROGRESS -> COMPLETED)
+  :Update Task status in Database;
+  :Return HTTP 200 OK { success: true, data: updatedTask };
+else (No: Backward, Skip, or Invalid Status)
+  :Return Error 400 Bad Request (Invalid status transition);
+endif
+
+stop
+@enduml

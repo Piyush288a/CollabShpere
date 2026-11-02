@@ -1,0 +1,45 @@
+' Figure 5.5: Flowchart – Role-Based Access Control
+@startuml
+skinparam activity {
+    BackgroundColor #FFFFFF
+    BorderColor #161311
+    BarColor #161311
+    StartColor #161311
+    EndColor #161311
+}
+
+start
+:Incoming HTTP API Request;
+
+if (Route requires Auth?) then (Yes)
+  :Verify Authorization Bearer Header Token;
+  
+  if (Token Valid & Not Expired?) then (Yes)
+    :Fetch Account Status from Database;
+    
+    if (User Account Status == "active"?) then (Yes)
+      if (Route requires Admin Role?) then (Yes)
+        if (User Role == "admin"?) then (Yes)
+          :Execute Controller Business Logic;
+          stop
+        else (No)
+          :Return Error 403 Forbidden (Admin privileges required);
+          stop
+        endif
+      else (No - Student Authorized)
+        :Execute Controller Business Logic;
+        stop
+      endif
+    else (No - Suspended)
+      :Return Error 401 Unauthorized (Account suspended);
+      stop
+    endif
+  else (No)
+    :Return Error 401 Unauthorized (Token missing or invalid);
+    stop
+  endif
+else (No - Public Route)
+  :Execute Controller Business Logic;
+  stop
+endif
+@enduml

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { ROUTES } from '../../constants/routes.constants';
-import { Rocket, Sparkles, Menu, X, LogOut, User, LayoutDashboard } from 'lucide-react';
+import { Logo } from '../common/Logo';
+import { Sparkles, Menu, X, LogOut, User, LayoutDashboard } from 'lucide-react';
 import '../../styles/global.css';
 
 export const Navbar = () => {
@@ -31,30 +32,32 @@ export const Navbar = () => {
         justifyContent: 'space-between',
         height: '72px',
       }}>
-        {/* Brand Logo */}
-        <Link to={ROUTES.HOME} style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 'var(--space-sm)',
-          fontSize: 'var(--font-size-xl)',
-          fontWeight: 'var(--font-weight-extrabold)',
-          color: 'var(--color-text-main)',
-          letterSpacing: '-0.03em',
-        }}>
-          <span style={{
-            width: '32px',
-            height: '32px',
-            borderRadius: 'var(--radius-md)',
-            backgroundColor: 'var(--color-accent)',
-            display: 'flex',
+        {/* Brand Logo — enlarged with thick border contour along the text */}
+        <Link
+          to={ROUTES.HOME}
+          style={{
+            display: 'inline-flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            color: '#FFFFFF',
-            boxShadow: 'var(--shadow-glow)',
-          }}>
-            <Rocket size={18} />
-          </span>
-          CollabSphere
+            textDecoration: 'none',
+            position: 'relative',
+            height: '100%',
+            paddingRight: '6px',
+          }}
+        >
+          <Logo height={56} />
+          {/* Header border bends/contours along with the text like a thick border */}
+          <span
+            style={{
+              position: 'absolute',
+              bottom: '-1px',
+              left: 0,
+              right: 0,
+              height: '3.5px',
+              backgroundColor: '#B84B00',
+              borderRadius: '2px 2px 0 0',
+              boxShadow: '0 2px 8px rgba(184, 75, 0, 0.28)',
+            }}
+          />
         </Link>
 
         {/* Desktop Nav Links */}

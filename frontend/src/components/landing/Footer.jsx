@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Rocket } from 'lucide-react';
+import { Logo } from '../common/Logo';
 import { ROUTES } from '../../constants/routes.constants';
 import '../../styles/global.css';
 
@@ -26,25 +26,10 @@ export const Footer = () => {
             <Link to={ROUTES.HOME} style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 'var(--space-sm)',
-              fontSize: 'var(--font-size-xl)',
-              fontWeight: 'var(--font-weight-extrabold)',
-              color: '#FFFFFF',
+              textDecoration: 'none',
               marginBottom: 'var(--space-md)',
             }}>
-              <span style={{
-                width: '30px',
-                height: '30px',
-                borderRadius: 'var(--radius-md)',
-                backgroundColor: 'var(--color-accent)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#FFFFFF',
-              }}>
-                <Rocket size={16} />
-              </span>
-              CollabSphere
+              <Logo height={32} variant="inverted" />
             </Link>
             <p style={{
               color: 'var(--color-text-dark-muted)',

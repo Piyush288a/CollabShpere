@@ -1,0 +1,60 @@
+' Figure 4.1: Use Case Diagram of CollabSphere
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam actor {
+    BackgroundColor #FAF8F5
+    BorderColor #161311
+}
+skinparam usecase {
+    BackgroundColor #FFFFFF
+    BorderColor #161311
+}
+
+actor "Student User" as Student
+actor "Administrator" as Admin
+
+rectangle "CollabSphere Platform" {
+    usecase "Register & Login Account" as UC_Auth
+    usecase "Manage Profile & Skills" as UC_Profile
+    usecase "Create & Manage Projects" as UC_Project
+    usecase "Search & Filter Projects" as UC_SearchProjects
+    usecase "Bookmark Projects" as UC_Bookmark
+    usecase "Submit Collaboration Request" as UC_SubmitRequest
+    usecase "Accept / Reject Join Requests" as UC_DecideRequest
+    usecase "Manage Project Tasks" as UC_Tasks
+    usecase "Real-Time Workspace Chat" as UC_Chat
+    usecase "Publish Project Showcase" as UC_Showcase
+    usecase "Like & Comment Showcases" as UC_Social
+    usecase "Report Content / User" as UC_Report
+    
+    usecase "View Platform Statistics" as UC_AdminStats
+    usecase "Suspend / Reactivate Accounts" as UC_AdminUsers
+    usecase "Moderate Projects (Cascade Delete)" as UC_AdminProjects
+    usecase "Resolve / Dismiss Content Reports" as UC_AdminReports
+}
+
+Student --> UC_Auth
+Student --> UC_Profile
+Student --> UC_Project
+Student --> UC_SearchProjects
+Student --> UC_Bookmark
+Student --> UC_SubmitRequest
+Student --> UC_DecideRequest
+Student --> UC_Tasks
+Student --> UC_Chat
+Student --> UC_Showcase
+Student --> UC_Social
+Student --> UC_Report
+
+Admin --> UC_Auth
+Admin --> UC_Profile
+Admin --> UC_AdminStats
+Admin --> UC_AdminUsers
+Admin --> UC_AdminProjects
+Admin --> UC_AdminReports
+
+UC_SubmitRequest ..> UC_DecideRequest : <<include>>
+UC_Showcase ..> UC_Social : <<extend>>
+@enduml

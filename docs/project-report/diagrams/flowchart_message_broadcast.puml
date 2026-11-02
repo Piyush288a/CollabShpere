@@ -1,0 +1,29 @@
+' Figure 5.4: Flowchart – Real-Time Message Processing
+@startuml
+skinparam activity {
+    BackgroundColor #FFFFFF
+    BorderColor #161311
+    BarColor #161311
+    StartColor #161311
+    EndColor #161311
+}
+
+start
+:Receive POST /api/projects/:id/messages (message text);
+:Authenticate JWT & check isTeamMember(project, senderId);
+
+if (Authorized Team Member?) then (Yes)
+  :Persist Message document to MongoDB Collection;
+  :Get Socket.IO instance via getIo();
+  
+  if (Socket Instance Active?) then (Yes)
+    :Broadcast "message:new" payload to room "project:<id>";
+  endif
+  
+  :Return HTTP 201 Created to HTTP Caller;
+else (No)
+  :Return Error 403 Forbidden;
+endif
+
+stop
+@enduml

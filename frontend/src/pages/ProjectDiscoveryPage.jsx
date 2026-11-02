@@ -2,10 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { projectService } from '../services/project.service';
 import { ProjectCard } from '../components/projects/ProjectCard';
 import { ProjectSkeleton } from '../components/projects/ProjectSkeleton';
+import { socketService } from '../services/socket.service';
 import { Search, Filter, X, ChevronLeft, ChevronRight, RefreshCw, FolderSearch } from 'lucide-react';
 import '../styles/global.css';
 
-const CATEGORIES = [
+const DEFAULT_CATEGORIES = [
   'All Categories',
   'Web Development',
   'Mobile Development',
@@ -25,6 +26,22 @@ export const ProjectDiscoveryPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [categories, setCategories] = useState(DEFAULT_CATEGORIES);
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const res = await projectService.getCategories();
+        if (res?.categories && Array.isArray(res.categories)) {
+          const list = res.categories.filter((c) => c !== 'Other');
+          setCategories(['All Categories', ...list, 'Other']);
+        }
+      } catch (err) {
+        console.warn('Failed to load dynamic categories:', err);
+      }
+    };
+    loadCategories();
+  }, []);
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -72,6 +89,38 @@ export const ProjectDiscoveryPage = () => {
   useEffect(() => {
     fetchProjects();
   }, [fetchProjects]);
+
+  useEffect(() => {
+    const handleProjectUpdated = (payload) => {
+      if (!payload || !payload.projectId) return;
+
+      setProjects((prevProjects) =>
+        prevProjects
+          .map((p) => {
+            const id = p._id || p.id;
+            if (String(id) === String(payload.projectId)) {
+              return {
+                ...p,
+                status: payload.status,
+                memberIds: payload.memberIds || p.memberIds,
+              };
+            }
+            return p;
+          })
+          .filter((p) => {
+            if (selectedStatus && selectedStatus !== 'All Statuses') {
+              return p.status === selectedStatus;
+            }
+            return true;
+          })
+      );
+    };
+
+    socketService.onProjectUpdated(handleProjectUpdated);
+    return () => {
+      socketService.offProjectUpdated(handleProjectUpdated);
+    };
+  }, [selectedStatus]);
 
   const handleClearFilters = () => {
     setSearchTerm('');
@@ -206,7 +255,7 @@ export const ProjectDiscoveryPage = () => {
                 onChange={(e) => { setSelectedCategory(e.target.value); setCurrentPage(1); }}
                 style={selectStyle}
               >
-                {CATEGORIES.map((cat) => (
+                {categories.map((cat) => (
                   <option key={cat} value={cat === 'All Categories' ? '' : cat}>
                     {cat}
                   </option>

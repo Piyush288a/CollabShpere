@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   createProject,
   listProjects,
+  getCategories,
   getProjectById,
   updateProject,
   updateStatus,
@@ -13,6 +14,7 @@ const {
 const {
   createRequest,
   listProjectRequests,
+  getMyRequest,
   getProjectTeam,
 } = require('../controllers/requestController');
 const { createTask, listTasks } = require('../controllers/taskController');
@@ -20,6 +22,7 @@ const { sendMessage, listMessages } = require('../controllers/messageController'
 const { authMiddleware } = require('../middleware/authMiddleware');
 
 // Public reads
+router.get('/categories', getCategories);
 router.get('/', listProjects);
 router.get('/:id', getProjectById);
 
@@ -36,6 +39,7 @@ router.delete('/:id/bookmark', authMiddleware, removeBookmark);
 // Collaboration requests (Phase 5)
 router.post('/:id/requests', authMiddleware, createRequest);      // send a join request
 router.get('/:id/requests', authMiddleware, listProjectRequests); // owner lists incoming requests
+router.get('/:id/my-request', authMiddleware, getMyRequest);      // applicant checks their request status
 router.get('/:id/team', authMiddleware, getProjectTeam);          // team members (owner + memberIds)
 
 // Tasks (Phase 6) — team members only

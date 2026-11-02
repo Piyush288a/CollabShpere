@@ -1,0 +1,41 @@
+' Figure 4.6: Sequence Diagram – Real-Time Messaging & Showcase Workflow
+@startuml
+skinparam sequence {
+    ParticipantBackgroundColor #FFFFFF
+    ParticipantBorderColor #161311
+    ActorBackgroundColor #FAF8F5
+    ActorBorderColor #161311
+    LifeLineBorderColor #161311
+    ArrowColor #161311
+}
+
+actor "Team Member A" as MemberA
+participant "React Client A" as ClientA
+participant "Socket.IO Server\n(socket/index.js)" as SocketServer
+participant "Express REST API\n(messageController)" as REST
+database "MongoDB Database" as DB
+participant "React Client B" as ClientB
+actor "Team Member B" as MemberB
+
+MemberA -> ClientA : Types chat message & hits Send
+ClientA -> REST : POST /api/projects/:id/messages { message }
+activate REST
+
+REST -> REST : Verify JWT & isTeamMember(project, senderId)
+REST -> DB : Message.create({ projectId, senderId, message })
+activate DB
+DB --> REST : Message saved with _id & timestamps
+deactivate DB
+
+REST -> SocketServer : getIo().to("project:<id>").emit("message:new", formattedMsg)
+activate SocketServer
+SocketServer -> ClientB : Broadcast "message:new" event
+activate ClientB
+ClientB --> MemberB : UI updates instantly with new message bubble
+deactivate ClientB
+deactivate SocketServer
+
+REST --> ClientA : 201 Created { success: true, data: message }
+deactivate REST
+ClientA --> MemberA : Render sent message confirmation
+@enduml

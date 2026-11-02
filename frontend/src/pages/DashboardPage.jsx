@@ -5,6 +5,7 @@ import { projectService } from '../services/project.service';
 import { ROUTES } from '../constants/routes.constants';
 import { ProjectCard } from '../components/projects/ProjectCard';
 import { ProjectSkeleton } from '../components/projects/ProjectSkeleton';
+import { socketService } from '../services/socket.service';
 import { Compass, Plus, ArrowRight, FolderGit2, Sparkles, RefreshCw } from 'lucide-react';
 import '../styles/global.css';
 
@@ -17,11 +18,11 @@ export const DashboardPage = () => {
 
   const firstName = user?.name ? user.name.split(' ')[0] : 'Student';
 
-  const fetchDashboardData = async () => {
-    setIsLoading(true);
+  const fetchDashboardData = async (showLoading = true) => {
+    if (showLoading) setIsLoading(true);
     setError(null);
     try {
-      // Fetch list of projects (limit 20 to find user projects and community projects)
+      // Fetch list of projects (limit 30 to find user projects and community projects)
       const data = await projectService.getProjects({ limit: 30 });
       const allProjects = data.results || [];
 
@@ -35,26 +36,68 @@ export const DashboardPage = () => {
         return isOwner || isMember;
       });
 
-      // Filter discover projects (open projects not owned by user)
+      // Filter discover projects (strictly OPEN projects not owned by user and not full)
       const discoverable = allProjects
         .filter((p) => {
           const ownerId = typeof p.ownerId === 'object' ? p.ownerId?._id : p.ownerId;
-          return String(ownerId) !== String(userId);
+          const memberCount = Array.isArray(p.memberIds) ? p.memberIds.length : 1;
+          const isFull = memberCount >= p.teamSize;
+          return String(ownerId) !== String(userId) && p.status === 'OPEN' && !isFull;
         })
         .slice(0, 4);
 
       setMyProjects(userProjects);
-      setDiscoverProjects(discoverable.length > 0 ? discoverable : allProjects.slice(0, 4));
+      setDiscoverProjects(discoverable);
     } catch (err) {
       console.error('Failed to load dashboard data:', err);
       setError(err.message || 'Unable to load dashboard data. Please try again.');
     } finally {
-      setIsLoading(false);
+      if (showLoading) setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchDashboardData();
+    fetchDashboardData(true);
+
+    const handleProjectUpdated = (payload) => {
+      if (!payload || !payload.projectId) return;
+
+      // Update discoverProjects: remove if not OPEN, or update in-place
+      setDiscoverProjects((prev) =>
+        prev
+          .map((p) =>
+            p._id === payload.projectId
+              ? { ...p, status: payload.status, memberIds: payload.memberIds || p.memberIds }
+              : p
+          )
+          .filter((p) => {
+            const memberCount = Array.isArray(p.memberIds) ? p.memberIds.length : 1;
+            const isFull = memberCount >= p.teamSize;
+            return p.status === 'OPEN' && !isFull;
+          })
+      );
+
+      // Update myProjects: update in-place with new status and members
+      setMyProjects((prev) =>
+        prev.map((p) =>
+          p._id === payload.projectId
+            ? { ...p, status: payload.status, memberIds: payload.memberIds || p.memberIds }
+            : p
+        )
+      );
+    };
+
+    const handleRequestUpdated = () => {
+      fetchDashboardData(false);
+    };
+
+    socketService.onProjectUpdated(handleProjectUpdated);
+    socketService.onRequestUpdated(handleRequestUpdated);
+
+    return () => {
+      socketService.offProjectUpdated(handleProjectUpdated);
+      socketService.offRequestUpdated(handleRequestUpdated);
+    };
   }, [user]);
 
   return (

@@ -16,4 +16,9 @@ export const projectService = {
     const response = await apiClient.post(ENDPOINTS.PROJECTS, projectData);
     return response.data; // returns { project }
   },
+
+  async getCategories() {
+    const response = await apiClient.get(ENDPOINTS.PROJECT_CATEGORIES);
+    return response.data; // returns { categories, predefined }
+  },
 };

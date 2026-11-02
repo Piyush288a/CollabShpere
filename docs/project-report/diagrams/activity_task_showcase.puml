@@ -1,0 +1,34 @@
+' Figure 4.4: Activity Diagram – Task Management & Showcase Workflow
+@startuml
+skinparam activity {
+    BackgroundColor #FFFFFF
+    BorderColor #161311
+    BarColor #161311
+    StartColor #161311
+    EndColor #161311
+}
+
+start
+partition "Task Management Workflow" {
+    :Team Member creates Task in Project Workspace;
+    :System validates Assignee is a Project Team Member;
+    :Task created with initial status TODO;
+    :Team Member moves Task status TODO -> IN_PROGRESS -> COMPLETED;
+}
+
+partition "Showcase Publication Workflow" {
+    :All Tasks Completed & Development Finished;
+    :Project Owner updates Project Status to COMPLETED;
+    :Project Owner submits Showcase Details (title, tech tags, URLs, screenshots);
+    
+    if (Project Status == COMPLETED & Owner == Caller & Unique ProjectId?) then (Yes)
+        :System creates Showcase document;
+        :Showcase published to Public Showcase Feed;
+        :Other Students browse, like, and comment on Showcase;
+    else (No)
+        :System rejects publication (400 / 403 / 409);
+    endif
+}
+
+stop
+@enduml

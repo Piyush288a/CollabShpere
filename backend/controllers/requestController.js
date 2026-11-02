@@ -145,9 +145,19 @@ const decideRequest = async (req, res, next) => {
       }
 
       // Sync membership (idempotent) and persist the decision.
-      await Project.findByIdAndUpdate(project._id, {
-        $addToSet: { memberIds: request.senderId },
-      });
+      const isAlreadyMember = project.memberIds.some(
+        (id) => String(id) === String(request.senderId)
+      );
+      if (!isAlreadyMember) {
+        project.memberIds.push(request.senderId);
+      }
+
+      // When the members are full, the status of the project should be IN_PROGRESS
+      if (project.memberIds.length >= project.teamSize && project.status === 'OPEN') {
+        project.status = 'IN_PROGRESS';
+      }
+
+      await project.save();
     }
 
     request.status = status;
@@ -160,9 +170,18 @@ const decideRequest = async (req, res, next) => {
         status,
         senderId: String(request.senderId),
         projectId: String(project._id),
+        projectStatus: project.status,
       };
       io.to(roomName(project._id)).emit('request:updated', payload);
       io.to(`user:${request.senderId}`).emit('request:updated', payload);
+
+      // Emit project:updated globally so open project feeds, dashboard suggestions, and details update in real-time
+      io.emit('project:updated', {
+        projectId: String(project._id),
+        status: project.status,
+        memberIds: project.memberIds.map(String),
+        teamSize: project.teamSize,
+      });
     }
 
     res.status(200).json({
@@ -199,9 +218,30 @@ const getProjectTeam = async (req, res, next) => {
   }
 };
 
+// GET /api/projects/:id/my-request — returns current user's most recent request for this project (or null)
+const getMyRequest = async (req, res, next) => {
+  try {
+    const projectId = req.params.id;
+    if (!mongoose.isValidObjectId(projectId)) return next(httpError('Project not found', 404));
+
+    const request = await CollaborationRequest.findOne({
+      projectId,
+      senderId: req.user.userId,
+    }).sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      data: { request: request ? formatRequest(request) : null },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createRequest,
   listProjectRequests,
+  getMyRequest,
   decideRequest,
   getProjectTeam,
 };

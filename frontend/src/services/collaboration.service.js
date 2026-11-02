@@ -25,4 +25,10 @@ export const collaborationService = {
     const response = await apiClient.get(ENDPOINTS.PROJECT_TEAM(projectId));
     return response.data; // returns { projectId, ownerId, members }
   },
+
+  // GET /api/projects/:id/my-request — retrieve applicant's request status for this project
+  async getMyRequest(projectId) {
+    const response = await apiClient.get(`/projects/${projectId}/my-request`);
+    return response.data; // returns { request }
+  },
 };

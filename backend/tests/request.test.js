@@ -193,6 +193,30 @@ describe('PATCH /api/requests/:id', () => {
     expect(memberIds).toContain(sender.userId);
   });
 
+  it('should automatically mark project as IN_PROGRESS when member slots become full', async () => {
+    // Project with teamSize: 2 (owner + 1 slot)
+    const owner = await registerUser('owner_full@u.edu');
+    const project = await createProject(owner.token, { teamSize: 2 });
+    const sender = await registerUser('sender_full@u.edu');
+
+    const created = await request(app)
+      .post(`/api/projects/${project._id}/requests`)
+      .set('Authorization', `Bearer ${sender.token}`)
+      .send({});
+    const requestId = created.body.data.request._id;
+
+    const res = await request(app)
+      .patch(`/api/requests/${requestId}`)
+      .set('Authorization', `Bearer ${owner.token}`)
+      .send({ status: 'ACCEPTED' });
+
+    expect(res.statusCode).toBe(200);
+
+    const updatedProject = await Project.findById(project._id);
+    expect(updatedProject.status).toBe('IN_PROGRESS');
+    expect(updatedProject.memberIds).toHaveLength(2);
+  });
+
   it('should let the owner reject without adding a member', async () => {
     const { owner, project, sender, requestId } = await setup();
 

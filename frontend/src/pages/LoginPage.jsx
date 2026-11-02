@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { ROUTES } from '../constants/routes.constants';
-import { Rocket, ArrowLeft, Eye, EyeOff, AlertCircle, Loader2, Lock, Mail } from 'lucide-react';
+import { Logo } from '../components/common/Logo';
+import { ArrowLeft, Eye, EyeOff, AlertCircle, Loader2, Lock, Mail } from 'lucide-react';
 import '../styles/global.css';
 
 export const LoginPage = () => {
@@ -42,8 +43,10 @@ export const LoginPage = () => {
     }
   };
 
+  const hasTyped = Boolean(formData.email.length > 0 || formData.password.length > 0);
+
   return (
-    <div className="bg-grid-pattern" style={{
+    <div style={{
       minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',
@@ -51,9 +54,27 @@ export const LoginPage = () => {
       justifyContent: 'center',
       padding: 'var(--space-xl) var(--space-md)',
       backgroundColor: 'var(--color-bg-primary)',
+      position: 'relative',
+      overflow: 'hidden',
     }}>
+      {/* Dotted Background with dynamic blur effect when typing */}
+      <div
+        className="bg-grid-pattern"
+        aria-hidden="true"
+        style={{
+          position: 'fixed',
+          inset: '-24px',
+          pointerEvents: 'none',
+          filter: hasTyped ? 'blur(10px)' : 'none',
+          transform: hasTyped ? 'scale(1.04)' : 'scale(1)',
+          opacity: hasTyped ? 0.65 : 1,
+          transition: 'filter 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease, transform 0.5s ease',
+          zIndex: 0,
+        }}
+      />
+
       {/* Top Back Link */}
-      <div style={{ width: '100%', maxWidth: '440px', marginBottom: 'var(--space-lg)' }}>
+      <div style={{ width: '100%', maxWidth: '440px', marginBottom: 'var(--space-lg)', position: 'relative', zIndex: 1 }}>
         <Link to={ROUTES.HOME} style={{
           display: 'inline-flex',
           alignItems: 'center',
@@ -70,6 +91,8 @@ export const LoginPage = () => {
 
       {/* Main Authentication Card */}
       <div className="card" style={{
+        position: 'relative',
+        zIndex: 1,
         width: '100%',
         maxWidth: '440px',
         padding: 'clamp(var(--space-xl), 5vw, var(--space-2xl))',
@@ -81,18 +104,11 @@ export const LoginPage = () => {
         {/* Brand Header */}
         <div style={{ textAlign: 'center', marginBottom: 'var(--space-xl)' }}>
           <div style={{
-            width: '44px',
-            height: '44px',
-            borderRadius: 'var(--radius-md)',
-            backgroundColor: 'var(--color-accent)',
-            color: '#FFFFFF',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
             margin: '0 auto var(--space-md)',
-            boxShadow: 'var(--shadow-glow)',
+            display: 'flex',
+            justifyContent: 'center',
           }}>
-            <Rocket size={24} />
+            <Logo height={44} />
           </div>
           <h2 style={{ fontSize: 'var(--font-size-2xl)', marginBottom: 'var(--space-xs)' }}>
             Welcome back
