@@ -1,0 +1,1037 @@
+================================================================================
+           COLLABSPHERE — COMPLETE PRODUCTION DATABASE DIRECTORY
+================================================================================
+
+Database Platform:   MongoDB Atlas (Cloud Cluster)
+Shared Demo Password: securepassword123 (All accounts use this)
+Total Users:         35
+Total Projects:      32
+Total Showcases:     5
+Total Tasks:         10
+Total Requests:      11
+
+================================================================================
+TABLE OF CONTENTS
+================================================================================
+  1. QUICK LOGIN CHEAT SHEET (FAVORITE ACCOUNTS FOR DEMOS)
+  2. USER DIRECTORY BY ROLE
+     2.1 Platform Administrators (role: admin)
+     2.2 Student Project Owners / Team Leads
+     2.3 Student Team Members / Domain Specialists
+     2.4 Suspended / Moderated Accounts
+  3. PROJECTS DIRECTORY BY STATUS
+     3.1 Completed Projects (Published Showcases & Repositories)
+     3.2 Open Projects (Actively Recruiting Teammates)
+     3.3 In-Progress Projects (Active Teams & Task Boards)
+  4. SHOWCASES DIRECTORY
+  5. WORKSPACE TASKS & ASSIGNMENTS
+  6. COLLABORATION REQUESTS STATUS
+
+================================================================================
+1. QUICK LOGIN CHEAT SHEET (RECOMMENDED TEST PERSONAS)
+================================================================================
+
+All accounts use Password: securepassword123
+
+┌───────────────────────┬──────────────────────────────────────────┬─────────────────────────────┐
+│ ROLE / USE CASE       │ EMAIL ADDRESS                            │ NAME / SPECIALIZATION       │
+├───────────────────────┼──────────────────────────────────────────┼─────────────────────────────┤
+│ Super Admin           │ admin.collabsphere@gmail.com             │ Aarav Sharma (Full Admin)   │
+│ Lead Agritech Owner   │ priya.patel.dev@gmail.com                │ Priya Patel (React/Node)    │
+│ Lead AI/ML Owner      │ rohan.iyer.tech@gmail.com                │ Rohan Iyer (Python/PyTorch) │
+│ Lead Mobile/UI Owner  │ ananya.deshmukh.ui@gmail.com             │ Ananya Deshmukh (Flutter)   │
+│ Lead Cloud/Go Owner   │ vikram.reddy.cloud@gmail.com             │ Vikram Reddy (Go/Docker)    │
+│ Lead IoT/Green Owner  │ kavya.nair.foss@gmail.com                │ Kavya Nair (Embedded/IoT)   │
+│ Core Web Specialist   │ aditya.banerjee.fullstack@gmail.com      │ Aditya Banerjee (Next/TS)   │
+│ Core Systems/Rust     │ sneha.kulkarni.systems@gmail.com         │ Sneha Kulkarni (Rust/Wasm)  │
+│ Core NLP Specialist   │ meera.joshi.ml@gmail.com                 │ Meera Joshi (Transformers)  │
+│ Suspended User        │ saurabh.agarwal.mod@gmail.com            │ Saurabh Agarwal (Moderated) │
+└───────────────────────┴──────────────────────────────────────────┴─────────────────────────────┘
+
+================================================================================
+2. USER DIRECTORY BY ROLE
+================================================================================
+
+2.1 PLATFORM ADMINISTRATORS (role: admin)
+--------------------------------------------------------------------------------
+[ADMIN #1] Aarav Sharma
+  Email:       admin.collabsphere@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Platform Administration, Cybersecurity, Moderation
+  Bio:         Lead Administrator at CollabSphere. Overseeing university innovation safety and campus projects.
+  GitHub:      https://github.com/aarav-sharma-admin
+  LinkedIn:    https://linkedin.com/in/aarav-sharma-admin
+  ID:          650000000000000000000001
+
+
+2.2 STUDENT PROJECT OWNERS / TEAM LEADS (role: student)
+--------------------------------------------------------------------------------
+[OWNER #1] Priya Patel
+  Email:       priya.patel.dev@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      React, Node.js, MongoDB, Tailwind CSS
+  Bio:         Full-stack engineering student from Ahmedabad. Focused on agricultural technology and local civic tools.
+  GitHub:      https://github.com/priya-patel-dev
+  LinkedIn:    https://linkedin.com/in/priyapatel-ce
+  Projects:    KisanVani — Voice-First Agritech Advisory | UPI-Khata — Shared Hostel Expense Settler | VidyaVishwa — Peer Tutoring & Note Marketplace | SmartHostel — Mess & Room Management Suite
+  ID:          650000000000000000000002
+
+[OWNER #2] Rohan Iyer
+  Email:       rohan.iyer.tech@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Python, PyTorch, FastAPI, OpenCV
+  Bio:         AI researcher and undergrad in Bengaluru. Building ML diagnostics for public health and crop analysis.
+  GitHub:      https://github.com/rohan-iyer-ai
+  LinkedIn:    https://linkedin.com/in/rohaniyer-ai
+  Projects:    SwasthyaConnect — Rural Health Camp Queue & Triage | BhashaTranslate — Indic Technical Term Translator | CropShield — Vision-Based Early Leaf Disease Identifier | MediVision — Chest X-Ray Pathology Screener
+  ID:          650000000000000000000003
+
+[OWNER #3] Ananya Deshmukh
+  Email:       ananya.deshmukh.ui@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Flutter, Dart, Figma, Firebase
+  Bio:         Mobile architect and UI designer from Pune. Designing accessible educational applications.
+  GitHub:      https://github.com/ananya-deshmukh
+  LinkedIn:    https://linkedin.com/in/ananya-deshmukh-pune
+  Projects:    ShikshaSetu — Low-Bandwidth Digital Classroom | DrishtiAccessibility — Screen Reader for Indic Web | CampusPool — Verified Student Ride Sharing | NeuroTrack — Student Focus & Burnout Monitor
+  ID:          650000000000000000000004
+
+[OWNER #4] Vikram Reddy
+  Email:       vikram.reddy.cloud@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Go, Docker, Kubernetes, PostgreSQL
+  Bio:         Backend & Cloud enthusiast from Hyderabad. Developing microservices and civic reporting platforms.
+  GitHub:      https://github.com/vikram-reddy-dev
+  LinkedIn:    https://linkedin.com/in/vikram-reddy-hyd
+  Projects:    NagarSeva — Community Civic Issue Reporting Portal | DevStack-CLI — Developer Environment Provisioner | PaySathi — Micro-Merchant Tap-to-Phone Payment Gateway | CloudMesh — Microservice Service Mesh Proxy
+  ID:          650000000000000000000005
+
+[OWNER #5] Kavya Nair
+  Email:       kavya.nair.foss@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      IoT, Embedded C, Python, MQTT
+  Bio:         Hardware hacker and IoT systems builder from Kochi. Passionate about green energy and clean water sensors.
+  GitHub:      https://github.com/kavya-nair-iot
+  LinkedIn:    https://linkedin.com/in/kavya-nair-kochi
+  Projects:    UrjaDrishti — Campus Solar Grid Telemetry | AaharShare — Campus Food Surplus Redistribution | JalSuraksha — Smart Campus Water Quality Monitor | VayuWatch — Micro-Climate Air Quality Heatmap | EcoSort — Smart Recycling Waste Bin AI
+  ID:          650000000000000000000006
+
+[OWNER #6] Aditya Banerjee
+  Email:       aditya.banerjee.fullstack@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Next.js, TypeScript, GraphQL, Express
+  Bio:         Web engineer from Kolkata. Building developer ecosystems and open-source collaboration tools.
+  GitHub:      https://github.com/aditya-banerjee-web
+  LinkedIn:    https://linkedin.com/in/aditya-banerjee-kolkata
+  Projects:    CodeSync — Browser Pair Programming IDE | EventPulse — Live Campus Hackathon Scoring Board
+  ID:          650000000000000000000007
+
+[OWNER #7] Sneha Kulkarni
+  Email:       sneha.kulkarni.systems@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Rust, WebAssembly, Distributed Systems
+  Bio:         Systems programming student in Mumbai. Optimizing network throughput and low-latency databases.
+  GitHub:      https://github.com/sneha-kulkarni-rust
+  LinkedIn:    https://linkedin.com/in/sneha-kulkarni-mumbai
+  Projects:    RustNet — Ultra-Fast Distributed Key-Value Store
+  ID:          650000000000000000000008
+
+[OWNER #8] Meera Joshi
+  Email:       meera.joshi.ml@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      NLP, Transformers, HuggingFace, Python
+  Bio:         Natural Language Processing enthusiast from Indore. Working on Indic translation models.
+  GitHub:      https://github.com/meera-joshi-nlp
+  LinkedIn:    https://linkedin.com/in/meera-joshi-indore
+  Projects:    IndicNER — Named Entity Recognition for Indian Languages
+  ID:          650000000000000000000009
+
+[OWNER #9] Neha Gupta
+  Email:       neha.gupta.devops@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Terraform, AWS, CI/CD, Prometheus
+  Bio:         Cloud and site reliability engineering intern from Jaipur. Championing automated testing and pipelines.
+  GitHub:      https://github.com/neha-gupta-cloud
+  LinkedIn:    https://linkedin.com/in/neha-gupta-jaipur
+  Projects:    KubeWatch — Lightweight Cluster Metrics Visualizer
+  ID:          650000000000000000000010
+
+[OWNER #10] Kabir Mehta
+  Email:       kabir.mehta.web3@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Solidity, Ethereum, Web3.js, React
+  Bio:         Decentralized systems builder from Chandigarh. Exploring verifiable micro-credentials for students.
+  GitHub:      https://github.com/kabir-mehta-web3
+  LinkedIn:    https://linkedin.com/in/kabir-mehta-chd
+  Projects:    UniCert — Verifiable Student Credentials on Chain | VeriVote — Student Council Blockchain Voting Ballots
+  ID:          650000000000000000000011
+
+[OWNER #11] Tanya Verma
+  Email:       tanya.verma.security@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Penetration Testing, OWASP, Linux, Python
+  Bio:         Cybersecurity student from Lucknow. Active bug bounty hunter and CTF player.
+  GitHub:      https://github.com/tanya-verma-sec
+  LinkedIn:    https://linkedin.com/in/tanya-verma-lko
+  Projects:    ZeroTrustAuth — Microservice Mesh Gateway | SecScan — Automated Web Vulnerability Hunter | PacketForge — Network Traffic Flow Analyzer
+  ID:          650000000000000000000012
+
+[OWNER #12] Rahul Singh
+  Email:       rahul.singh.mobile@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      React Native, Kotlin, Redux, SQLite
+  Bio:         Cross-platform mobile developer from Patna. Building offline-first tools for rural areas.
+  GitHub:      https://github.com/rahul-singh-native
+  LinkedIn:    https://linkedin.com/in/rahul-singh-patna
+  Projects:    CareRoute — Emergency Blood Donor Notification Dispatcher
+  ID:          650000000000000000000013
+
+
+2.3 STUDENT TEAM MEMBERS / DOMAIN SPECIALISTS (role: student)
+--------------------------------------------------------------------------------
+[MEMBER #1] Diya Sharma
+  Email:       diya.sharma.iot@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Arduino, Raspberry Pi, C++, Circuit Design
+  Bio:         Electronics and Communication student from Bhopal. Prototyping smart campus traffic systems.
+  GitHub:      https://github.com/diya-sharma-embed
+  LinkedIn:    https://linkedin.com/in/diya-sharma-bhopal
+  Joined:      EcoSort — Smart Recycling Waste Bin AI
+  ID:          650000000000000000000014
+
+[MEMBER #2] Arjun Nair
+  Email:       arjun.nair.ai@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Computer Vision, YOLO, OpenCV, FastAPI
+  Bio:         Machine Vision researcher from Thiruvananthapuram. Specializing in autonomous navigation systems.
+  GitHub:      https://github.com/arjun-nair-vision
+  LinkedIn:    https://linkedin.com/in/arjun-nair-tvm
+  Joined:      MediVision — Chest X-Ray Pathology Screener
+  ID:          650000000000000000000015
+
+[MEMBER #3] Pooja Patil
+  Email:       pooja.patil.data@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      SQL, Tableau, Pandas, PowerBI
+  Bio:         Data analytics student from Nagpur. Uncovering insights in civic governance and transit.
+  GitHub:      https://github.com/pooja-patil-analytics
+  LinkedIn:    https://linkedin.com/in/pooja-patil-nagpur
+  Joined:      NagarSeva — Community Civic Issue Reporting Portal
+  ID:          650000000000000000000016
+
+[MEMBER #4] Rishabh Jain
+  Email:       rishabh.jain.frontend@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Vue.js, Tailwind CSS, Svelte, JavaScript
+  Bio:         Creative frontend developer from Surat. Dedicated to buttery-smooth web animations and micro-interactions.
+  GitHub:      https://github.com/rishabh-jain-ui
+  LinkedIn:    https://linkedin.com/in/rishabh-jain-surat
+  Joined:      SmartHostel — Mess & Room Management Suite
+  ID:          650000000000000000000017
+
+[MEMBER #5] Ishita Sen
+  Email:       ishita.sen.design@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      UI/UX Design, Design Systems, Figma, Prototyping
+  Bio:         Product designer from Kolkata. Passionate about user empathy, accessibility, and high-fidelity prototypes.
+  GitHub:      https://github.com/ishita-sen-ux
+  LinkedIn:    https://linkedin.com/in/ishita-sen-design
+  Joined:      DrishtiAccessibility — Screen Reader for Indic Web
+  ID:          650000000000000000000018
+
+[MEMBER #6] Varun Chopra
+  Email:       varun.chopra.backend@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Java, Spring Boot, Kafka, Redis
+  Bio:         Enterprise backend developer from Delhi. Building resilient, high-throughput payment pipelines.
+  GitHub:      https://github.com/varun-chopra-dev
+  LinkedIn:    https://linkedin.com/in/varun-chopra-delhi
+  Joined:      SmartHostel — Mess & Room Management Suite
+  ID:          650000000000000000000019
+
+[MEMBER #7] Khushi Kapoor
+  Email:       khushi.kapoor.cloud@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Azure, DevOps, Docker, Python
+  Bio:         Cloud architecture enthusiast from Amritsar. Helping student startups migrate to cloud infra.
+  GitHub:      https://github.com/khushi-kapoor-cloud
+  LinkedIn:    https://linkedin.com/in/khushi-kapoor-amritsar
+  Joined:      CloudMesh — Microservice Service Mesh Proxy
+  ID:          650000000000000000000020
+
+[MEMBER #8] Dev Sharma
+  Email:       dev.sharma.ai@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Reinforcement Learning, Python, Gymnasium, NumPy
+  Bio:         Autonomous systems and game AI developer from Dehradun.
+  GitHub:      https://github.com/dev-sharma-rl
+  LinkedIn:    https://linkedin.com/in/dev-sharma-dehradun
+  ID:          650000000000000000000021
+
+[MEMBER #9] Simran Kaur
+  Email:       simran.kaur.mobile@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Swift, iOS Development, CoreData, Combine
+  Bio:         Native iOS developer from Ludhiana. Crafting sleek utility apps for university students.
+  GitHub:      https://github.com/simran-kaur-ios
+  LinkedIn:    https://linkedin.com/in/simran-kaur-ldh
+  ID:          650000000000000000000022
+
+[MEMBER #10] Manish Tiwari
+  Email:       manish.tiwari.infra@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Linux Kernel, Bash Scripting, C, Networking
+  Bio:         Infrastructure and Linux internals geek from Varanasi.
+  GitHub:      https://github.com/manish-tiwari-infra
+  LinkedIn:    https://linkedin.com/in/manish-tiwari-varanasi
+  Joined:      PacketForge — Network Traffic Flow Analyzer
+  ID:          650000000000000000000023
+
+[MEMBER #11] Swati Mishra
+  Email:       swati.mishra.nlp@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Speech Recognition, Whisper, Python, Audio Processing
+  Bio:         Speech synthesis and acoustic modeling researcher from Bhubaneswar.
+  GitHub:      https://github.com/swati-mishra-speech
+  LinkedIn:    https://linkedin.com/in/swati-mishra-bbsr
+  Joined:      KisanVani — Voice-First Agritech Advisory
+  ID:          650000000000000000000024
+
+[MEMBER #12] Harsh Vardhan
+  Email:       harsh.vardhan.crypto@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Zero Knowledge Proofs, Cryptography, Rust, Go
+  Bio:         Applied cryptography enthusiast from Vadodara. Researching privacy-preserving verifiable computation.
+  GitHub:      https://github.com/harsh-vardhan-crypto
+  LinkedIn:    https://linkedin.com/in/harsh-vardhan-vadodara
+  Joined:      VeriVote — Student Council Blockchain Voting Ballots
+  ID:          650000000000000000000025
+
+[MEMBER #13] Kriti Bhatia
+  Email:       kriti.bhatia.fullstack@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Angular, Node.js, RxJS, Tailwind CSS
+  Bio:         Frontend architect from Gurgaon. Passionate about performant enterprise web clients.
+  GitHub:      https://github.com/kriti-bhatia-dev
+  LinkedIn:    https://linkedin.com/in/kriti-bhatia-gurgaon
+  Joined:      EventPulse — Live Campus Hackathon Scoring Board
+  ID:          650000000000000000000026
+
+[MEMBER #14] Yash Goyal
+  Email:       yash.goyal.security@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Malware Analysis, Reverse Engineering, Ghidra, C++
+  Bio:         Security researcher from Noida. Breaking binaries and hardening software.
+  GitHub:      https://github.com/yash-goyal-sec
+  LinkedIn:    https://linkedin.com/in/yash-goyal-noida
+  Joined:      ZeroTrustAuth — Microservice Mesh Gateway
+  ID:          650000000000000000000027
+
+[MEMBER #15] Aditi Saxena
+  Email:       aditi.saxena.health@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Bioinformatics, Python, Biopython, R
+  Bio:         Computational biology and genomics student from Mysore.
+  GitHub:      https://github.com/aditi-saxena-bio
+  LinkedIn:    https://linkedin.com/in/aditi-saxena-mysore
+  ID:          650000000000000000000028
+
+[MEMBER #16] Siddharth Rao
+  Email:       siddharth.rao.dev@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Elixir, Phoenix LiveView, WebSockets, PostgreSQL
+  Bio:         Real-time collaborative application enthusiast from Mangalore.
+  GitHub:      https://github.com/siddharth-rao-dev
+  LinkedIn:    https://linkedin.com/in/siddharth-rao-mgl
+  ID:          650000000000000000000029
+
+[MEMBER #17] Bhavya Shroff
+  Email:       bhavya.shroff.ui@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Three.js, WebGL, React Three Fiber, GLSL
+  Bio:         Creative technologist and 3D web developer from Rajkot.
+  GitHub:      https://github.com/bhavya-shroff-3d
+  LinkedIn:    https://linkedin.com/in/bhavya-shroff-rajkot
+  Joined:      NeuroTrack — Student Focus & Burnout Monitor
+  ID:          650000000000000000000030
+
+[MEMBER #18] Pranav Kulkarni
+  Email:       pranav.kulkarni.embedded@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      ESP32, FreeRTOS, BLE, Firmware
+  Bio:         Embedded firmware developer from Nashik. Building smart campus energy metering boards.
+  GitHub:      https://github.com/pranav-kulkarni-embed
+  LinkedIn:    https://linkedin.com/in/pranav-kulkarni-nsk
+  Joined:      UrjaDrishti — Campus Solar Grid Telemetry | JalSuraksha — Smart Campus Water Quality Monitor
+  ID:          650000000000000000000031
+
+[MEMBER #19] Tanvi Shukla
+  Email:       tanvi.shukla.green@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      GIS, Remote Sensing, Python, QGIS
+  Bio:         Environmental informatics researcher from Jabalpur. Mapping urban heat islands and tree cover.
+  GitHub:      https://github.com/tanvi-shukla-gis
+  LinkedIn:    https://linkedin.com/in/tanvi-shukla-jabalpur
+  Joined:      AaharShare — Campus Food Surplus Redistribution
+  ID:          650000000000000000000032
+
+[MEMBER #20] Ayush Trivedi
+  Email:       ayush.trivedi.cloud@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      Go, Microservices, gRPC, PostgreSQL
+  Bio:         Distributed backend developer from Kanpur. Creating low-overhead developer CLI suites.
+  GitHub:      https://github.com/ayush-trivedi-go
+  LinkedIn:    https://linkedin.com/in/ayush-trivedi-kanpur
+  Joined:      DevStack-CLI — Developer Environment Provisioner
+  ID:          650000000000000000000033
+
+[MEMBER #21] Ria Mathur
+  Email:       ria.mathur.fintech@gmail.com
+  Password:    securepassword123
+  Status:      ACTIVE
+  Skills:      UPI Integration, React, FastAPI, Financial Data
+  Bio:         Fintech enthusiast from Udaipur. Creating automated budget management tools for college hostels.
+  GitHub:      https://github.com/ria-mathur-fintech
+  LinkedIn:    https://linkedin.com/in/ria-mathur-udaipur
+  Joined:      UPI-Khata — Shared Hostel Expense Settler
+  ID:          650000000000000000000034
+
+
+2.4 SUSPENDED / MODERATED ACCOUNTS
+--------------------------------------------------------------------------------
+[SUSPENDED #1] Saurabh Agarwal
+  Email:       saurabh.agarwal.mod@gmail.com
+  Password:    securepassword123
+  Status:      SUSPENDED (Login is blocked by backend)
+  Reason:      Subject to admin moderation review
+  Bio:         Account currently suspended pending administrative conduct review.
+  ID:          650000000000000000000035
+
+================================================================================
+3. COMPLETE PROJECTS DIRECTORY (32 PROJECTS)
+================================================================================
+
+3.1 COMPLETED PROJECTS (12 Projects with Showcases)
+--------------------------------------------------------------------------------
+[PROJECT #1] KisanVani — Voice-First Agritech Advisory
+  Status:       COMPLETED (Finished, published as Showcase)
+  Category:     Artificial Intelligence
+  Difficulty:   Advanced
+  Owner:        Priya Patel (priya.patel.dev@gmail.com)
+  Team Size:    3 / 4 members
+  Members:      Priya Patel (priya.patel.dev@gmail.com); Aditya Banerjee (aditya.banerjee.fullstack@gmail.com); Swati Mishra (swati.mishra.nlp@gmail.com)
+  Tech Skills:  Python, FastAPI, Speech-to-Text, React
+  Repository:   https://github.com/frappe/frappe
+  Description:  An AI-powered vernacular voice advisory system that provides rural farmers with real-time mandi prices, hyper-local weather alerts, and pest outbreak countermeasures in multiple Indian regional dialects.
+  ID:           650000000000000000000101
+
+[PROJECT #2] SwasthyaConnect — Rural Health Camp Queue & Triage
+  Status:       COMPLETED (Finished, published as Showcase)
+  Category:     Healthcare
+  Difficulty:   Intermediate
+  Owner:        Rohan Iyer (rohan.iyer.tech@gmail.com)
+  Team Size:    2 / 3 members
+  Members:      Rohan Iyer (rohan.iyer.tech@gmail.com); Sneha Kulkarni (sneha.kulkarni.systems@gmail.com)
+  Tech Skills:  React, Node.js, PWA, IndexedDB
+  Repository:   https://github.com/appsmithorg/appsmith
+  Description:  Offline-first electronic health records and token generation system for community medical outreach camps, allowing primary health centers to coordinate patient records without steady internet.
+  ID:           650000000000000000000102
+
+[PROJECT #3] ShikshaSetu — Low-Bandwidth Digital Classroom
+  Status:       COMPLETED (Finished, published as Showcase)
+  Category:     Web Development
+  Difficulty:   Intermediate
+  Owner:        Ananya Deshmukh (ananya.deshmukh.ui@gmail.com)
+  Team Size:    2 / 4 members
+  Members:      Ananya Deshmukh (ananya.deshmukh.ui@gmail.com); Rahul Singh (rahul.singh.mobile@gmail.com)
+  Tech Skills:  Flutter, Firebase, Offline Sync
+  Repository:   https://github.com/fossunited/fossunited
+  Description:  Lightweight interactive learning portal delivering multimedia lesson modules and assessments to low-bandwidth mobile browsers over 2G/3G campus connections.
+  ID:           650000000000000000000103
+
+[PROJECT #4] NagarSeva — Community Civic Issue Reporting Portal
+  Status:       COMPLETED (Finished, published as Showcase)
+  Category:     Civic Tech
+  Difficulty:   Intermediate
+  Owner:        Vikram Reddy (vikram.reddy.cloud@gmail.com)
+  Team Size:    2 / 3 members
+  Members:      Vikram Reddy (vikram.reddy.cloud@gmail.com); Pooja Patil (pooja.patil.data@gmail.com)
+  Tech Skills:  Go, PostgreSQL, Docker, React
+  Repository:   https://github.com/chatwoot/chatwoot
+  Description:  Municipal grievance management platform with geolocation tagging, automated duplicate report merging, and transparent ticket escalation timelines for university wards.
+  ID:           650000000000000000000104
+
+[PROJECT #5] UrjaDrishti — Campus Solar Grid Telemetry
+  Status:       COMPLETED (Finished, published as Showcase)
+  Category:     IoT & Hardware
+  Difficulty:   Advanced
+  Owner:        Kavya Nair (kavya.nair.foss@gmail.com)
+  Team Size:    2 / 4 members
+  Members:      Kavya Nair (kavya.nair.foss@gmail.com); Pranav Kulkarni (pranav.kulkarni.embedded@gmail.com)
+  Tech Skills:  IoT, MQTT, Python, TimescaleDB, React
+  Repository:   https://github.com/hoppscotch/hoppscotch
+  Description:  Real-time telemetry and predictive maintenance dashboard for university solar panel arrays, tracking live generation, battery charge levels, and inverter efficiency.
+  ID:           650000000000000000000105
+
+[PROJECT #6] UPI-Khata — Shared Hostel Expense Settler
+  Status:       COMPLETED (Finished, published as Showcase)
+  Category:     Fintech
+  Difficulty:   Intermediate
+  Owner:        Priya Patel (priya.patel.dev@gmail.com)
+  Team Size:    2 / 3 members
+  Members:      Priya Patel (priya.patel.dev@gmail.com); Ria Mathur (ria.mathur.fintech@gmail.com)
+  Tech Skills:  React, Node.js, MongoDB, UPI API
+  Repository:   https://github.com/calcom/cal.com
+  Description:  Automated expense-splitting Progressive Web App integrating instant UPI deep-linking, receipt OCR scanning, and optimized settlement graphs for student roommates.
+  ID:           650000000000000000000106
+
+[PROJECT #7] DevStack-CLI — Developer Environment Provisioner
+  Status:       COMPLETED (Finished, published as Showcase)
+  Category:     Cloud & DevOps
+  Difficulty:   Intermediate
+  Owner:        Vikram Reddy (vikram.reddy.cloud@gmail.com)
+  Team Size:    2 / 2 members
+  Members:      Vikram Reddy (vikram.reddy.cloud@gmail.com); Ayush Trivedi (ayush.trivedi.cloud@gmail.com)
+  Tech Skills:  Go, Docker API, CLI, YAML
+  Repository:   https://github.com/supabase/supabase
+  Description:  Cross-platform command-line tool that auto-configures containerized database environments, seeded test schemas, and linting suites for student hackathons in under 60 seconds.
+  ID:           650000000000000000000107
+
+[PROJECT #8] DrishtiAccessibility — Screen Reader for Indic Web
+  Status:       COMPLETED (Finished, published as Showcase)
+  Category:     Web Development
+  Difficulty:   Intermediate
+  Owner:        Ananya Deshmukh (ananya.deshmukh.ui@gmail.com)
+  Team Size:    2 / 3 members
+  Members:      Ananya Deshmukh (ananya.deshmukh.ui@gmail.com); Ishita Sen (ishita.sen.design@gmail.com)
+  Tech Skills:  JavaScript, Web Speech API, ARIA, CSS
+  Repository:   https://github.com/excalidraw/excalidraw
+  Description:  High-contrast accessible browser extension optimizing university course portals for visually impaired students using speech feedback and screen navigation hotkeys.
+  ID:           650000000000000000000108
+
+[PROJECT #9] BhashaTranslate — Indic Technical Term Translator
+  Status:       COMPLETED (Finished, published as Showcase)
+  Category:     Artificial Intelligence
+  Difficulty:   Advanced
+  Owner:        Rohan Iyer (rohan.iyer.tech@gmail.com)
+  Team Size:    2 / 3 members
+  Members:      Rohan Iyer (rohan.iyer.tech@gmail.com); Meera Joshi (meera.joshi.ml@gmail.com)
+  Tech Skills:  NLP, HuggingFace, Transformers, FastAPI
+  Repository:   https://github.com/fossunited/fossunited
+  Description:  Fine-tuned multilingual translation utility for converting engineering textbooks and programming terms into Hindi, Marathi, Bengali, and Tamil.
+  ID:           650000000000000000000109
+
+[PROJECT #10] AaharShare — Campus Food Surplus Redistribution
+  Status:       COMPLETED (Finished, published as Showcase)
+  Category:     Sustainability
+  Difficulty:   Beginner
+  Owner:        Kavya Nair (kavya.nair.foss@gmail.com)
+  Team Size:    2 / 3 members
+  Members:      Kavya Nair (kavya.nair.foss@gmail.com); Tanvi Shukla (tanvi.shukla.green@gmail.com)
+  Tech Skills:  React, Express, MongoDB, SMS API
+  Repository:   https://github.com/chatwoot/chatwoot
+  Description:  Real-time alert portal linking student hostel mess halls with certified local shelters to distribute unconsumed edible meals before expiry.
+  ID:           650000000000000000000110
+
+[PROJECT #11] JalSuraksha — Smart Campus Water Quality Monitor
+  Status:       COMPLETED (Finished, published as Showcase)
+  Category:     IoT & Hardware
+  Difficulty:   Intermediate
+  Owner:        Kavya Nair (kavya.nair.foss@gmail.com)
+  Team Size:    2 / 3 members
+  Members:      Kavya Nair (kavya.nair.foss@gmail.com); Pranav Kulkarni (pranav.kulkarni.embedded@gmail.com)
+  Tech Skills:  C++, ESP32, Node.js, WebSockets
+  Repository:   https://github.com/hoppscotch/hoppscotch
+  Description:  Multi-parameter sensory array streaming pH, turbidity, TDS, and chlorine metrics from campus drinking fountains to student dashboards.
+  ID:           650000000000000000000111
+
+[PROJECT #12] ZeroTrustAuth — Microservice Mesh Gateway
+  Status:       COMPLETED (Finished, published as Showcase)
+  Category:     Cybersecurity
+  Difficulty:   Advanced
+  Owner:        Tanya Verma (tanya.verma.security@gmail.com)
+  Team Size:    2 / 3 members
+  Members:      Tanya Verma (tanya.verma.security@gmail.com); Yash Goyal (yash.goyal.security@gmail.com)
+  Tech Skills:  Go, JWT, mTLS, Redis
+  Repository:   https://github.com/supabase/supabase
+  Description:  Lightweight reverse proxy and cryptographic session broker verifying token authenticity and role authorizations across student cloud services.
+  ID:           650000000000000000000112
+
+
+3.2 OPEN PROJECTS (12 Projects Seeking Teammates)
+--------------------------------------------------------------------------------
+[PROJECT #1] VidyaVishwa — Peer Tutoring & Note Marketplace
+  Status:       OPEN (Open for collaboration requests)
+  Category:     Web Development
+  Difficulty:   Intermediate
+  Owner:        Priya Patel (priya.patel.dev@gmail.com)
+  Team Size:    1 / 4 members
+  Needed Skills:Next.js, Node.js, PostgreSQL, Tailwind CSS
+  Deadline:     2026-12-15
+  Repository:   https://github.com/priya-patel-dev/vidya-vishwa
+  Description:  Student-to-student micro-tutoring schedule exchange and verified course summary repository with upvoting and moderation.
+  ID:           650000000000000000000113
+
+[PROJECT #2] CropShield — Vision-Based Early Leaf Disease Identifier
+  Status:       OPEN (Open for collaboration requests)
+  Category:     Artificial Intelligence
+  Difficulty:   Advanced
+  Owner:        Rohan Iyer (rohan.iyer.tech@gmail.com)
+  Team Size:    1 / 4 members
+  Needed Skills:PyTorch, TensorFlow Lite, OpenCV, Android
+  Deadline:     2026-12-20
+  Repository:   https://github.com/rohan-iyer-ai/crop-shield
+  Description:  Edge-optimized computer vision model classifying fungal and bacterial crop leaf blights from smartphone camera captures in sub-second response times.
+  ID:           650000000000000000000114
+
+[PROJECT #3] CampusPool — Verified Student Ride Sharing
+  Status:       OPEN (Open for collaboration requests)
+  Category:     Mobile Apps
+  Difficulty:   Intermediate
+  Owner:        Ananya Deshmukh (ananya.deshmukh.ui@gmail.com)
+  Team Size:    1 / 4 members
+  Needed Skills:Flutter, Google Maps API, Firebase, State Management
+  Deadline:     2026-12-25
+  Repository:   https://github.com/ananya-deshmukh/campus-pool
+  Description:  Verified student carpooling and two-wheeler ride sharing platform strictly for university email holders with emergency SOS features.
+  ID:           650000000000000000000115
+
+[PROJECT #4] PaySathi — Micro-Merchant Tap-to-Phone Payment Gateway
+  Status:       OPEN (Open for collaboration requests)
+  Category:     Fintech
+  Difficulty:   Advanced
+  Owner:        Vikram Reddy (vikram.reddy.cloud@gmail.com)
+  Team Size:    1 / 3 members
+  Needed Skills:Kotlin, NFC, Cryptography, Node.js
+  Deadline:     2026-12-30
+  Repository:   https://github.com/vikram-reddy-dev/pay-sathi
+  Description:  NFC-powered student payment receiver enabling campus clubs and flea markets to accept quick student card taps without dedicated POS hardware.
+  ID:           650000000000000000000116
+
+[PROJECT #5] VayuWatch — Micro-Climate Air Quality Heatmap
+  Status:       OPEN (Open for collaboration requests)
+  Category:     Sustainability
+  Difficulty:   Intermediate
+  Owner:        Kavya Nair (kavya.nair.foss@gmail.com)
+  Team Size:    1 / 4 members
+  Needed Skills:IoT, Embedded C, Leaflet.js, Express
+  Deadline:     2027-01-10
+  Repository:   https://github.com/kavya-nair-iot/vayu-watch
+  Description:  Distributed low-cost PM2.5 and CO2 sensor nodes reporting real-time hyper-local air quality indices across university faculties.
+  ID:           650000000000000000000117
+
+[PROJECT #6] CodeSync — Browser Pair Programming IDE
+  Status:       OPEN (Open for collaboration requests)
+  Category:     Web Development
+  Difficulty:   Advanced
+  Owner:        Aditya Banerjee (aditya.banerjee.fullstack@gmail.com)
+  Team Size:    1 / 4 members
+  Needed Skills:WebSockets, WebRTC, Monaco Editor, Node.js
+  Deadline:     2027-01-15
+  Repository:   https://github.com/aditya-banerjee-web/codesync
+  Description:  Collaborative code editor supporting operational transformation, audio chat, syntax highlighting, and instant code execution containers.
+  ID:           650000000000000000000118
+
+[PROJECT #7] RustNet — Ultra-Fast Distributed Key-Value Store
+  Status:       OPEN (Open for collaboration requests)
+  Category:     Cloud & DevOps
+  Difficulty:   Advanced
+  Owner:        Sneha Kulkarni (sneha.kulkarni.systems@gmail.com)
+  Team Size:    1 / 3 members
+  Needed Skills:Rust, Tokio, Raft Protocol, Benchmarking
+  Deadline:     2027-01-20
+  Repository:   https://github.com/sneha-kulkarni-rust/rustnet
+  Description:  Memory-safe, high-throughput in-memory caching server built in Rust with Raft consensus and asynchronous Tokio runtime.
+  ID:           650000000000000000000119
+
+[PROJECT #8] IndicNER — Named Entity Recognition for Indian Languages
+  Status:       OPEN (Open for collaboration requests)
+  Category:     Artificial Intelligence
+  Difficulty:   Advanced
+  Owner:        Meera Joshi (meera.joshi.ml@gmail.com)
+  Team Size:    1 / 3 members
+  Needed Skills:Python, Transformers, PyTorch, Data Scraping
+  Deadline:     2027-01-25
+  Repository:   https://github.com/meera-joshi-nlp/indic-ner
+  Description:  Pretrained transformer representations tailored to parse Indian person names, locations, and government department references across 10 official languages.
+  ID:           650000000000000000000120
+
+[PROJECT #9] KubeWatch — Lightweight Cluster Metrics Visualizer
+  Status:       OPEN (Open for collaboration requests)
+  Category:     Cloud & DevOps
+  Difficulty:   Intermediate
+  Owner:        Neha Gupta (neha.gupta.devops@gmail.com)
+  Team Size:    1 / 3 members
+  Needed Skills:Go, Kubernetes Client, Vue.js, Docker
+  Deadline:     2027-02-01
+  Repository:   https://github.com/neha-gupta-cloud/kubewatch
+  Description:  Single-binary dashboard extracting pod resource utilization, crash-loop alerts, and memory trends with zero external agent overhead.
+  ID:           650000000000000000000121
+
+[PROJECT #10] UniCert — Verifiable Student Credentials on Chain
+  Status:       OPEN (Open for collaboration requests)
+  Category:     Fintech
+  Difficulty:   Advanced
+  Owner:        Kabir Mehta (kabir.mehta.web3@gmail.com)
+  Team Size:    1 / 3 members
+  Needed Skills:Solidity, Ethers.js, IPFS, React
+  Deadline:     2027-02-05
+  Repository:   https://github.com/kabir-mehta-web3/unicert
+  Description:  Decentralized university certificate issuance registry preventing resume fraud using cryptographic student identity proofs.
+  ID:           650000000000000000000122
+
+[PROJECT #11] SecScan — Automated Web Vulnerability Hunter
+  Status:       OPEN (Open for collaboration requests)
+  Category:     Cybersecurity
+  Difficulty:   Advanced
+  Owner:        Tanya Verma (tanya.verma.security@gmail.com)
+  Team Size:    1 / 3 members
+  Needed Skills:Python, OWASP ZAP, Security Testing
+  Deadline:     2027-02-10
+  Repository:   https://github.com/tanya-verma-sec/secscan
+  Description:  CLI security auditor probing student web applications for SQL injection, CSRF flaws, and misconfigured CORS headers with PDF remediation reports.
+  ID:           650000000000000000000123
+
+[PROJECT #12] CareRoute — Emergency Blood Donor Notification Dispatcher
+  Status:       OPEN (Open for collaboration requests)
+  Category:     Healthcare
+  Difficulty:   Intermediate
+  Owner:        Rahul Singh (rahul.singh.mobile@gmail.com)
+  Team Size:    1 / 4 members
+  Needed Skills:React Native, Firebase Cloud Messaging, Geolocation
+  Deadline:     2027-02-15
+  Repository:   https://github.com/rahul-singh-native/care-route
+  Description:  Geo-targeted emergency dispatcher connecting university donor networks with district hospitals during critical shortages.
+  ID:           650000000000000000000124
+
+
+3.3 IN-PROGRESS PROJECTS (8 Active Team Sprints)
+--------------------------------------------------------------------------------
+[PROJECT #1] SmartHostel — Mess & Room Management Suite
+  Status:       IN_PROGRESS (Team formed, active development)
+  Category:     Civic Tech
+  Difficulty:   Intermediate
+  Owner:        Priya Patel (priya.patel.dev@gmail.com)
+  Team Size:    3 / 4 members
+  Members:      Priya Patel (priya.patel.dev@gmail.com); Rishabh Jain (rishabh.jain.frontend@gmail.com); Varun Chopra (varun.chopra.backend@gmail.com)
+  Tech Skills:  React, Express, PostgreSQL, Tailwind CSS
+  Deadline:     2026-12-05
+  Repository:   https://github.com/priya-patel-dev/smart-hostel
+  Description:  Comprehensive digital hostel administration tool managing automated gate-passes, room allotment lottery, and mess rebate calculations.
+  ID:           650000000000000000000125
+
+[PROJECT #2] MediVision — Chest X-Ray Pathology Screener
+  Status:       IN_PROGRESS (Team formed, active development)
+  Category:     Healthcare
+  Difficulty:   Advanced
+  Owner:        Rohan Iyer (rohan.iyer.tech@gmail.com)
+  Team Size:    2 / 3 members
+  Members:      Rohan Iyer (rohan.iyer.tech@gmail.com); Arjun Nair (arjun.nair.ai@gmail.com)
+  Tech Skills:  PyTorch, DICOM Processing, FastAPI, Docker
+  Deadline:     2026-12-10
+  Repository:   https://github.com/rohan-iyer-ai/medivision
+  Description:  Deep convolutional neural network model providing preliminary triage heatmap annotations on anonymized digital radiograph files.
+  ID:           650000000000000000000126
+
+[PROJECT #3] EcoSort — Smart Recycling Waste Bin AI
+  Status:       IN_PROGRESS (Team formed, active development)
+  Category:     Sustainability
+  Difficulty:   Intermediate
+  Owner:        Kavya Nair (kavya.nair.foss@gmail.com)
+  Team Size:    2 / 3 members
+  Members:      Kavya Nair (kavya.nair.foss@gmail.com); Diya Sharma (diya.sharma.iot@gmail.com)
+  Tech Skills:  Raspberry Pi, TensorFlow Lite, Python, MQTT
+  Deadline:     2026-12-12
+  Repository:   https://github.com/kavya-nair-iot/ecosort
+  Description:  Edge-AI mounted bin camera classifying recyclable vs compostable waste and tracking hostel floor recycling streaks.
+  ID:           650000000000000000000127
+
+[PROJECT #4] PacketForge — Network Traffic Flow Analyzer
+  Status:       IN_PROGRESS (Team formed, active development)
+  Category:     Cybersecurity
+  Difficulty:   Advanced
+  Owner:        Tanya Verma (tanya.verma.security@gmail.com)
+  Team Size:    2 / 3 members
+  Members:      Tanya Verma (tanya.verma.security@gmail.com); Manish Tiwari (manish.tiwari.infra@gmail.com)
+  Tech Skills:  C++, PCAP, Qt, Networking
+  Deadline:     2026-12-18
+  Repository:   https://github.com/tanya-verma-sec/packetforge
+  Description:  Packet capture visualizer highlighting unencrypted payload credentials and DNS query leaks across campus Wi-Fi networks.
+  ID:           650000000000000000000128
+
+[PROJECT #5] EventPulse — Live Campus Hackathon Scoring Board
+  Status:       IN_PROGRESS (Team formed, active development)
+  Category:     Web Development
+  Difficulty:   Intermediate
+  Owner:        Aditya Banerjee (aditya.banerjee.fullstack@gmail.com)
+  Team Size:    2 / 3 members
+  Members:      Aditya Banerjee (aditya.banerjee.fullstack@gmail.com); Kriti Bhatia (kriti.bhatia.fullstack@gmail.com)
+  Tech Skills:  Vue.js, Socket.IO, Node.js, Tailwind CSS
+  Deadline:     2026-12-22
+  Repository:   https://github.com/aditya-banerjee-web/eventpulse
+  Description:  Real-time WebSocket score aggregator and live jury evaluation dashboard for inter-college hackathons and tech fests.
+  ID:           650000000000000000000129
+
+[PROJECT #6] NeuroTrack — Student Focus & Burnout Monitor
+  Status:       IN_PROGRESS (Team formed, active development)
+  Category:     Healthcare
+  Difficulty:   Beginner
+  Owner:        Ananya Deshmukh (ananya.deshmukh.ui@gmail.com)
+  Team Size:    2 / 3 members
+  Members:      Ananya Deshmukh (ananya.deshmukh.ui@gmail.com); Bhavya Shroff (bhavya.shroff.ui@gmail.com)
+  Tech Skills:  Electron, React, SQLite, Charts
+  Deadline:     2026-12-28
+  Repository:   https://github.com/ananya-deshmukh/neurotrack
+  Description:  Privacy-respecting desktop application correlating session productivity, break cadences, and focus intervals to prevent burnout.
+  ID:           650000000000000000000130
+
+[PROJECT #7] CloudMesh — Microservice Service Mesh Proxy
+  Status:       IN_PROGRESS (Team formed, active development)
+  Category:     Cloud & DevOps
+  Difficulty:   Advanced
+  Owner:        Vikram Reddy (vikram.reddy.cloud@gmail.com)
+  Team Size:    2 / 3 members
+  Members:      Vikram Reddy (vikram.reddy.cloud@gmail.com); Khushi Kapoor (khushi.kapoor.cloud@gmail.com)
+  Tech Skills:  Go, gRPC, Distributed Tracing, Docker
+  Deadline:     2027-01-05
+  Repository:   https://github.com/vikram-reddy-dev/cloudmesh
+  Description:  Extensible HTTP/2 reverse proxy featuring dynamic circuit breaking, rate limiting, and distributed tracing headers.
+  ID:           650000000000000000000131
+
+[PROJECT #8] VeriVote — Student Council Blockchain Voting Ballots
+  Status:       IN_PROGRESS (Team formed, active development)
+  Category:     Fintech
+  Difficulty:   Advanced
+  Owner:        Kabir Mehta (kabir.mehta.web3@gmail.com)
+  Team Size:    2 / 3 members
+  Members:      Kabir Mehta (kabir.mehta.web3@gmail.com); Harsh Vardhan (harsh.vardhan.crypto@gmail.com)
+  Tech Skills:  Solidity, Zero Knowledge, Web3.js, React
+  Deadline:     2027-01-12
+  Repository:   https://github.com/kabir-mehta-web3/verivote
+  Description:  Cryptographically verifiable, anonymous electronic voting framework designed for transparent campus student union elections.
+  ID:           650000000000000000000132
+
+================================================================================
+4. PUBLISHED SHOWCASES (5 FEATURED)
+================================================================================
+[SHOWCASE #1] KisanVani — Vernacular Voice AI for Indian Agriculture
+  Project:      KisanVani — Voice-First Agritech Advisory
+  Technologies: React, FastAPI, PyTorch, Bhashini AI, Tailwind CSS
+  GitHub Repo:  https://github.com/frappe/frappe
+  Live Demo:    https://kisanvani.collabsphere.demo
+  Likes Count:  4 likes
+  Comments:     3 comments
+    - Rohan Iyer (rohan.iyer.tech@gmail.com): "The voice accuracy in regional dialects is impressive! How are you handling ambient tractor background noise?"
+    - Priya Patel (priya.patel.dev@gmail.com): "We pre-filter the audio through a spectral noise reduction pipeline before the speech recognition endpoint!"
+    - Aarav Sharma (admin.collabsphere@gmail.com): "Outstanding project execution. Featured on the campus engineering innovation board!"
+  Description:  Successfully deployed voice advisory system helping 1,200+ rural farmers check mandi rates and pest alerts in Gujarati, Marathi, and Hindi. Integrated speech recognition with sub-second response times.
+  ID:           650000000000000000000501
+
+[SHOWCASE #2] SwasthyaConnect — Offline Electronic Health Records
+  Project:      SwasthyaConnect — Rural Health Camp Queue & Triage
+  Technologies: React, Node.js, PWA, IndexedDB, Express
+  GitHub Repo:  https://github.com/appsmithorg/appsmith
+  Live Demo:    https://swasthyaconnect.collabsphere.demo
+  Likes Count:  2 likes
+  Comments:     1 comments
+    - Aditi Saxena (aditi.saxena.health@gmail.com): "Offline-first sync is critical for remote health camps. Brilliant architecture!"
+  Description:  An offline-capable healthcare coordination portal used across 4 rural primary medical camps. Enabled digitizing 3,500+ patient triage check-ins without requiring internet.
+  ID:           650000000000000000000502
+
+[SHOWCASE #3] ShikshaSetu — Accessible Lightweight Learning Platform
+  Project:      ShikshaSetu — Low-Bandwidth Digital Classroom
+  Technologies: Flutter, Firebase, Service Workers, SQLite
+  GitHub Repo:  https://github.com/fossunited/fossunited
+  Live Demo:    https://shikshasetu.collabsphere.demo
+  Likes Count:  2 likes
+  Comments:     0 comments
+  Description:  Interactive classroom app built for students with poor connectivity. Compressed multimedia lessons load in under 150KB per topic.
+  ID:           650000000000000000000503
+
+[SHOWCASE #4] NagarSeva — Geotagged Municipal Grievance Tracker
+  Project:      NagarSeva — Community Civic Issue Reporting Portal
+  Technologies: Go, PostgreSQL, Docker, React
+  GitHub Repo:  https://github.com/chatwoot/chatwoot
+  Live Demo:    https://nagarseva.collabsphere.demo
+  Likes Count:  2 likes
+  Comments:     0 comments
+  Description:  Clean municipal dashboard resolving civic complaints across campus wards with automated SLA escalation alerts.
+  ID:           650000000000000000000504
+
+[SHOWCASE #5] UrjaDrishti — Real-Time IoT Solar Telemetry
+  Project:      UrjaDrishti — Campus Solar Grid Telemetry
+  Technologies: IoT, MQTT, Python, TimescaleDB, React
+  GitHub Repo:  https://github.com/hoppscotch/hoppscotch
+  Live Demo:    https://urjadrishti.collabsphere.demo
+  Likes Count:  2 likes
+  Comments:     0 comments
+  Description:  Dashboard streaming live power generation metrics from 48 solar panel modules across university rooftops with predictive battery degradation warnings.
+  ID:           650000000000000000000505
+
+================================================================================
+5. WORKSPACE TASK BOARDS
+================================================================================
+[TASK #1] Integrate Bhashini Speech-to-Text API
+  Project:     KisanVani — Voice-First Agritech Advisory
+  Status:      COMPLETED
+  Assigned To: Swati Mishra (swati.mishra.nlp@gmail.com)
+  Due Date:    2026-05-15
+  Details:     Set up audio streaming endpoints and connect Indian government vernacular voice model.
+
+[TASK #2] Mandi Price Scraper & Cache
+  Project:     KisanVani — Voice-First Agritech Advisory
+  Status:      COMPLETED
+  Assigned To: Aditya Banerjee (aditya.banerjee.fullstack@gmail.com)
+  Due Date:    2026-05-25
+  Details:     Automate daily mandi rate ingest from eNAM portal with Redis caching.
+
+[TASK #3] Offline Audio Message Caching
+  Project:     KisanVani — Voice-First Agritech Advisory
+  Status:      COMPLETED
+  Assigned To: Priya Patel (priya.patel.dev@gmail.com)
+  Due Date:    2026-06-05
+  Details:     Store pre-recorded weather voice alerts in service worker cache for poor connectivity zones.
+
+[TASK #4] Interactive Floorplan Room Selector
+  Project:     SmartHostel — Mess & Room Management Suite
+  Status:      IN_PROGRESS
+  Assigned To: Rishabh Jain (rishabh.jain.frontend@gmail.com)
+  Due Date:    2026-11-20
+  Details:     Build SVG interactive floorplan component showing occupancy status of hostel wings.
+
+[TASK #5] Automated Leave Gate-Pass Approvals
+  Project:     SmartHostel — Mess & Room Management Suite
+  Status:      TODO
+  Assigned To: Varun Chopra (varun.chopra.backend@gmail.com)
+  Due Date:    2026-11-28
+  Details:     Implement QR-code token generator for student weekend outstation passes.
+
+[TASK #6] Mess Rebate Calculation Engine
+  Project:     SmartHostel — Mess & Room Management Suite
+  Status:      IN_PROGRESS
+  Assigned To: Priya Patel (priya.patel.dev@gmail.com)
+  Due Date:    2026-11-25
+  Details:     Compute automatic refund credits for students taking approved leave > 3 days.
+
+[TASK #7] TorchVision Model Pipeline & GradCAM
+  Project:     MediVision — Chest X-Ray Pathology Screener
+  Status:      IN_PROGRESS
+  Assigned To: Arjun Nair (arjun.nair.ai@gmail.com)
+  Due Date:    2026-11-30
+  Details:     Implement DenseNet121 model with GradCAM heatmaps to visualize activation regions.
+
+[TASK #8] DICOM File Anonymizer Service
+  Project:     MediVision — Chest X-Ray Pathology Screener
+  Status:      COMPLETED
+  Assigned To: Rohan Iyer (rohan.iyer.tech@gmail.com)
+  Due Date:    2026-11-15
+  Details:     Strip private patient metadata tags before saving images to the processing queue.
+
+[TASK #9] IndexedDB Offline Storage Layer
+  Project:     SwasthyaConnect — Rural Health Camp Queue & Triage
+  Status:      COMPLETED
+  Assigned To: Sneha Kulkarni (sneha.kulkarni.systems@gmail.com)
+  Due Date:    2026-07-01
+  Details:     Wrap browser storage in custom Dexie.js schema for offline medical form entry.
+
+[TASK #10] Patient Triage Priority Scoring
+  Project:     SwasthyaConnect — Rural Health Camp Queue & Triage
+  Status:      COMPLETED
+  Assigned To: Rohan Iyer (rohan.iyer.tech@gmail.com)
+  Due Date:    2026-07-15
+  Details:     Implement automated vitals triage rules (BP, pulse, oxygen) flagging critical queue tokens.
+
+================================================================================
+6. SAMPLE COLLABORATION REQUESTS
+================================================================================
+[REQUEST #1] From: Aditya Banerjee (aditya.banerjee.fullstack@gmail.com)
+  To Project:  KisanVani — Voice-First Agritech Advisory
+  Status:      ACCEPTED
+  Message:     "Hey Priya! I have extensive experience building scalable Node.js audio streaming microservices."
+
+[REQUEST #2] From: Swati Mishra (swati.mishra.nlp@gmail.com)
+  To Project:  KisanVani — Voice-First Agritech Advisory
+  Status:      ACCEPTED
+  Message:     "I can fine-tune Hindi and Gujarati acoustic models for local mandi price voice queries."
+
+[REQUEST #3] From: Sneha Kulkarni (sneha.kulkarni.systems@gmail.com)
+  To Project:  SwasthyaConnect — Rural Health Camp Queue & Triage
+  Status:      ACCEPTED
+  Message:     "I specialize in offline IndexedDB sync and conflict resolution algorithms. Would love to join!"
+
+[REQUEST #4] From: Rishabh Jain (rishabh.jain.frontend@gmail.com)
+  To Project:  SmartHostel — Mess & Room Management Suite
+  Status:      ACCEPTED
+  Message:     "Can help craft the student room allocation dashboard with interactive floorplan previews."
+
+[REQUEST #5] From: Varun Chopra (varun.chopra.backend@gmail.com)
+  To Project:  SmartHostel — Mess & Room Management Suite
+  Status:      ACCEPTED
+  Message:     "I can build the automated mess rebate refund calculation engine with PostgreSQL constraints."
+
+[REQUEST #6] From: Meera Joshi (meera.joshi.ml@gmail.com)
+  To Project:  VidyaVishwa — Peer Tutoring & Note Marketplace
+  Status:      PENDING
+  Message:     "I want to build the automated summary generator using Indic sentence tokenizers."
+
+[REQUEST #7] From: Aditya Banerjee (aditya.banerjee.fullstack@gmail.com)
+  To Project:  VidyaVishwa — Peer Tutoring & Note Marketplace
+  Status:      PENDING
+  Message:     "I can implement the peer tutoring calendar sync and time-slot booking module."
+
+[REQUEST #8] From: Arjun Nair (arjun.nair.ai@gmail.com)
+  To Project:  CropShield — Vision-Based Early Leaf Disease Identifier
+  Status:      PENDING
+  Message:     "I have experience training YOLOv8 models on agricultural datasets with 94%+ mAP."
+
+[REQUEST #9] From: Simran Kaur (simran.kaur.mobile@gmail.com)
+  To Project:  CampusPool — Verified Student Ride Sharing
+  Status:      PENDING
+  Message:     "Happy to contribute to the cross-platform client and push notification flows."
+
+[REQUEST #10] From: Siddharth Rao (siddharth.rao.dev@gmail.com)
+  To Project:  CodeSync — Browser Pair Programming IDE
+  Status:      PENDING
+  Message:     "Very excited about WebSockets and operational transformations in Monaco Editor."
+
+[REQUEST #11] From: Saurabh Agarwal (saurabh.agarwal.mod@gmail.com)
+  To Project:  VayuWatch — Micro-Climate Air Quality Heatmap
+  Status:      REJECTED
+  Message:     "Can help scrape weather reports from external portals."
+
+================================================================================
+End of Directory. Generated for CollabSphere.
+================================================================================
