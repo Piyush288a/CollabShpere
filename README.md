@@ -14,6 +14,7 @@ Here is a guide to all documentation files in this project:
 - 🏗️ **[docs/architecture.md](docs/architecture.md)**: Easy-to-read technical design explaining how the frontend, backend, and MongoDB database work together.
 - 🗺️ **[docs/development-roadmap.md](docs/development-roadmap.md)**: 12-phase step-by-step roadmap showing how the project will be built.
 - 📑 **[docs/api-contract.md](docs/api-contract.md)**: Planned web API endpoints specification under `/api`.
+- 🚀 **[docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md)**: Production deployment guide (Vercel + Render + MongoDB Atlas) & CI/CD workflow.
 - 📜 **[walkthrough.md](walkthrough.md)**: Complete cumulative development log recording the history of every phase.
 
 ---

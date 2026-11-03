@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Project = require('../models/Project');
 const User = require('../models/User');
 const { isTeamMember } = require('../utils/teamAccess');
+const { getAllowedOrigins } = require('../config/cors');
 
 let io = null;
 
@@ -11,8 +12,13 @@ const roomName = (projectId) => `project:${projectId}`;
 
 // Initializes Socket.IO on the given HTTP server. Returns the io instance.
 const initSocket = (httpServer) => {
+  const allowed = getAllowedOrigins();
+
   io = new Server(httpServer, {
-    cors: { origin: process.env.CLIENT_URL },
+    cors: {
+      origin: allowed === true ? '*' : allowed,
+      credentials: true,
+    },
   });
 
   // Handshake authentication — verify JWT and attach the user to the socket.

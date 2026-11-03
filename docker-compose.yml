@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:6.0
+    container_name: collabsphere-mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: collabsphere
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+
+  # Backend REST API + Socket.IO server
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: collabsphere-backend
+    restart: always
+    environment:
+      PORT: 5000
+      NODE_ENV: production
+      MONGODB_URI: mongodb://mongodb:27017/collabsphere
+      JWT_SECRET: ${JWT_SECRET:-production_secret_change_me_in_env}
+      JWT_EXPIRES_IN: 7d
+      CLIENT_URL: ${CLIENT_URL:-http://localhost:3000}
+    ports:
+      - '5000:5000'
+    depends_on:
+      - mongodb
+
+  # Frontend React SPA served with Nginx
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: collabsphere-frontend
+    restart: always
+    ports:
+      - '3000:80'
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:

@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const formatUser = require('../utils/formatUser');
 const { parsePagination, buildPagination } = require('../utils/paginate');
+const mongoose = require('mongoose');
 
 // GET /api/users/profile
 // Protected by authMiddleware — req.user is already populated
@@ -65,12 +66,18 @@ const updateProfile = async (req, res, next) => {
 };
 
 // GET /api/users/search
-// Protected — finds potential collaborators by skill and/or name.
+// Protected by authMiddleware — registered before /:id routes to avoid collision.
 // Excludes the requesting user. Designed to feed Phase 5 collaboration requests.
 const searchUsers = async (req, res, next) => {
   try {
     const { skills, search } = req.query;
-    const filter = { _id: { $ne: req.user.userId } };
+
+    const filter = {
+      // Exclude self from discovery/search results
+      _id: { $ne: req.user.userId },
+      // Suspended users do not show up in searches
+      status: 'active',
+    };
 
     if (skills) {
       const list = skills
@@ -104,4 +111,34 @@ const searchUsers = async (req, res, next) => {
   }
 };
 
-module.exports = { getProfile, updateProfile, searchUsers };
+// GET /api/users/:id — public user profile
+const getUserById = async (req, res, next) => {
+  try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      const err = new Error('User not found');
+      err.statusCode = 404;
+      return next(err);
+    }
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      const err = new Error('User not found');
+      err.statusCode = 404;
+      return next(err);
+    }
+    res.status(200).json({
+      success: true,
+      data: {
+        user: formatUser(user),
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  getProfile,
+  updateProfile,
+  searchUsers,
+  getUserById,
+};

@@ -54,6 +54,7 @@ const createRequest = async (req, res, next) => {
       senderId,
       message: req.body.message,
     });
+    await request.populate('senderId', 'name email avatar skills bio githubUrl linkedinUrl role');
 
     const io = getIo();
     if (io) {
@@ -96,7 +97,7 @@ const listProjectRequests = async (req, res, next) => {
     const { page, limit, skip } = parsePagination(req.query);
     const [totalCount, requests] = await Promise.all([
       CollaborationRequest.countDocuments(filter),
-      CollaborationRequest.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit),
+      CollaborationRequest.find(filter).populate('senderId', 'name email avatar skills bio githubUrl linkedinUrl role').sort({ createdAt: -1 }).skip(skip).limit(limit),
     ]);
 
     res.status(200).json({
@@ -162,6 +163,7 @@ const decideRequest = async (req, res, next) => {
 
     request.status = status;
     await request.save();
+    await request.populate('senderId', 'name email avatar skills bio githubUrl linkedinUrl role');
 
     const io = getIo();
     if (io) {
@@ -227,7 +229,7 @@ const getMyRequest = async (req, res, next) => {
     const request = await CollaborationRequest.findOne({
       projectId,
       senderId: req.user.userId,
-    }).sort({ createdAt: -1 });
+    }).populate('senderId', 'name email avatar skills bio githubUrl linkedinUrl role').sort({ createdAt: -1 });
 
     res.status(200).json({
       success: true,

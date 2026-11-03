@@ -53,10 +53,25 @@ const publishShowcase = async (req, res, next) => {
 // GET /api/showcases — public paginated feed, newest-first.
 const listShowcases = async (req, res, next) => {
   try {
+    const filter = {};
+    if (req.query.userId) {
+      if (mongoose.isValidObjectId(req.query.userId)) {
+        const userProjects = await Project.find({
+          $or: [
+            { ownerId: req.query.userId },
+            { memberIds: req.query.userId },
+          ],
+        }).select('_id');
+        filter.projectId = { $in: userProjects.map((p) => p._id) };
+      } else {
+        filter.projectId = { $in: [] };
+      }
+    }
+
     const { page, limit, skip } = parsePagination(req.query);
     const [totalCount, showcases] = await Promise.all([
-      Showcase.countDocuments({}),
-      Showcase.find({}).sort({ createdAt: -1 }).skip(skip).limit(limit),
+      Showcase.countDocuments(filter),
+      Showcase.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit),
     ]);
 
     res.status(200).json({

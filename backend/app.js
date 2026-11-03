@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { corsOriginValidator } = require('./config/cors');
 const errorHandler = require('./middleware/errorHandler');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -14,10 +15,10 @@ const app = express();
 
 // --- Global Middleware ---
 
-// Allow requests from React frontend (reflects request origin in development for seamless local testing)
+// Allow requests from React frontend (supports single URL, comma-separated URLs, and Vercel preview domains)
 app.use(
   cors({
-    origin: process.env.NODE_ENV === 'production' ? (process.env.CLIENT_URL || true) : true,
+    origin: corsOriginValidator,
     credentials: true,
   })
 );
