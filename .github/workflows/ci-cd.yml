@@ -10,6 +10,7 @@ on:
     branches:
       - main
       - master
+      - PD-FutureDevelopment
   workflow_dispatch:
 
 jobs:
@@ -78,8 +79,8 @@ jobs:
         working-directory: ./frontend
         env:
           NODE_OPTIONS: '--max-old-space-size=4096'
-          VITE_API_BASE_URL: 'https://collabsphere-backend.onrender.com/api'
-          VITE_SOCKET_URL: 'https://collabsphere-backend.onrender.com'
+          VITE_API_BASE_URL: 'https://collabshpere-backend.onrender.com/api'
+          VITE_SOCKET_URL: 'https://collabshpere-backend.onrender.com'
         run: npm run build
 
       - name: Archive Production Artifacts
@@ -96,7 +97,7 @@ jobs:
     name: Production Deployment
     needs: [test-backend, build-frontend]
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/PD-FutureDevelopment')
 
     steps:
       - name: Checkout Code
