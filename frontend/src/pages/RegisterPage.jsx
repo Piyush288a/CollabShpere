@@ -52,8 +52,7 @@ export const RegisterPage = () => {
   const hasTyped = Boolean(
     formData.name.length > 0 ||
     formData.email.length > 0 ||
-    formData.password.length > 0 ||
-    formData.confirmPassword.length > 0
+    formData.password.length > 0
   );
 
   return (
